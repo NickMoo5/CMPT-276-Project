@@ -10,17 +10,16 @@ public class User {
     private int uid;
     private String username;
     private String password;
-    private String accountType;
+    private String accountType = ACCOUNTTYPE_USER;
 
     public static final String ACCOUNTTYPE_USER = "user";
     public static final String ACCOUNTTYPE_ADMIN = "admin";
 
     public User() {}
 
-    public User(String username, String password, String accountType) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.accountType = accountType;
     }
 
     public String getUsername() {
@@ -41,5 +40,9 @@ public class User {
 
     public int getUid() {
         return uid;
+    }
+
+    public String getAccountType() {
+        return accountType;
     }
 }
