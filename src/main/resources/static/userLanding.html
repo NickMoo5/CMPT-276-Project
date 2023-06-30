@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.9.0/mdb.min.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/mdb-ui-kit@3.9.0/dist/css/mdb.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <title>Wayfinder Admin</title>
+</head>
+<body>
+    <!--Taskbar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Wayfinder</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Trips</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="padding-right: 25px;">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">UserID </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="min-width: 20px;">
+                        <li>
+                            <!--REDIRECT TO ACC SETTINGS-->
+                            <a class="dropdown-item" href="#">Account Settings</a>
+                        </li>
+                        <li>
+                            <!--REDIRECT TO LOGIN PAGE-->
+                            <a class="dropdown-item" href="#">Log out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+
+    <!--Add new trip container-->
+    <!-- Needs: location error message in UserController.java, line 71-->
+    <!-- Needs: date error message in UserController.java, line 72-->
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="col-md-4 m-sm-4" id="formInputsCont" style="width: 300px; padding: 25px;background-color: #D3D3D3; border-radius: 10px;" >
+            <!--ADD CORRECT FORM PATH LATER-->
+            <form action="/" method="post" class="errorCheck" novalidate>
+                <h2 class="row justify-content-center">Plan a Trip!</h2>
+                
+                <div class="mb-3"  style="margin-top: 40px;">
+                    <input type="text" id="location" name="location" class="form-control"
+                        placeholder="Where to?" required>
+                </div>
+            
+                <input type="text" id="start-date" name="start-date"  class="form-control"  style="margin-top: 35px;" placeholder="Start Date" required>
+
+                <input type="text" id="end-date" name="end-date" class="form-control"  style="margin-top: 30px;" placeholder="End Date" required>
+
+                <div class="container-fluid" style="margin-top: 40px;">
+                    <div class="row justify-content-center">
+                        <!-- <p th:if="${locationError}" p style="color:red" class="error-message">[[${locationError}]]</p>
+                        <p th:if="${dateError}" p style="color:red" class="error-message">[[${dateError}]]</p> -->
+                        <div class="col-6 d-flex justify-content-end">
+                            <button class="btn btn-secondary" id="clear" type="reset">Reset</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-primary" id="add" type="submit">Plan</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script>
+        $(function() {
+          $("#start-date").datepicker();
+          $("#end-date").datepicker();
+        });
+      </script>
+</body>
+</html>
