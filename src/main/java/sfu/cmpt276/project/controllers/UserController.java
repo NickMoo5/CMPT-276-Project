@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,13 +21,9 @@ import sfu.cmpt276.project.model.UserRepository;
 public class UserController {
     @Autowired
     private UserRepository userRepo;
-    @GetMapping("/users/home")
-    public String displayUserHome(){
-        return "users/home";
-    }
-    @GetMapping("/admin/home")
-    public String displayAdminHome(){
-        return "admin/home";
+    @GetMapping("/")
+    public RedirectView rootView(){
+        return new RedirectView("login");
     }
     @PostMapping("/users/addUser")
     public String addUser(@RequestParam Map<String, String> newUser, HttpServletResponse response){
@@ -60,9 +57,14 @@ public class UserController {
         }
         else {
             User user = userList.get(0);
-            request.getSession().setAttribute("sesssion_user", user);
+            request.getSession().setAttribute("session_user", user);
             model.addAttribute("user", user);
-            return "users/protected";
+            if(user.getAccountType() == "admin"){
+                return "admin/adminLanding";
+            }
+            else{
+            return "users/userLanding";
+            }
         }
     }
 }
