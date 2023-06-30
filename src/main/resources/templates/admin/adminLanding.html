@@ -9,6 +9,7 @@
 </head>
 <body>
     <!--Taskbar-->
+    <!--TODO: add redirect for signout-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Wayfinder Admin</a>
@@ -39,24 +40,20 @@
         </div>
     </nav>
 
-    <!--User and Profile containers-->
+    <!--Show users and corresponding attributes-->
+    <!--TODO: test with DB connection later-->
     <div class="container" style="padding-top: 25px">
         <div class="row">
-            <div class="col-md-6">
+            <div class="">
                 <div class="container">
                     <h2>Users</h2>
                     <ul>
-                        <li th:each="username : ${usernames}" th:text="${username}"></li>
+                        <li>username | firstname lastname | accessiblity | language pref 1 | language pref 2 | language pref 3</li>
+                        <li th:each="username : ${usernames}" th:text="${username}"> </li>
                     </ul>
-                    <form class="d-flex">
+                    <form class="col-md-4">
                         <input class="form-control me-2" type="search" placeholder="Search users..." aria-label="Search">    
                     </form>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="container">
-                    <h2>Profile</h2>
-                    <p>TODO: able to show user profile and be able to edit</p>
                 </div>
             </div>
         </div>
