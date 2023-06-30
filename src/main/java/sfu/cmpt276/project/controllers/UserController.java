@@ -1,5 +1,6 @@
 package sfu.cmpt276.project.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import sfu.cmpt276.project.model.User;
+import sfu.cmpt276.project.model.UserRepository;
 
 @Controller
 public class UserController {
@@ -47,7 +51,7 @@ public class UserController {
         }
     }
     @PostMapping("/login")
-    public String login(@RequestParam Map<String,String> formData, Model model, HttpServletResponse request, HttpSession session){
+    public String login(@RequestParam Map<String,String> formData, Model model, HttpServletRequest request, HttpSession session){
         String uName = formData.get("username");
         String password = formData.get("password");
         List <User> userList = userRepo.findByUserAndPass(uName, password);
