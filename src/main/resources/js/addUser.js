@@ -3,7 +3,8 @@ addEventListener("DOMContentLoaded", (event) => {
     const password = document.getElementById("password-input");
     const passwordAlert = document.getElementById("password-alert");
     const requirements = document.querySelectorAll(".requirements");
-    let lengBoolean, bigLetterBoolean, numBoolean, specialCharBoolean;
+    const registerButton = document.getElementById("regButton");
+    let lengBoolean, bigLetterBoolean, numBoolean, specialCharBoolean, passwordVerifyBool, passwordSameBool;
     let leng = document.querySelector(".leng");
     let bigLetter = document.querySelector(".big-letter");
     let num = document.querySelector(".num");
@@ -22,7 +23,7 @@ addEventListener("DOMContentLoaded", (event) => {
     });
 
     password.addEventListener("input", () => {
-        passwordVerify();
+
 
         let value = password.value;
         if (value.length < 8) {
@@ -56,6 +57,7 @@ addEventListener("DOMContentLoaded", (event) => {
         }
 
         if (lengBoolean == true && bigLetterBoolean == true && numBoolean == true && specialCharBoolean == true) {
+            passwordVerifyBool = true;
             password.classList.remove("is-invalid");
             password.classList.add("is-valid");
 
@@ -66,6 +68,7 @@ addEventListener("DOMContentLoaded", (event) => {
             passwordAlert.classList.remove("alert-warning");
             passwordAlert.classList.add("alert-success");
         } else {
+            passwordVerifyBool = false;
             password.classList.remove("is-valid");
             password.classList.add("is-invalid");
 
@@ -104,7 +107,9 @@ addEventListener("DOMContentLoaded", (event) => {
                 specialChar.classList.remove("wrong");
             }
         }
+        passwordVerify();
     });
+
 
     password.addEventListener("blur", () => {
         passwordAlert.classList.add("d-none");
@@ -117,18 +122,31 @@ addEventListener("DOMContentLoaded", (event) => {
     passwordVerification.addEventListener("focus", passwordVerify);
 
 
-    function passwordVerify(){
+    function passwordVerify() {
         let value1 = passwordVerification.value;
         let value2 = password.value;
-        if(value2==''){
+        if (value2 == '') {
             passwordVerification.classList.remove("is-valid");
             passwordVerification.classList.add("is-invalid");
-        }else if(value1==value2){
+            passwordSameBool = false;
+        } else if (value1 == value2) {
             passwordVerification.classList.remove("is-invalid");
             passwordVerification.classList.add("is-valid");
-        }else{
+            passwordSameBool = true;
+        } else {
             passwordVerification.classList.remove("is-valid");
             passwordVerification.classList.add("is-invalid");
+            passwordSameBool = false;
+        }
+        formVerify();
+    }
+
+    // register disable/enable
+    function formVerify() {
+        if (passwordVerifyBool == true && passwordSameBool == true) {
+            registerButton.removeAttribute("disabled");
+        } else {
+            registerButton.disabled = true;
         }
     }
 
