@@ -115,6 +115,23 @@
     </div>
 
     <script>
+        (() => {
+        'use strict'
+        // gets all input boxes that need to be error checked
+        const forms = document.querySelectorAll('.errorCheck')
+
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+            }, false)
+        })
+        })()
+
         // Get references to the language select elements
         const language1Select = document.getElementById('language1');
         const language2Select = document.getElementById('language2');
