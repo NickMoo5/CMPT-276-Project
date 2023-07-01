@@ -51,7 +51,7 @@ public class UserController {
     public String login(@RequestParam Map<String,String> formData, Model model, HttpServletRequest request, HttpSession session){
         String uName = formData.get("username");
         String password = formData.get("password");
-        List <User> userList = userRepo.findByUserAndPass(uName, password);
+        List <User> userList = userRepo.findByUsernameAndPassword(uName, password);
         if (userList.isEmpty()){
             return "users/login";
         }
