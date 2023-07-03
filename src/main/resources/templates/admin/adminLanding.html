@@ -42,24 +42,21 @@
 
     <!--Show users and corresponding attributes-->
     <!--TODO: test with DB connection later-->
+    <!--TODO: add other DB attributes once added-->
     <div class="container" style="padding-top: 25px">
         <div class="row">
             <div class="">
                 <div class="container">
                     <h2>Users</h2>
                     <ul>
-                        <li>username | firstname lastname | accessiblity | language pref 1 | language pref 2 | language pref 3</li>
-                        <li th:each="username : ${usernames}" th:text="${username}"> </li>
+                        <li th:each="user : ${users}" th:text="${user.username} + ' | ' ${user.firstname} + ' | ' + ${user.lastname} + ' | ' + ${user.email}"> </li>
                     </ul>
-                    <form class="col-md-4">
+                    <!--<form class="col-md-4">
                         <input class="form-control me-2" type="search" placeholder="Search users..." aria-label="Search">    
-                    </form>
+                    </form>-->
                 </div>
             </div>
         </div>
     </div>
-    
-    
-
 </body>
 </html>
