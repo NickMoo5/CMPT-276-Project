@@ -29,11 +29,7 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="padding-right: 25px;">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">UserID </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="min-width: 20px;">
-                        <li>
-                            <!--REDIRECT TO ACC SETTINGS-->
-                            <a class="dropdown-item" href="#">Account Settings</a>
-                        </li>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="min-width: 20px; float:right; right:0">
                         <li>
                             <!--REDIRECT TO LOGIN PAGE-->
                             <a class="dropdown-item" href="#">Log out</a>
@@ -65,54 +61,49 @@
                 <h2 class="row justify-content-center">Edit Preferences</h2>
                 <div class="container p-1">
                     <label for="access">Accessibility</label>
-                    <select class="form-select" id="access" name="access" required th:value="${user.access}">
-                        <option selected disabled value="">Choose...</option>
-                        <option>Wheelchair</option>
-                        <option>None</option>
+                    <select class="form-select" id="access" name="access" required th:value="${edit.access}">
+                        <option th:selected="${edit.access=='Wheelchair'}">Wheelchair</option>
+                        <option th:selected="${edit.access=='None'}">None</option>
                     </select>
                     <div class="invalid-feedback">Please select an option</div>
                 </div>
                 <div class="container p-1">
                     <label for="diet">Dietary Restrictions</label>
-                    <select class="form-select" id="diet" name="diet" required th:value="${user.diet}">
-                        <option selected disabled value="">Choose...</option>
-                        <option>Halal</option>
-                        <option>Vegetarian</option>
-                        <option>Vegan</option>
-                        <option>Pescatarian</option>
-                        <option>None</option>
+                    <select class="form-select" id="diet" name="diet" required th:value="${edit.diet}">
+                        <option th:selected="${edit.diet=='Halal'}">Halal</option>
+                        <option th:selected="${edit.diet=='Vegetarian'}">Vegetarian</option>
+                        <option th:selected="${edit.diet=='Vegan'}">Vegan</option>
+                        <option th:selected="${edit.diet=='Pescatarian'}">Pescatarian</option>
+                        <option th:selected="${edit.diet=='None'}">None</option>
                     </select>
                     <div class="invalid-feedback">Please select an option</div>
                 </div>
                 <div class="container p-1">
                     <label for="language1">Language Preferred #1</label>
-                    <select class="form-select" id="language1" name="language1" required th:value="${user.language1}">
-                        <option selected disabled value="">Choose...</option>
-                        <option>English</option>
-                        <option>French</option>
-                        <option>Spanish</option>
+                    <select class="form-select" id="language1" name="language1" required th:value="${edit.language1}">
+                        <option th:selected="${edit.language1=='English'}">English</option>
+                        <option th:selected="${edit.language1=='French'}">French</option>
+                        <option th:selected="${edit.language1=='Spanish'}">Spanish</option>
                     </select>
                     <div class="invalid-feedback">Please select an option</div>
                 </div>
                 <div class="container p-1">
                     <label for="language2">Language Preferred #2</label>
-                    <select class="form-select" id="language2" name="language2" required th:value="${user.language2}">
-                        <option selected disabled value="">Choose...</option>
-                        <option>English</option>
-                        <option>French</option>
-                        <option>Spanish</option>
-                        <option>None</option>
+                    <select class="form-select" id="language2" name="language2" required th:value="${edit.language2}">
+                        <option th:selected="${edit.language2=='English'}">English</option>
+                        <option th:selected="${edit.language2=='French'}">French</option>
+                        <option th:selected="${edit.language2=='Spanish'}">Spanish</option>
+                        <option th:selected="${edit.language2=='None'}">None</option>
                     </select>
                     <div class="invalid-feedback">Please select an option</div>
                 </div>
                 <div class="container p-1">
                     <label for="language3">Language Preferred #3</label>
-                    <select class="form-select" id="language3" name="language3" required th:value="${user.language3}">
-                        <option selected disabled value="">Choose...</option>
-                        <option>English</option>
-                        <option>French</option>
-                        <option>Spanish</option>
-                        <option>None</option>
+                    <select class="form-select" id="language3" name="language3" required th:value="${edit.language3}">
+                        <option th:selected="${edit.language3=='English'}">English</option>
+                        <option th:selected="${edit.language3=='French'}">French</option>
+                        <option th:selected="${edit.language3=='Spanish'}">Spanish</option>
+                        <option th:selected="${edit.language3=='None'}">None</option>
                     </select>
                     <div class="invalid-feedback">Please select an option</div>
                 </div>
