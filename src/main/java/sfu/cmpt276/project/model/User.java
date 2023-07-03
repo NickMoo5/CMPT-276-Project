@@ -24,13 +24,19 @@ public class User {
 
     public User() {}
 
-    public User(String username, String password, String firstName, String lastName, String email) {
+    public User(String username, String password, String firstName, String lastName, String email, String accessibility, String dietaryRestriction, 
+                String languageOne, String languageTwo, String languageThree) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.accountType = ACCOUNTTYPE_USER;
+        this.accessibility = accessibility;
+        this.dietaryRestriction = dietaryRestriction;
+        this.languageOne = languageOne;
+        this.languageTwo = languageTwo;
+        this.languageThree = languageThree;
     }
 
     public String getAccessibility() {
