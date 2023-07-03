@@ -13,8 +13,12 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String accessibility;
+    private String dietaryRestriction;
+    private String languageOne;
+    private String languageTwo;
+    private String languageThree;
     private String accountType = ACCOUNTTYPE_USER;
-
     public static final String ACCOUNTTYPE_USER = "user";
     public static final String ACCOUNTTYPE_ADMIN = "admin";
 
@@ -27,6 +31,46 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.accountType = ACCOUNTTYPE_USER;
+    }
+
+    public String getAccessibility() {
+        return accessibility;
+    }
+
+    public void setAccessibility(String accessibility) {
+        this.accessibility = accessibility;
+    }
+
+    public String getDietaryRestriction() {
+        return dietaryRestriction;
+    }
+
+    public void setDietaryRestriction(String dietaryRestriction) {
+        this.dietaryRestriction = dietaryRestriction;
+    }
+
+    public String getLanguageOne() {
+        return languageOne;
+    }
+
+    public void setLanguageOne(String languageOne) {
+        this.languageOne = languageOne;
+    }
+
+    public String getLanguageTwo() {
+        return languageTwo;
+    }
+
+    public void setLanguageTwo(String languageTwo) {
+        this.languageTwo = languageTwo;
+    }
+
+    public String getLanguageThree() {
+        return languageThree;
+    }
+
+    public void setLanguageThree(String languageThree) {
+        this.languageThree = languageThree;
     }
 
     public String getUsername() {
