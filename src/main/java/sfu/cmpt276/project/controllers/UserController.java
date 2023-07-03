@@ -23,7 +23,7 @@ public class UserController {
     private UserRepository userRepo;
     @GetMapping("/")
     public RedirectView rootView(){
-        return new RedirectView("login");
+           return new RedirectView("addUser.html");
     }
     @PostMapping("/users/addUser")
     public String addUser(@RequestParam Map<String, String> newUser, HttpServletResponse response){
