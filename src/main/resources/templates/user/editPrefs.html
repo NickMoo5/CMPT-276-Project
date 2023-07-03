@@ -45,8 +45,20 @@
         </div>
     </nav>
 
+
+    <!--Back button container-->
+    <!--TODO: add redirect to landing page-->
+    <div class="container-fluid d-flex">
+        <form action="/" method="post">
+            <div class="d-grid gap-2" style="padding-top: 10px;">
+                <input class="btn btn-secondary" id="addPrefsNewUser" type="submit" value="Return to home"></input>
+                <p style="font-style: italic; font-size: small;">Changes will not be saved</p>
+            </div> 
+        </form>
+    </div>
     <!--Add prefs container-->
     <div class="container-fluid d-flex justify-content-center">
+        
         <div class="col-md-4 m-sm-4" id="formInputsCont">
             <!--ADD CORRECT FORM PATH LATER-->
             <form action="/" method="post" class="errorCheck" novalidate>
@@ -106,7 +118,7 @@
                 </div>
 
                 <div class="d-grid gap-2" style="padding-top: 10px;">
-                    <input class="btn btn-primary" id="addPrefsNewUser" type="submit" value="Add Changes"></input>
+                    <input class="btn btn-primary" id="editPrefs" type="submit" value="Save Changes"></input>
                 </div> 
 
 
