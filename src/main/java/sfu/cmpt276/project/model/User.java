@@ -45,14 +45,6 @@ public class User {
         this.languageTwo = languageTwo;
         this.languageThree = languageThree;
     }
-    // public int getSessionId() {
-    //     return sessionId;
-    // }
-
-    // public void setSessionId(int sessionId) {
-    //     this.sessionId = sessionId;
-    // }
-
 
     public String getAccessibility() {
         return accessibility;

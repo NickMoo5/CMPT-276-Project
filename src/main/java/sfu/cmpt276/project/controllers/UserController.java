@@ -1,6 +1,5 @@
 package sfu.cmpt276.project.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +31,6 @@ public class UserController {
     }
     @PostMapping("/admin/adminLanding")
     public String displayUsers(Model model){
-        System.out.println("Displaying users");
         List<User> us = userRepo.findAll();
         model.addAttribute("userList" , us);
         return "admin/adminLanding";
@@ -50,7 +48,6 @@ public class UserController {
         username = newUser.get("username");
         password = newUser.get("password2");
         if(!userRepo.findByEmail(email).isEmpty() || !userRepo.findByUsername(username).isEmpty()){
-            System.out.println("Error!");
             return "user/addUser";
         }
         else{
@@ -58,7 +55,7 @@ public class UserController {
             return "user/addPrefs";
         }
     }
-    @PostMapping("/addPrefs") 
+    @PostMapping("user/addPrefs")    
     public String addPreferences(@RequestParam Map<String, String> newUser, HttpServletRequest request,HttpSession session){
         String access = newUser.get("access");
         String diet = newUser.get("diet");
@@ -68,18 +65,16 @@ public class UserController {
         User createdUser = new User(username, password,fName, lName, email);
         createdUser.setPreferences(access, diet, lang1, lang2, lang3);
         userRepo.save(createdUser);
-        return "user/userLanding";
+        return "user/login";
     }
-    private User editedUser;
-    @PostMapping("/user/editPrefs") 
+    @GetMapping("/user/editPrefs") 
     public String editPreferences(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
-        User user = userRepo.getReferenceById(Integer.parseInt(editUser.get("userId")));
         User user2 = (User) request.getSession().getAttribute("session_user");
         model.addAttribute("edit", user2);
-        return "/user/editPrefsSaved";
+        return "user/editPrefs";
     }
     @PostMapping("/user/editPrefsSaved") 
-    public String savePreferences(@RequestParam Map<String, String> newUser, HttpServletRequest request,HttpSession session, Model model){
+    public String savePreferences(@RequestParam Map<String, String> newUser, HttpServletRequest request,HttpSession session){
         User editedUser = (User) request.getSession().getAttribute("session_user");
         String access = newUser.get("access");
         String diet = newUser.get("diet");
@@ -87,7 +82,8 @@ public class UserController {
         String lang2 = newUser.get("language2");
         String lang3 = newUser.get("language3");
         editedUser.setPreferences(access, diet, lang1, lang2, lang3);
-        return "user/userLanding";
+        userRepo.save(editedUser);
+        return "user/login";
     }
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletResponse request, HttpSession session){
