@@ -54,7 +54,7 @@
                     <ul>
                         <li th:each="user:${userList}">
                             <!-- <span th:text="${user.username} + ' | ' ${user.firstName} + ' | ' + ${user.lastName} + ' | ' + ${user.email}"></span> -->
-                            <span th:text="${user.username} + ' ' +${user.uid}";>   
+                            <span th:text="${user.username} + ' | ' +${user.uid} + ' | '  + ${user.firstName} + ' | ' + ${user.lastName} + ' | ' + ${user.email}";> </span>
                             </li>
                     </ul>
                     <!--<form class="col-md-4">

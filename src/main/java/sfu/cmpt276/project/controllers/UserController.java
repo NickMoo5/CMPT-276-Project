@@ -37,38 +37,37 @@ public class UserController {
         model.addAttribute("userList" , us);
         return "admin/adminLanding";
     }
-    private int tempId = -1;
+    private String fName;
+    private String lName;
+    private String email;
+    private String username; 
+    private String password;
     @PostMapping("/user/addUser")
     public String addUser(@RequestParam Map<String, String> newUser, HttpServletResponse response){
-        String fName = newUser.get("fname");
-        String lName = newUser.get("lname");
-        String email = newUser.get("email");
-        String username = newUser.get("username");
-        String password = newUser.get("password2");
+        fName = newUser.get("fname");
+        lName = newUser.get("lname");
+        email = newUser.get("email");
+        username = newUser.get("username");
+        password = newUser.get("password2");
         if(!userRepo.findByEmail(email).isEmpty() || !userRepo.findByUsername(username).isEmpty()){
             System.out.println("Error!");
             return "user/addUser";
         }
         else{
-            User createdUser = new User(username, password,fName, lName, email);
-            userRepo.save(createdUser);
-            tempId = createdUser.getUid();
-            System.out.println(tempId + "This is the users user Id");
             response.setStatus(201);
             return "user/addPrefs";
         }
     }
     @PostMapping("/addPrefs") 
     public String addPreferences(@RequestParam Map<String, String> newUser, HttpServletRequest request,HttpSession session){
-        System.out.println(request.getSession().getId());
-        List <User> tempList = userRepo.findByUid(tempId);
-        User addedUser = tempList.get(0);
         String access = newUser.get("access");
         String diet = newUser.get("diet");
         String lang1 = newUser.get("language1");
         String lang2 = newUser.get("language2");
         String lang3 = newUser.get("language3");
-        addedUser.setPreferences(access, diet, lang1, lang2, lang3);
+        User createdUser = new User(username, password,fName, lName, email);
+        createdUser.setPreferences(access, diet, lang1, lang2, lang3);
+        userRepo.save(createdUser);
         return "user/userLanding";
     }
     private User editedUser;
