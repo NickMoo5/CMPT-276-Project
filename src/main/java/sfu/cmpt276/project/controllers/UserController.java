@@ -30,11 +30,11 @@ public class UserController {
     public String displaySignup(){
         return"user/addUser";
     }
-    @GetMapping("/admin/adminLanding")
+    @PostMapping("/admin/adminLanding")
     public String displayUsers(Model model){
         System.out.println("Displaying users");
-        List<User> users = userRepo.findAll();
-        model.addAttribute("userList" , users);
+        List<User> us = userRepo.findAll();
+        model.addAttribute("userList" , us);
         return "admin/adminLanding";
     }
     private int tempId = -1;
@@ -119,6 +119,8 @@ public class UserController {
             request.getSession().setAttribute("session_user", user);
             model.addAttribute("user", user);
             if(user.getAccountType().equals("admin")){
+                List<User> us = userRepo.findAll();
+                model.addAttribute("userList" , us);
                 return "admin/adminLanding";
             }
             else{

@@ -26,7 +26,7 @@
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="padding-right: 25px;">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="na vbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                             <!-- <li th:each="user : ${userList}"> </li> -->
                                 <!-- <span th:text="${user.username} + ' | ' ${user.firstName} + ' | ' + ${user.lastName} + ' | ' + ${user.email}"></span> -->
                                 <span th:text="${user.username}">
@@ -52,9 +52,10 @@
                 <div class="container">
                     <h2>Users</h2>
                     <ul>
-                        <li th:each="user : ${userList}"> </li>
+                        <li th:each="user:${userList}">
                             <!-- <span th:text="${user.username} + ' | ' ${user.firstName} + ' | ' + ${user.lastName} + ' | ' + ${user.email}"></span> -->
-                            <span th:text="${user.username}">
+                            <span th:text="${user.username} + ' ' +${user.uid}";>   
+                            </li>
                     </ul>
                     <!--<form class="col-md-4">
                         <input class="form-control me-2" type="search" placeholder="Search users..." aria-label="Search">    
