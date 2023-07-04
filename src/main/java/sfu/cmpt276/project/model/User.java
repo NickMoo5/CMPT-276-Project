@@ -18,7 +18,7 @@ public class User {
     private String languageOne;
     private String languageTwo;
     private String languageThree;
-    private String accountType = ACCOUNTTYPE_USER;
+    private String accountType;
     public static final String ACCOUNTTYPE_USER = "user";
     public static final String ACCOUNTTYPE_ADMIN = "admin";
 
