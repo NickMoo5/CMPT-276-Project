@@ -17,7 +17,7 @@
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
@@ -25,7 +25,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Temp</a>
                 </li>
-            </ul>
+            </ul> -->
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="padding-right: 25px;">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">UserID </a>
@@ -57,10 +57,10 @@
         
         <div class="col-md-4 m-sm-4" id="formInputsCont">
             <!--ADD CORRECT FORM PATH LATER-->
-            <form action="/" method="post" class="errorCheck" novalidate>
+            <form action="/addPref" method="post" class="errorCheck" novalidate>
                 <h2 class="row justify-content-center">Edit Preferences</h2>
                 <div class="container p-1">
-                    <label for="access">Accessibility</label>
+                    <label for="access">Accessibility</label>   
                     <select class="form-select" id="access" name="access" required th:value="${edit.access}">
                         <option th:selected="${edit.access=='Wheelchair'}">Wheelchair</option>
                         <option th:selected="${edit.access=='None'}">None</option>
@@ -109,7 +109,7 @@
                 </div>
 
                 <div class="d-grid gap-2" style="padding-top: 10px;">
-                    <input class="btn btn-primary" id="editPrefs" type="submit" value="Save Changes"></input>
+                    <input class="btn btn-primary" id="editPrefs" type="submit" href="userLanding.html" value="Save Changes"></input>
                 </div> 
 
 

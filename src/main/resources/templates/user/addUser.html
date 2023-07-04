@@ -14,29 +14,28 @@
 
 <body>
     <!-- navigation setup -->
-    <div class="container d-flex flex-row justify-content-center align-items-center">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- <div class="container d-flex flex-row justify-content-center align-items-center">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
             <!-- Nav -->
-            <div class="container">
-                <a class="navbar-brand" href="#">Wayfinder</a>
+            <!-- <div class="container">
+                <a class="navbar-brand" href="#">Wayfinder</a> -->
                 <!-- links -->
-                <ul class="navbar-nav d-flex flex-row">
+                <!-- <ul class="navbar-nav d-flex flex-row">
                     <li class="nav-item p-2 .flex-fill">
                         <a class="nav-link" href="./home.html">Home</a>
                     </li>
                 </ul>
             </div>
         </nav>
-    </div>
+    </div> -->
 
     <!-- from inclass code (abiet modified to assignment needs) -->
     <!-- Outputs: fname, lname, email, username, password, password2 (for confirmation) -->
-    <!-- Needs: login html ref on line 75 -->
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <h1 class="text-center mt-5 mb-4">Registration</h1>
-                <form action="/users/addUser" method="post">
+                <form action="/user/addUser" method="post">
 
                     <div class="mb-3">
 
@@ -110,10 +109,10 @@
                     <!-- Submit button -->
 
                     <div class="d-grid gap-2">
-                        <input class="btn btn-primary" id="regButton" type="submit" value="REGISTER"></input>
+                        <input class="btn btn-primary" id="regButton" type="submit" value="REGISTER" disabled></input>
                     </div> 
 
-                    <p class="text-center">Already have an account? <a href="#!" class="fw-bold"><u>Login here</u></a>
+                    <p class="text-center">Already have an account? <a href="../login" class="fw-bold"><u>Login here</u></a>
                     </p>
                 </form>
             </div>
