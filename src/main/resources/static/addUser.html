@@ -51,11 +51,14 @@
                     <div class="mb-3">
                         <input type="email" id="email" name="email" class="form-control form-control-lg"
                             placeholder="Email Address" required>
+                        <span class="invalidEmail text-danger">This email has been used</span>
                     </div>
+
                     <div class="mb-3">
 
                         <input type="text" id="username" name="username" class="form-control form-control-lg"
                             placeholder="Username" required>
+                        <span class="invalidUser text-danger">This username has been taken</span>
                     </div>
 
 
@@ -113,7 +116,7 @@
                         <input class="btn btn-primary" id="regButton" type="submit" value="REGISTER" disabled></input>
                     </div> 
 
-                    <p class="text-center">Already have an account? <a href="#!" class="fw-bold"><u>Login here</u></a>
+                    <p class="text-center">Already have an account? <a href="/login.html" class="fw-bold"><u>Login here</u></a>
                     </p>
                 </form>
             </div>

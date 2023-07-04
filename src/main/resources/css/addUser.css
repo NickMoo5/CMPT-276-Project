@@ -29,3 +29,11 @@
 .good .charbad {
     display: none;
 }
+
+.invalidUser {
+    display: none;
+}
+
+.invalidEmail {
+    display: none;
+}
