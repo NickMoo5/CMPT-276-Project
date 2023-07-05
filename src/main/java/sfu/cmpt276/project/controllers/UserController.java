@@ -73,8 +73,8 @@ public class UserController {
         model.addAttribute("edit", user2);
         return "user/editPrefs";
     }
-    @PostMapping("/user/editPrefsSaved") 
-    public String savePreferences(@RequestParam Map<String, String> newUser, HttpServletRequest request,HttpSession session){
+    @PostMapping("/editPrefsSaved") 
+    public String savePreferences(@RequestParam Map<String, String> newUser, HttpServletRequest request,HttpSession session, Model model){
         User editedUser = (User) request.getSession().getAttribute("session_user");
         String access = newUser.get("access");
         String diet = newUser.get("diet");
@@ -83,7 +83,8 @@ public class UserController {
         String lang3 = newUser.get("language3");
         editedUser.setPreferences(access, diet, lang1, lang2, lang3);
         userRepo.save(editedUser);
-        return "user/login";
+        model.addAttribute("user", editedUser);
+        return "user/userLanding";
     }
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletResponse request, HttpSession session){
