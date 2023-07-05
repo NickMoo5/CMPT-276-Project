@@ -51,11 +51,13 @@
                     <div class="mb-3">
                         <input type="email" id="email" name="email" class="form-control form-control-lg"
                             placeholder="Email Address" required>
+                        <div th:if="${emailUsed}" class="error-message text-danger">[[${emailUsed}]]</div>
                     </div>
                     <div class="mb-3">
 
                         <input type="text" id="username" name="username" class="form-control form-control-lg"
                             placeholder="Username" required>
+                        <div th:if="${usernameUsed}" class="error-message text-danger">[[${usernameUsed}]]</div>
                     </div>
 
 
@@ -111,7 +113,7 @@
 
                     <div class="d-grid gap-2">
                         <input class="btn btn-primary" id="regButton" type="submit" value="REGISTER" disabled></input>
-                    </div> 
+                    </div>
 
                     <p class="text-center">Already have an account? <a href="#!" class="fw-bold"><u>Login here</u></a>
                     </p>
