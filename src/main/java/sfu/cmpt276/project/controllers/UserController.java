@@ -25,6 +25,10 @@ public class UserController {
     public RedirectView rootView(){
         return new RedirectView("login");
     }
+    @PostMapping("/")
+    public RedirectView returnLanding(){
+        return new RedirectView("login");
+    }
     @GetMapping("user/addUser") 
     public String displaySignup(){
         return"user/addUser";
@@ -108,6 +112,7 @@ public class UserController {
         String pwd = formData.get("password-input");
         List <User> userList = userRepo.findByUsernameAndPassword(uName, pwd);
         if (userList.isEmpty()){
+            model.addAttribute("loginError", "Username or password is incorrect. Invalid login!");
             return "user/login";
         }
         else {
