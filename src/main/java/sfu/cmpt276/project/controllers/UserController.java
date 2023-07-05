@@ -51,6 +51,14 @@ public class UserController {
         email = newUser.get("email");
         username = newUser.get("username");
         password = newUser.get("password2");
+        if(fName.length() > 15){
+            model.addAttribute("fNameLength", "First name is too long. Please try again.");
+            return "user/addUser";
+        }
+        if (lName.length() > 15){
+            model.addAttribute("lNameLength", "Last name is too long. Please try again.");
+            return "user/addUser";
+        }
         if(!userRepo.findByEmail(email).isEmpty()){
             model.addAttribute("emailUsed", "Email has already been used before. Please try again.");
             return "user/addUser";
