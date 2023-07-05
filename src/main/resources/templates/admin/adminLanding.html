@@ -41,8 +41,6 @@
     </nav>
 
     <!--Show users and corresponding attributes-->
-    <!--TODO: test with DB connection later-->
-    <!--TODO: add other DB attributes once added-->
     <!--TODO next iteration: add search bar for users-->
     <div class="container" style="padding-top: 25px">
         <div class="row">
@@ -51,8 +49,7 @@
                     <h2>Users</h2>
                     <ul>
                         <li th:each="user:${userList}">
-                            <!-- <span th:text="${user.username} + ' | ' ${user.firstName} + ' | ' + ${user.lastName} + ' | ' + ${user.email}"></span> -->
-                            <span th:text="${user.username} + ' | ' +${user.uid} + ' | '  + ${user.firstName} + ' | ' + ${user.lastName} + ' | ' + ${user.email} + ' | ' + ${user.accessibility}";> </span>
+                            <span th:text="${user.username} + ' | ' +${user.uid} + ' | '  + ${user.firstName} + ' | ' + ${user.lastName} + ' | ' + ${user.email} + ' | ' + ${user.accessibility} + ' | ' + ${user.languageOne} + ' | ' + ${user.languageTwo} + ' | ' + ${user.languageThree}";> </span>
                             </li>
                     </ul>
                     <!--<form class="col-md-4">

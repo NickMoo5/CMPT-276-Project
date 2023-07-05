@@ -45,13 +45,18 @@ public class UserController {
     private String username; 
     private String password;
     @PostMapping("/user/addUser")
-    public String addUser(@RequestParam Map<String, String> newUser, HttpServletResponse response){
+    public String addUser(@RequestParam Map<String, String> newUser, HttpServletResponse response, Model model){
         fName = newUser.get("fname");
         lName = newUser.get("lname");
         email = newUser.get("email");
         username = newUser.get("username");
         password = newUser.get("password2");
-        if(!userRepo.findByEmail(email).isEmpty() || !userRepo.findByUsername(username).isEmpty()){
+        if(!userRepo.findByEmail(email).isEmpty()){
+            model.addAttribute("emailUsed", "Email has already been used before. Please try again.");
+            return "user/addUser";
+        }
+        if(!userRepo.findByUsername(username).isEmpty()){
+            model.addAttribute("usernameUsed", "Username has already been used before. Please try again.");
             return "user/addUser";
         }
         else{

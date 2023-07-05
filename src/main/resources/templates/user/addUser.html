@@ -50,11 +50,13 @@
                     <div class="mb-3">
                         <input type="email" id="email" name="email" class="form-control form-control-lg"
                             placeholder="Email Address" required>
+                        <div th:if="${emailUsed}" class="error-message text-danger">[[${emailUsed}]]</div>
                     </div>
                     <div class="mb-3">
 
                         <input type="text" id="username" name="username" class="form-control form-control-lg"
                             placeholder="Username" required>
+                        <div th:if="${usernameUsed}" class="error-message text-danger">[[${usernameUsed}]]</div>
                     </div>
 
 

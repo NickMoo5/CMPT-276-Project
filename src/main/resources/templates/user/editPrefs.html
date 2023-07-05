@@ -10,7 +10,6 @@
 </head>
 <body>
     <!--Taskbar-->
-    <!--TODO: ACC/LOGIN redirects-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="/">Wayfinder</a>
@@ -45,7 +44,6 @@
 
 
     <!--Back button container-->
-    <!--TODO: add redirect to landing page-->
     <!-- <div class="container-fluid d-flex">
         <form action="/" method="post">
             <div class="d-grid gap-2" style="padding-top: 10px">
@@ -82,7 +80,7 @@
                 </div>
                 <div class="container p-1">
                     <label for="language1">Language Preferred #1</label>
-                    <select class="form-select" id="language1" name="language1" required th:value="${edit.languageOne}">
+                    <select class="form-select" id="language1" name="language1" required>
                         <option th:selected="${edit.languageOne=='English'}">English</option>
                         <option th:selected="${edit.languageOne=='French'}">French</option>
                         <option th:selected="${edit.languageOne=='Spanish'}">Spanish</option>
@@ -91,7 +89,7 @@
                 </div>
                 <div class="container p-1">
                     <label for="language2">Language Preferred #2</label>
-                    <select class="form-select" id="language2" name="language2" required th:value="${edit.languageTwo}">
+                    <select class="form-select" id="language2" name="language2" required>
                         <option th:selected="${edit.languageTwo=='English'}">English</option>
                         <option th:selected="${edit.languageTwo=='French'}">French</option>
                         <option th:selected="${edit.languageTwo=='Spanish'}">Spanish</option>
@@ -101,7 +99,7 @@
                 </div>
                 <div class="container p-1">
                     <label for="language3">Language Preferred #3</label>
-                    <select class="form-select" id="language3" name="language3" required th:value="${edit.languageThree}">
+                    <select class="form-select" id="language3" name="language3" required>
                         <option th:selected="${edit.languageThree=='English'}">English</option>
                         <option th:selected="${edit.languageThree=='French'}">French</option>
                         <option th:selected="${edit.languageThree=='Spanish'}">Spanish</option>
@@ -143,54 +141,62 @@
         const language3Select = document.getElementById('language3');
 
         // Function to update options in other language selects
-        function updateLanguageOptions(selectedOption) {
-        const options1 = language1Select.querySelectorAll('option');
-        const options2 = language2Select.querySelectorAll('option');
-        const options3 = language3Select.querySelectorAll('option');
-        const languages = [];
+        function updateLanguageOptions(languageBox) {
+            const options1 = language1Select.querySelectorAll('option');
+            const options2 = language2Select.querySelectorAll('option');
+            const options3 = language3Select.querySelectorAll('option');
+            var languages = [];
 
-        // Get the selected values from all language selects
-        const selectedValues = [
-            language1Select.value,
-            language2Select.value,
-            language3Select.value
-        ];
+            // Get the selected values from all language selects
+            var selectedValues = [
+                language1Select.value,
+                language2Select.value,
+                language3Select.value
+            ];
 
-        // Exclude "None" values from selectedValues
-        const filteredValues = selectedValues.filter(value => value !== 'None');
+            // Exclude "None" values from selectedValues
+            var filteredValues = selectedValues.filter(value => value !== 'None');
 
-        // Add unique selected values to the languages array
-        filteredValues.forEach(value => {
-            if (!languages.includes(value)) {
-            languages.push(value);
-            }
-        });
-
-        // Loop through the options and enable/disable based on selected values
-        options1.forEach(option => {
-            if (languages.includes(option.value) && option.value !== 'None') {
-            option.disabled = true;
-            } else {
-            option.disabled = false;
-            }
-        });
-
-        options2.forEach(option => {
-            if (languages.includes(option.value) && option.value !== 'None') {
-            option.disabled = true;
-            } else {
-            option.disabled = false;
-            }
-        });
-
-        options3.forEach(option => {
-            if (languages.includes(option.value) && option.value !== 'None') {
-            option.disabled = true;
-            } else {
-            option.disabled = false;
-            }
-        });
+            // Add unique selected values to the languages array
+            filteredValues.forEach(value => {
+                if (!languages.includes(value)) {
+                languages.push(value);
+                }
+            });
+            
+            // Loop through the options and enable/disable based on selected values
+            options1.forEach(option => {
+                if (languages.includes(option.value) && (option.value != language1Select.value)) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            });
+            options2.forEach(option => {
+                if (languages.includes(option.value) && (option.value != language2Select.value)) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            });
+            options3.forEach(option => {
+                if (languages.includes(option.value) && (option.value != language3Select.value)) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            });
+            
         }
+
+        language1Select.addEventListener("change", updateLanguageOptions.bind(null, language1Select))
+        language2Select.addEventListener("change", updateLanguageOptions.bind(null, language2Select))
+        language3Select.addEventListener("change", updateLanguageOptions.bind(null, language3Select))
+
+        updateLanguageOptions(language1Select)
+        updateLanguageOptions(language2Select)
+        updateLanguageOptions(language3Select)
+
     </script>
 
 </body>
