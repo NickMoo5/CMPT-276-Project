@@ -10,8 +10,7 @@
 </head>
 <body>
     <!--Taskbar-->
-    <!--TODO: ACC/LOGIN redirects-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Wayfinder</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,27 +28,22 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="padding-right: 25px;">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">UserID </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="min-width: 20px;">
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="min-width: 20px; float:right; right:0">
                         <li>
-                            <!--REDIRECT TO ACC SETTINGS-->
-                            <a class="dropdown-item" href="#">Account Settings</a>
-                        </li>
-                        <li>
-                            <!--REDIRECT TO LOGIN PAGE-->
-                            <a class="dropdown-item" href="#">Log out</a>
+                            <a class="dropdown-item" href="/logout">Log out</a>
                         </li>
                     </ul>
                 </li>
             </ul>
           </div>
         </div>
-    </nav>
+    </nav> -->
 
     <!--Add prefs container-->
     <div class="container-fluid d-flex justify-content-center">
         <div class="col-md-4 m-sm-4" id="formInputsCont">
             <!--ADD CORRECT FORM PATH LATER-->
-            <form action="/" method="post" class="errorCheck" novalidate>
+            <form action="/user/addPrefs" method="post" class="errorCheck" novalidate>
                 <h2 class="row justify-content-center">Set Preferences</h2>
                 <div class="container p-1">
                     <label for="access">Accessibility</label>
@@ -98,7 +92,7 @@
                     <select class="form-select" id="language3" name="language3" required>
                         <option selected disabled value="">Choose...</option>
                         <option>English</option>
-                        <option>French</option>
+                        <option>French</option> 
                         <option>Spanish</option>
                         <option>None</option>
                     </select>
@@ -106,7 +100,7 @@
                 </div>
 
                 <div class="d-grid gap-2" style="padding-top: 10px;">
-                    <input class="btn btn-primary" id="addPrefsNewUser" type="submit" value="Submit"></input>
+                    <input class="btn btn-primary" id="addPrefsNewUser" href= "/userLanding" type = "submit" submit value="Submit"></input>
                 </div> 
 
 
@@ -137,51 +131,54 @@
         const language2Select = document.getElementById('language2');
         const language3Select = document.getElementById('language3');
 
-        // Function to update options in other language selects
         function updateLanguageOptions(selectedOption) {
-            const options1 = language1Select.querySelectorAll('option');
-            const options2 = language2Select.querySelectorAll('option');
-            const options3 = language3Select.querySelectorAll('option');
-            const selectedValue = selectedOption.value;
+        const options1 = language1Select.querySelectorAll('option');
+        const options2 = language2Select.querySelectorAll('option');
+        const options3 = language3Select.querySelectorAll('option');
+        const languages = [];
 
-            // Loop through the options and enable/disable based on selected value
-            options1.forEach(option => {
-                if (option.value === selectedValue) {
-                    option.disabled = true;
-                } else {
-                    option.disabled = false;
-                }
-            });
+        // Get the selected values from all language selects
+        const selectedValues = [
+            language1Select.value,
+            language2Select.value,
+            language3Select.value
+        ];
 
-            options2.forEach(option => {
-                if (option.value === selectedValue) {
-                    option.disabled = true;
-                } else {
-                    option.disabled = false;
-                }
-            });
+        // Exclude "None" values from selectedValues
+        const filteredValues = selectedValues.filter(value => value !== 'None');
 
-            options3.forEach(option => {
-                if (option.value === selectedValue) {
-                    option.disabled = true;
-                } else {
-                    option.disabled = false;
-                }
-            });
+        // Add unique selected values to the languages array
+        filteredValues.forEach(value => {
+            if (!languages.includes(value)) {
+            languages.push(value);
+            }
+        });
+
+        // Loop through the options and enable/disable based on selected values
+        options1.forEach(option => {
+            if (languages.includes(option.value) && option.value !== 'None') {
+            option.disabled = true;
+            } else {
+            option.disabled = false;
+            }
+        });
+
+        options2.forEach(option => {
+            if (languages.includes(option.value) && option.value !== 'None') {
+            option.disabled = true;
+            } else {
+            option.disabled = false;
+            }
+        });
+
+        options3.forEach(option => {
+            if (languages.includes(option.value) && option.value !== 'None') {
+            option.disabled = true;
+            } else {
+            option.disabled = false;
+            }
+        });
         }
-
-        // Add event listeners to language selects
-        language1Select.addEventListener('change', function() {
-            updateLanguageOptions(this);
-        });
-
-        language2Select.addEventListener('change', function() {
-            updateLanguageOptions(this);
-        });
-
-        language3Select.addEventListener('change', function() {
-            updateLanguageOptions(this);
-        });
     </script>
 
 </body>
