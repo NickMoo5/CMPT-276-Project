@@ -48,9 +48,6 @@
                 <div class="container">
                     <h2>Users</h2>
                     <ul>
-                        <li th:each="user : ${userList}"> </li>
-                            <!-- <span th:text="${user.username} + ' | ' ${user.firstName} + ' | ' + ${user.lastName} + ' | ' + ${user.email}"></span> -->
-                            <span th:text="${user.username}">
                         <li th:each="user:${userList}">
                             <span th:text="${user.username} + ' | ' +${user.uid} + ' | '  + ${user.firstName} + ' | ' + ${user.lastName} + ' | ' + ${user.email} + ' | ' + ${user.accessibility} + ' | ' + ${user.languageOne} + ' | ' + ${user.languageTwo} + ' | ' + ${user.languageThree}";> </span>
                             </li>
