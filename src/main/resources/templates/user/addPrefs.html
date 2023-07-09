@@ -10,7 +10,6 @@
 </head>
 <body>
     <!--Taskbar-->
-    <!--TODO: ACC/LOGIN redirects-->
     <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Wayfinder</a>
@@ -101,7 +100,7 @@
                 </div>
 
                 <div class="d-grid gap-2" style="padding-top: 10px;">
-                    <input class="btn btn-primary" id="addPrefsNewUser" href= "/addPrefs" submit value="Submit"></input>
+                    <input class="btn btn-primary" id="addPrefsNewUser" href= "/userLanding" type = "submit" submit value="Submit"></input>
                 </div> 
 
 
@@ -132,51 +131,54 @@
         const language2Select = document.getElementById('language2');
         const language3Select = document.getElementById('language3');
 
-        // Function to update options in other language selects
         function updateLanguageOptions(selectedOption) {
-            const options1 = language1Select.querySelectorAll('option');
-            const options2 = language2Select.querySelectorAll('option');
-            const options3 = language3Select.querySelectorAll('option');
-            const selectedValue = selectedOption.value;
+        const options1 = language1Select.querySelectorAll('option');
+        const options2 = language2Select.querySelectorAll('option');
+        const options3 = language3Select.querySelectorAll('option');
+        const languages = [];
 
-            // Loop through the options and enable/disable based on selected value
-            options1.forEach(option => {
-                if (option.value === selectedValue) {
-                    option.disabled = true;
-                } else {
-                    option.disabled = false;
-                }
-            });
+        // Get the selected values from all language selects
+        const selectedValues = [
+            language1Select.value,
+            language2Select.value,
+            language3Select.value
+        ];
 
-            options2.forEach(option => {
-                if (option.value === selectedValue) {
-                    option.disabled = true;
-                } else {
-                    option.disabled = false;
-                }
-            });
+        // Exclude "None" values from selectedValues
+        const filteredValues = selectedValues.filter(value => value !== 'None');
 
-            options3.forEach(option => {
-                if (option.value === selectedValue) {
-                    option.disabled = true;
-                } else {
-                    option.disabled = false;
-                }
-            });
+        // Add unique selected values to the languages array
+        filteredValues.forEach(value => {
+            if (!languages.includes(value)) {
+            languages.push(value);
+            }
+        });
+
+        // Loop through the options and enable/disable based on selected values
+        options1.forEach(option => {
+            if (languages.includes(option.value) && option.value !== 'None') {
+            option.disabled = true;
+            } else {
+            option.disabled = false;
+            }
+        });
+
+        options2.forEach(option => {
+            if (languages.includes(option.value) && option.value !== 'None') {
+            option.disabled = true;
+            } else {
+            option.disabled = false;
+            }
+        });
+
+        options3.forEach(option => {
+            if (languages.includes(option.value) && option.value !== 'None') {
+            option.disabled = true;
+            } else {
+            option.disabled = false;
+            }
+        });
         }
-
-        // Add event listeners to language selects
-        language1Select.addEventListener('change', function() {
-            updateLanguageOptions(this);
-        });
-
-        language2Select.addEventListener('change', function() {
-            updateLanguageOptions(this);
-        });
-
-        language3Select.addEventListener('change', function() {
-            updateLanguageOptions(this);
-        });
     </script>
 
 </body>
