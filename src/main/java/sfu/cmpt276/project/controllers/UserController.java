@@ -14,6 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import sfu.cmpt276.project.model.AddUser;
 import sfu.cmpt276.project.model.User;
 import sfu.cmpt276.project.model.UserRepository;
 
@@ -30,8 +31,8 @@ public class UserController {
         return new RedirectView("login");
     }
     @GetMapping("user/addUser") 
-    public String displaySignup(){
-        return"user/addUser";
+    public String displaySignup(AddUser addUser){
+        return"form";
     }
     @PostMapping("/admin/adminLanding")
     public String displayUsers(Model model){
@@ -45,7 +46,7 @@ public class UserController {
     private String username; 
     private String password;
     @PostMapping("/user/addUser")
-    public String addUser(@RequestParam Map<String, String> newUser, HttpServletResponse response, Model model){
+    public String addUser(@RequestParam Map<String, String> newUser, AddUser addUser, HttpServletResponse response, Model model){
         fName = newUser.get("fname");
         lName = newUser.get("lname");
         email = newUser.get("email");
@@ -53,11 +54,11 @@ public class UserController {
         password = newUser.get("password2");
         if(!userRepo.findByEmail(email).isEmpty()){
             model.addAttribute("emailUsed", "Email has already been used before. Please try again.");
-            return "user/addUser";
+            return "form";
         }
         if(!userRepo.findByUsername(username).isEmpty()){
             model.addAttribute("usernameUsed", "Username has already been used before. Please try again.");
-            return "user/addUser";
+            return "form";
         }
         else{
             response.setStatus(201);

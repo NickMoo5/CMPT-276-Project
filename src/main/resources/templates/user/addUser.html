@@ -35,27 +35,27 @@
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <h1 class="text-center mt-5 mb-4">Registration</h1>
-                <form action="/user/addUser" method="post">
+                <form action="/user/addUser" th:action="@{/user/addUser}" th:object="${addUser}" method="post">
 
                     <div class="mb-3">
 
                         <input type="text" id="fname" name="fname" class="form-control form-control-lg"
-                            placeholder="First Name" required>
+                            placeholder="First Name" th:value="*{fname}" required>
                     </div>
                     <div class="mb-3">
 
                         <input type="text" id="lname" name="lname" class="form-control form-control-lg"
-                            placeholder="Last Name" required>
+                            placeholder="Last Name" th:value="*{lname}" required>
                     </div>
                     <div class="mb-3">
                         <input type="email" id="email" name="email" class="form-control form-control-lg"
-                            placeholder="Email Address" required>
+                            placeholder="Email Address" th:value="*{email}" required>
                         <div th:if="${emailUsed}" class="error-message text-danger">[[${emailUsed}]]</div>
                     </div>
                     <div class="mb-3">
 
                         <input type="text" id="username" name="username" class="form-control form-control-lg"
-                            placeholder="Username" required>
+                            placeholder="Username" th:value="*{username}" required>
                         <div th:if="${usernameUsed}" class="error-message text-danger">[[${usernameUsed}]]</div>
                     </div>
 
@@ -63,7 +63,7 @@
                     <div class="mb-3">
                         <div class="input-group d-flex">
                             <input type="password" class="form-control form-control-lg" placeholder="Password"
-                                id="password-input" />
+                            th:value="*{password}" id="password-input" />
                             <div class="valid-feedback">Valid</div>
                             <div class="invalid-feedback">Invalid</div>
                         </div>
@@ -102,7 +102,7 @@
                     <div class="mb-3">
                         <div class="input-group d-flex">
                             <input type="password" id="password2" name="password2" class="form-control form-control-lg"
-                                placeholder="Repeat your Password" required>
+                                placeholder="Repeat your Password" th:value="*{password2}" required>
                             <div class="valid-feedback">The password you entered matches the above</div>
                             <div class="invalid-feedback">The password you entered does not match</div>
                         </div>
