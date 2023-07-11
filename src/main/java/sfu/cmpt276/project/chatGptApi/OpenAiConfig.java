@@ -14,7 +14,7 @@ public class OpenAiConfig {
     private static final String OPENAI_API_ENV_KEY = "OPENAIKEY";
     private Map<String, String> envVars = System.getenv();
     //private String openaiApiKey = envVars.get(OPENAI_API_ENV_KEY);
-    private String openaiApiKey = "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";
+    private String openaiApiKey = "FAKE";
 
     @Bean
     @Qualifier("openaiRestTemplate")
