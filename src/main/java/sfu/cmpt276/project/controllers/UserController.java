@@ -31,8 +31,10 @@ public class UserController {
         return new RedirectView("login");
     }
     @GetMapping("user/addUser") 
-    public String displaySignup(AddUser addUser){
-        return"form";
+    public String displaySignup(AddUser addUser, Model model){
+        AddUser tempUser = new AddUser();
+        model.addAttribute("addUser", tempUser);
+        return "user/addUser";
     }
     @PostMapping("/admin/adminLanding")
     public String displayUsers(Model model){
@@ -47,6 +49,7 @@ public class UserController {
     private String password;
     @PostMapping("/user/addUser")
     public String addUser(@RequestParam Map<String, String> newUser, AddUser addUser, HttpServletResponse response, Model model){
+        AddUser tempUser = new AddUser(newUser.get("fname"), newUser.get("lname"), newUser.get("email"), newUser.get("username"));
         fName = newUser.get("fname");
         lName = newUser.get("lname");
         email = newUser.get("email");
@@ -54,11 +57,13 @@ public class UserController {
         password = newUser.get("password2");
         if(!userRepo.findByEmail(email).isEmpty()){
             model.addAttribute("emailUsed", "Email has already been used before. Please try again.");
-            return "form";
+            model.addAttribute("addUser", tempUser);
+            return "user/addUser";
         }
         if(!userRepo.findByUsername(username).isEmpty()){
             model.addAttribute("usernameUsed", "Username has already been used before. Please try again.");
-            return "form";
+            model.addAttribute("addUser", tempUser);
+            return "user/addUser";
         }
         else{
             response.setStatus(201);

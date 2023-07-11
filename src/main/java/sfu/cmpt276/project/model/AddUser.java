@@ -5,15 +5,21 @@ public class AddUser {
     private String lName;
     private String email;
     private String username; 
-    private String password;
-    private String password2;
 
-    public String getPassword2() {
-        return password2;
+    public AddUser(String fName, String lName, String email, String username, String password, String password2) {
+        this.fName = fName;
+        this.lName = lName;
+        this.email = email;
+        this.username = username;
     }
-    public void setPassword2(String password2) {
-        this.password2 = password2;
+
+    public AddUser(){
+        this.fName = "";
+        this.lName = "";
+        this.email = "";
+        this.username = "";
     }
+
     public String getfName() {
         return fName;
     }
@@ -37,11 +43,5 @@ public class AddUser {
     }
     public void setUsername(String username) {
         this.username = username;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
