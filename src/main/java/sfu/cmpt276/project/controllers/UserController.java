@@ -14,6 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import sfu.cmpt276.project.chatGptApi.ChatController;
 import sfu.cmpt276.project.model.User;
 import sfu.cmpt276.project.model.UserRepository;
 

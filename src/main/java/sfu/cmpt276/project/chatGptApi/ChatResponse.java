@@ -2,22 +2,26 @@ package sfu.cmpt276.project.chatGptApi;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ChatResponse {
 
     private List<Choice> choices;
 
-    public ChatResponse(List choices) {
-        this.choices = choices;
-    }
-
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Choice {
 
         private int index;
-        private Query query;
+        private Message message;
 
-        public Choice(Query query, int index) {
-            this.query = query;
-            this.index = index;
-        }
     }
+
 }
