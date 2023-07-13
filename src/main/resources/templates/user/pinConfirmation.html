@@ -13,6 +13,7 @@
             <div class="col-md-4">
                 <h2 class="text-center mt-5 mb-4">Enter pin sent to email</h2>
                 <form action="user/pinConfirmation" method="post">
+                    <!--Input for user's pin, numbers only-->
                     <div class="mb-3">
                         <input type="number" id="pin" name="pin" class="form-control form-control-lg"
                             placeholder="Pin" required>
@@ -35,13 +36,13 @@
             const pinError = document.getElementById("pin-error");
             const pinInput = document.getElementById("pin");
 
-            // Check if the pin error message should be shown
+            //check if the pin error message should be shown
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get("error") === "true") {
                 pinError.classList.remove("d-none");
             }
 
-            // Clear the pin error message when the user starts typing again
+            //clear the pin error message when the user starts typing again
             pinInput.addEventListener("input", () => {
                 pinError.classList.add("d-none");
             });

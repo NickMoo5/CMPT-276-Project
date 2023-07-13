@@ -161,6 +161,7 @@ public class UserController {
         List<User> userList = userRepo.findByEmail(email);
 
         if(userList.isEmpty()) {
+            // if email doesn't have associated email
             model.addAttribute("emailError", "Email does not have an associated account");
             return "user/inputEmailForPin";
         } else {
@@ -182,7 +183,7 @@ public class UserController {
         User user = (User) session.getAttribute("session_user");
         if (user != null) {
             model.addAttribute("user", user);
-            return "user/pinConfirmation"; // Return the correct view
+            return "user/pinConfirmation"; 
         } else {
             return "user/inputEmailForPin";
         }
@@ -194,7 +195,7 @@ public class UserController {
         String userPinInput = formData.get("pin");
 
         if (userPinInput.equals(userPin)) {
-            return "/user/changePassword"; // Redirect to the change password page
+            return "/user/changePassword"; 
         } else {
             model.addAttribute("pinError", "Invalid pin entered. Please try again.");
             return "user/pinConfirmation";
@@ -207,10 +208,16 @@ public class UserController {
     @PostMapping("user/changePassword")
     public String changePassword(@RequestParam("password") String newPassword, HttpServletRequest request, HttpSession session) {
         User user = (User) session.getAttribute("session_user");
+    
+        // create new random pin
+        String newPin = generatePin.genPin();
+        user.setPin(newPin);
+        
         user.setPassword(newPassword);
         userRepo.save(user);
-        session.invalidate(); // Invalidate the session after changing the password
-        return "redirect:/login"; // Redirect to the login page
+        session.invalidate();
+        
+        return "redirect:/login";
     }
 
 
