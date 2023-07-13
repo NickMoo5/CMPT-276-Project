@@ -19,6 +19,7 @@ public class User {
     private String languageTwo;
     private String languageThree;
     private String accountType;
+    private String pin;
     public static final String ACCOUNTTYPE_USER = "user";
     public static final String ACCOUNTTYPE_ADMIN = "admin";
 
@@ -31,6 +32,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.accountType = ACCOUNTTYPE_USER;
+        this.pin = null;
         this.accessibility = null;
         this.dietaryRestriction = null;
         this.languageOne = null;
@@ -132,5 +134,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 }

@@ -25,11 +25,15 @@
                             placeholder="Username" required>
                     </div>
                     <!--Password input-->
-                    <div class="row mb-3">
+                    <div class="mb-3">
                         <div class="col-md-13 input-group">
                             <input type="password" class="form-control form-control-lg" placeholder="Password" name="password-input" id="password-input" required>
                                 <i class="input-group-text bi bi-eye-slash-fill" id="togglePassword" style="cursor: pointer;"></i>
                         </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <p><a href="../user/inputEmailForPin"><u>Forgot Password?</u></a></p>
                     </div>
                     
                     <!--Return error and Login submit-->
@@ -37,8 +41,7 @@
                         <p th:if="${loginError}" p style="color:red" class="error-message">[[${loginError}]]</p>
                         <input class="btn btn-primary" type="submit" href="../user/login" value="LOGIN"></input>
                     </div>
-                    <p class="text-center">New to WayFinder? <a href="../user/addUser"
-                            class="fw-bold"><u>Sign Up here</u></a></p>
+                    <p class="text-center">New to WayFinder? <a href="../user/addUser" class="fw-bold"><u>Sign Up here</u></a></p>
                 </form>
             </div>
         </div>
