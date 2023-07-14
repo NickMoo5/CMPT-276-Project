@@ -12,11 +12,13 @@
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <h2 class="text-center mt-5 mb-4">Enter pin sent to email</h2>
+                
                 <form action="/user/pinConfirmation" method="post">
                     <!--Input for user's pin, numbers only-->
                     <div class="mb-3">
                         <input type="number" id="pin" name="pin" class="form-control form-control-lg"
                             placeholder="Pin" required>
+                            <p style="font-size: small; font-style: italic;">Email may be in your spam folder</p>
                     </div>
                     <div class="alert alert-danger d-none" role="alert" id="pin-error">
                         Invalid pin entered. Please try again.
