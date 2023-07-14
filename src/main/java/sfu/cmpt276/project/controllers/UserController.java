@@ -88,6 +88,30 @@ public class UserController {
         model.addAttribute("edit", user2);
         return "user/editPrefs";
     }
+    @GetMapping("/user/editAccSettings") 
+    public String editAcc(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("edit", user2);
+        return "user/editAccSettings";
+    }
+    @GetMapping("/user/changeUsername") 
+    public String editUsername(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("edit", user2);
+        return "user/changeUsername";
+    }
+    @GetMapping("/user/changeEmail") 
+    public String editEmail(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("edit", user2);
+        return "user/changeEmail";
+    }
+    @GetMapping("/user/changePassword") 
+    public String editPassword(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("edit", user2);
+        return "user/changePassword";
+    }
     @PostMapping("/editPrefsSaved") 
     public String savePreferences(@RequestParam Map<String, String> newUser, HttpServletRequest request,HttpSession session, Model model){
         User editedUser = (User) request.getSession().getAttribute("session_user");

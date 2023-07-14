@@ -48,34 +48,30 @@
         </form>
     </div> -->
     <!--Add prefs container-->
-    <div class="container-fluid d-flex justify-content-center">      
-        <div class="col-md-4 m-sm-4" id="formInputsCont"> 
-            <form action="/user/changeUsername" method="get">
-                <h2 class="row justify-content-center">Account Settings</h2>
-                <div class="mb-3">
-                    <p>
-                        <span th:text = "'Username: ' + ${edit.username}"></span>
-                    </p>
-                    <p>
-                        <span th:text = "'Email: ' + ${edit.email}"></span>
-                    </p>
-                <div class="d-grid gap-2" style="padding-top: 10px;">
-                    <input class="btn btn-primary" id="editUsername" type="submit" value="Change Username"></input>
-                </div> 
-            </form>
-            <form action="/user/changeEmail" method="get">
-                <div class="mb-3">
-                <div class="d-grid gap-2" style="padding-top: 10px;">
-                    <input class="btn btn-primary" id="editEmail" type="submit" value="Change Email"></input>
-                </div> 
-            </form>
-            <form action="/user/changePassword" method="get">
-                <div class="mb-3">
-                <div class="d-grid gap-2" style="padding-top: 10px;">
-                    <input class="btn btn-primary" id="editPassword" type="submit" value="Change Password"></input>
-                </div> 
-            </form>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <h1 class="text-center mt-5 mb-4">Change Email</h1>
+                <!-- To be possibly changed once back end is added -->
+                <form action="/user/editEmail" method="post">
+                    <div class="mb-3">
+                        <input type="email" id="email" name="email" class="form-control form-control-lg"
+                            placeholder="Enter new email" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" id="password1" name="password1" class="form-control form-control-lg"
+                            placeholder="Password" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" id="password2" name="password2" class="form-control form-control-lg"
+                            placeholder="Confirm password"required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <input class="btn btn-primary" id="regButton" type="submit" href="editAccSettings" value="Save changes">
+                        </input>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 </body>
 </html>
