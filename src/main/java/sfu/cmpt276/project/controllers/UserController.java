@@ -147,7 +147,7 @@ public class UserController {
     }
     @GetMapping("user/inputEmailForPin")
     public String displayPinConfirmation(Model model, HttpServletRequest request, HttpSession session) {
-        User user = (User) session.getAttribute("session_user");
+        User user = (User) session.getAttribute("session_user1");
         if (user != null) {
             model.addAttribute("user", user);
             return "user/protected";        
@@ -166,7 +166,7 @@ public class UserController {
             return "user/inputEmailForPin";
         } else {
             User user = userList.get(0);
-            request.getSession().setAttribute("session_user", user);
+            request.getSession().setAttribute("session_user1", user);
             model.addAttribute("user", user);
 
             // send email
@@ -180,7 +180,7 @@ public class UserController {
     }
     @GetMapping("user/pinConfirmation")
     public String pinConfirmation(Model model, HttpServletRequest request, HttpSession session) {
-        User user = (User) session.getAttribute("session_user");
+        User user = (User) session.getAttribute("session_user1");
         if (user != null) {
             model.addAttribute("user", user);
             return "user/pinConfirmation"; 
@@ -190,7 +190,7 @@ public class UserController {
     }
     @PostMapping("user/pinConfirmation")
     public String confirmPin(@RequestParam Map<String, String> formData, Model model, HttpServletRequest request, HttpSession session) {
-        User user = (User) session.getAttribute("session_user");
+        User user = (User) session.getAttribute("session_user1");
         String userPin = user.getPin();
         String userPinInput = formData.get("pin");
 
@@ -207,7 +207,7 @@ public class UserController {
     }
     @PostMapping("user/changePassword")
     public String changePassword(@RequestParam("password") String newPassword, HttpServletRequest request, HttpSession session) {
-        User user = (User) session.getAttribute("session_user");
+        User user = (User) session.getAttribute("session_user1");
     
         // create new random pin
         String newPin = generatePin.genPin();
@@ -219,10 +219,4 @@ public class UserController {
         
         return "redirect:/login";
     }
-
-
-
-   
-
-
 }
