@@ -58,14 +58,16 @@
                             placeholder="Enter new username" required>
                     </div>
                     <div class="mb-3">
-                        <input type="text" id="password1" name="password1" class="form-control form-control-lg"
+                        <input type="password" id="password1" name="password1" class="form-control form-control-lg"
                             placeholder="Password" required>
                     </div>
                     <div class="mb-3">
-                        <input type="text" id="password2" name="password2" class="form-control form-control-lg"
+                        <input type="password" id="password2" name="password2" class="form-control form-control-lg"
                             placeholder="Confirm password"required>
                     </div>
                     <div class="d-grid gap-2">
+                        <p th:if="${usernameError}" p style="color:red" class="error-message">[[${usernameError}]]</p>
+                        <p th:if="${passwordError}" p style="color:red" class="error-message">[[${passwordError}]]</p>
                         <input class="btn btn-primary" id="regButton" type="submit" href="editAccSettings" value="Save changes"
                             ></input>
                     </div>

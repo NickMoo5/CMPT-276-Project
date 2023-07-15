@@ -67,6 +67,8 @@
                             placeholder="Confirm password"required>
                     </div>
                     <div class="d-grid gap-2">
+                        <p th:if="${emailError}" p style="color:red" class="error-message">[[${emailError}]]</p>
+                        <p th:if="${passwordError}" p style="color:red" class="error-message">[[${passwordError}]]</p>
                         <input class="btn btn-primary" id="regButton" type="submit" href="editAccSettings" value="Save changes">
                         </input>
                     </div>
