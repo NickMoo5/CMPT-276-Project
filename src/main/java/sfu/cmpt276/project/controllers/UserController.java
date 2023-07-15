@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import sfu.cmpt276.project.chatGptApi.ChatController;
+import sfu.cmpt276.project.model.AddUser;
 import sfu.cmpt276.project.model.User;
 import sfu.cmpt276.project.model.UserRepository;
 
@@ -37,8 +38,10 @@ public class UserController {
         return new RedirectView("login");
     }
     @GetMapping("user/addUser") 
-    public String displaySignup(){
-        return"user/addUser";
+    public String displaySignup(AddUser addUser, Model model){
+        AddUser tempUser = new AddUser();
+        model.addAttribute("addUser", tempUser);
+        return "user/addUser";
     }
     @PostMapping("/admin/adminLanding")
     public String displayUsers(Model model){
@@ -52,7 +55,8 @@ public class UserController {
     private String username; 
     private String password;
     @PostMapping("/user/addUser")
-    public String addUser(@RequestParam Map<String, String> newUser, HttpServletResponse response, Model model){
+    public String addUser(@RequestParam Map<String, String> newUser, AddUser addUser, HttpServletResponse response, Model model){
+        AddUser tempUser = new AddUser(newUser.get("fname"), newUser.get("lname"), newUser.get("email"), newUser.get("username"));
         fName = newUser.get("fname");
         lName = newUser.get("lname");
         email = newUser.get("email");
@@ -60,10 +64,12 @@ public class UserController {
         password = newUser.get("password2");
         if(!userRepo.findByEmail(email).isEmpty()){
             model.addAttribute("emailUsed", "Email has already been used before. Please try again.");
+            model.addAttribute("addUser", tempUser);
             return "user/addUser";
         }
         if(!userRepo.findByUsername(username).isEmpty()){
             model.addAttribute("usernameUsed", "Username has already been used before. Please try again.");
+            model.addAttribute("addUser", tempUser);
             return "user/addUser";
         }
         else{
