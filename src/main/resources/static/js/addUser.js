@@ -33,7 +33,10 @@ addEventListener("DOMContentLoaded", (event) => {
             password.classList.remove("is-valid", "is-invalid");
     
             requirements.forEach((element) => element.classList.add("wrong"));
+            requirements.forEach((element) => element.classList.remove("good"));
             passwordAlert.classList.remove("alert-warning", "alert-success");
+            passwordVerification.classList.remove("is-valid", "is-invalid");
+            passwordSameBool = false;
             return;
         }
     
