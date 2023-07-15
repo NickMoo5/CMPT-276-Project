@@ -16,16 +16,27 @@ addEventListener("DOMContentLoaded", (event) => {
 
     password.addEventListener("focus", () => {
         passwordAlert.classList.remove("d-none");
-        if (!password.classList.contains("is-valid")) {
+        if (password.value.length > 0 && !password.classList.contains("is-valid")) {
             password.classList.add("is-invalid");
+            passwordVerify();
         }
-        passwordVerify();
     });
 
     password.addEventListener("input", () => {
-
-
         let value = password.value;
+        if (value === '') {
+            lengBoolean = false;
+            bigLetterBoolean = false;
+            numBoolean = false;
+            specialCharBoolean = false;
+    
+            password.classList.remove("is-valid", "is-invalid");
+    
+            requirements.forEach((element) => element.classList.add("wrong"));
+            passwordAlert.classList.remove("alert-warning", "alert-success");
+            return;
+        }
+    
         if (value.length < 8) {
             lengBoolean = false;
         } else if (value.length > 7) {
@@ -125,11 +136,18 @@ addEventListener("DOMContentLoaded", (event) => {
     function passwordVerify() {
         let value1 = passwordVerification.value;
         let value2 = password.value;
-        if (value2 == '') {
-            passwordVerification.classList.remove("is-valid");
-            passwordVerification.classList.add("is-invalid");
+        if (value2 === '') {
+            passwordVerification.classList.remove("is-valid"); //no validation if password value is empty
+            passwordVerification.classList.remove("is-invalid");
             passwordSameBool = false;
-        } else if (value1 == value2) {
+        } 
+        else if (value1.length === 0) {
+            passwordVerification.classList.remove("is-valid");
+            passwordVerification.classList.remove("is-invalid");
+            passwordSameBool = false; 
+
+        } 
+        else if (value1 === value2) {
             passwordVerification.classList.remove("is-invalid");
             passwordVerification.classList.add("is-valid");
             passwordSameBool = true;
