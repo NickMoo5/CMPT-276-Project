@@ -1,4 +1,4 @@
-package sfu.cmpt276.project.chatGptApi;
+package sfu.cmpt276.project.chatGptApi.dto;
 
 import java.util.List;
 
