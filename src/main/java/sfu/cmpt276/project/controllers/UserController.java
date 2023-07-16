@@ -106,11 +106,11 @@ public class UserController {
         model.addAttribute("edit", user2);
         return "user/changeEmail";
     }
-    @GetMapping("/user/changePassword") 
+    @GetMapping("/user/changeAccPass") 
     public String editPassword(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
         User user2 = (User) request.getSession().getAttribute("session_user");
         model.addAttribute("edit", user2);
-        return "user/changePassword";
+        return "user/changeAccPass";
     }
     @PostMapping("/user/editUsername")
     public String updateUsername(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
@@ -177,12 +177,12 @@ public class UserController {
             }
             else{
                 model.addAttribute("passwordError", "Your current password entered does not match. Please try again.");
-                return "user/changePassword";
+                return "user/changeAccPass";
             }
         }
         else{
             model.addAttribute("passwordError", "Password entered is incorrect. Please try again.");
-            return "user/changePassword";
+            return "user/changeAccPass";
         }
         return "user/editAccSettings";
     }
