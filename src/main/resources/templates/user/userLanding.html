@@ -51,41 +51,45 @@
     </nav>
 
 
-    <!--Add new trip container-->
+    <!-- Add new trip container -->
     <!-- Needs: location error message in UserController.java, line 71-->
     <!-- Needs: date error message in UserController.java, line 72-->
-    <!-- <div class="container-fluid d-flex justify-content-center">
-        <div class="col-md-4 m-sm-4" id="formInputsCont" style="width: 300px; padding: 25px;background-color: #D3D3D3; border-radius: 10px;" > -->
-            <!--ADD CORRECT FORM PATH LATER-->
-            <center><h1>Welcome to the user landing! It is quite bare right now, but in the future you will be able to plan your trip here!</h1></center>
-            <!-- <form action="/" method="post" class="errorCheck" novalidate>
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="col-md-4 m-sm-4" id="formInputsCont" style="width: 300px; padding: 25px;background-color: #D3D3D3; border-radius: 10px;" >
+            <!-- ADD CORRECT FORM PATH LATER -->
+            <form action="/" method="post" class="errorCheck" novalidate>
                 <h2 class="row justify-content-center">Plan a Trip!</h2>
                 
                 <div class="mb-3"  style="margin-top: 40px;">
-                    <input type="text" id="location" name="location" class="form-control"
-                        placeholder="Where to?" required>
+                    <input type="text" id="country" name="country" class="form-control"
+                        placeholder="Country" required>
+                </div>
+
+                <div class="mb-3"  style="margin-top: 40px;">
+                    <input type="text" id="city" name="city" class="form-control"
+                        placeholder="City" required>
                 </div>
             
-                <input type="text" id="start-date" name="start-date"  class="form-control"  style="margin-top: 35px;" placeholder="Start Date" required>
+                <input type="text" id="start-date" name="start-date"  class="form-control"  style="margin-top: 40px;" placeholder="Start Date" required>
 
-                <input type="text" id="end-date" name="end-date" class="form-control"  style="margin-top: 30px;" placeholder="End Date" required>
+                <input type="text" id="end-date" name="end-date" class="form-control"  style="margin-top: 40px;" placeholder="End Date" required>
 
                 <div class="container-fluid" style="margin-top: 40px;">
-                    <div class="row justify-content-center"> -->
-                        <!-- <p th:if="${locationError}" p style="color:red" class="error-message">[[${locationError}]]</p>
-                        <p th:if="${dateError}" p style="color:red" class="error-message">[[${dateError}]]</p> -->
-                        <!-- <div class="col-6 d-flex justify-content-end">
+                    <div class="row justify-content-center">
+                        <p th:if="${locationError}" p style="color:red" class="error-message">[[${locationError}]]</p>
+                        <p th:if="${dateError}" p style="color:red" class="error-message">[[${dateError}]]</p>
+                        <div class="col-6 d-flex justify-content-end">
                             <button class="btn btn-secondary" id="clear" type="reset">Reset</button>
                         </div>
                         <div class="col-6">
                             <button class="btn btn-primary" id="plan" type="submit">Plan</button>
                         </div>
                     </div>
-                </div> -->
+                </div>
 
-            <!-- </form>
+            </form>
         </div>
-    </div> -->
+    </div>
     <script>
         $(function() {
           $("#start-date").datepicker();
