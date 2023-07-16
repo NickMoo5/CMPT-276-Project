@@ -5,10 +5,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -27,6 +30,8 @@ public class UserController {
     @Autowired
     private UserRepository userRepo; 
     private ChatController chatController = new ChatController();
+
+    private String answer;
 
     @Value("${openai.key}")             // ChatGPT api key
     private String openaikey;
@@ -236,12 +241,29 @@ public class UserController {
     // Test function for testing chatgpt package
     @GetMapping("/test")
     public String chatTest(Model model) {
-        String response;
-        String prompt = "when was calculus invented?";
+        //String response;
+        //String prompt = "when was calculus invented?";
 
-        response = chatController.queryChatGPT(prompt, openaikey);
+        //response = chatController.queryChatGPT(prompt, openaikey);
 
-        model.addAttribute("chat", response);
+        //model.addAttribute("chat", response);
         return "testing/chatTest";
+    }
+
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    public ResponseEntity<?> query(@RequestParam("query") String formData, HttpServletRequest request, Model model) throws InterruptedException{
+        String response;
+        Thread.sleep(6000);
+        response = chatController.queryChatGPT(formData, openaikey);
+        answer = response;
+
+        //model.addAttribute("chat", response);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/finished")
+    public String showCompleted(Model model) {
+        model.addAttribute("chat", answer);
+        return "testing/finished";
     }
 }

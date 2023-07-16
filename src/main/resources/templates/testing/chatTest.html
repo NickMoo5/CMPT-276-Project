@@ -1,14 +1,65 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <h1>MY TEST FOR CHAT</h1>
-        <p>[[${chat}]]</p>
-    </body>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Main Template</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/loading.js}"></script>
+</head>
+<body>
+    <div id="content">
+        <!-- Your main content goes here -->
+        <h1 id="Testing">MY TEST FOR CHAT</h1>
+        <form id="myForm" action="/query" method="POST">
+            <input type="text" name="query" id="query">
+            <button type="submit">Submit Query</button>
+        </form>
+    </div>
+    
+    <div id="loadingContainer"></div>
+    
+    <script>
+        $(document).ready(function() {
+            // Submit the form and show the loading screen
+            $('#myForm').submit(function(event) {
+                event.preventDefault();
+                showLoadingScreen();
+                var query = $('#query').val();
+
+                var data = 'query=' + encodeURIComponent(query);                
+                // Perform your long-running task using AJAX or any other method
+                $.ajax({
+                    url: "/query",
+                    type: "GET",
+                    data: data,
+                    success: function() {
+                        // Task completed, switch to the completion template
+                        switchToCompletionTemplate();
+                        //var test = document.getElementById('Testing');
+                        //test.innerHTML = "MOOSSSSSS"
+                        
+
+                    },
+                    error: function() {
+                        // Handle error if needed
+                        var test = document.getElementById('Testing');
+                        test.innerHTML = "MOO"
+                    }
+                });
+            });
+            
+            function showLoadingScreen() {
+                var loadingContainer = document.getElementById('loadingContainer');
+                //loadingContainer.innerHTML = '<div th:replace="loading :: loadingScreen"></div>';
+                loadingContainer.innerHTML = '<div>Loading...</div>';
+            }
+            
+            function switchToCompletionTemplate() {
+                // Load the completion template into the content div
+                $.get('/finished', function (data) {
+                        $('#content').html(data);
+                    });
+                }
+        });
+    </script>
+</body>
 </html>
