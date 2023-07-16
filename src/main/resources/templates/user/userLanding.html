@@ -65,15 +65,15 @@
                         placeholder="Where to?" required>
                 </div>
             
-                <input type="text" id="start-date" name="start-date"  class="form-control"  style="margin-top: 40px;" placeholder="Start Date" required>
+                <input type="date" id="start-date" name="start-date" class="form-control" style="margin-top: 40px;" placeholder="Start Date" required>
 
-                <input type="text" id="end-date" name="end-date" class="form-control"  style="margin-top: 40px;" placeholder="End Date" required>
+                <input type="date" id="end-date" name="end-date" class="form-control"  style="margin-top: 40px;" placeholder="End Date" required>
 
                 <select id="budget" name="budget" class="form-select" style="margin-top: 40px;" required>
                     <option value="" disabled selected>Select Budget</option>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
+                    <option value="low">Low Budget</option>
+                    <option value="medium">Medium Budget</option>
+                    <option value="high">High Budget</option>
                 </select>
 
                 <div class="container-fluid" style="margin-top: 40px;">
@@ -92,11 +92,5 @@
             </form>
         </div>
     </div>
-    <script>
-        $(function() {
-          $("#start-date").datepicker();
-          $("#end-date").datepicker();
-        });
-      </script>
 </body>
 </html>
