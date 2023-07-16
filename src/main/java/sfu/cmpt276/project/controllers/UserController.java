@@ -14,9 +14,11 @@ import org.springframework.web.servlet.view.RedirectView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import sfu.cmpt276.project.email.emailUtility;
 import sfu.cmpt276.project.model.AddUser;
 import sfu.cmpt276.project.model.User;
 import sfu.cmpt276.project.model.UserRepository;
+import sfu.cmpt276.project.password.generatePin;
 
 @Controller
 public class UserController {
@@ -79,6 +81,10 @@ public class UserController {
         String lang3 = newUser.get("language3");
         User createdUser = new User(username, password,fName, lName, email);
         createdUser.setPreferences(access, diet, lang1, lang2, lang3);
+        
+        String pin = generatePin.genPin();
+        createdUser.setPin(pin);
+
         userRepo.save(createdUser);
         return "user/login";
     }
@@ -144,5 +150,79 @@ public class UserController {
     public String removeSession(HttpServletRequest request){
         request.getSession().invalidate();
         return "user/login";
+    }
+    @GetMapping("user/inputEmailForPin")
+    public String displayPinConfirmation(Model model, HttpServletRequest request, HttpSession session) {
+        User user = (User) session.getAttribute("session_user1");
+        if (user != null) {
+            model.addAttribute("user", user);
+            return "user/protected";        
+        } else {
+            return "user/inputEmailForPin";
+        }
+    }
+    @PostMapping("/inputEmailForPin") 
+    public String getEmailForPin(@RequestParam Map<String,String> formData, Model model, HttpServletRequest request, HttpSession session) {
+        String email = formData.get("email");
+        List<User> userList = userRepo.findByEmail(email);
+
+        if(userList.isEmpty()) {
+            // if email doesn't have associated email
+            model.addAttribute("emailError", "Email does not have an associated account");
+            return "user/inputEmailForPin";
+        } else {
+            User user = userList.get(0);
+            request.getSession().setAttribute("session_user1", user);
+            model.addAttribute("user", user);
+
+            // send email
+            String userEmail = user.getEmail();
+            String userPin = user.getPin();
+            String body = "Your Wayfinder account pin reset code is " + userPin + ". \nDo not share this with anyone!";
+            emailUtility.sendEmail(userEmail, "Wayfinder Password Pin", body);
+
+            return "user/pinConfirmation";
+        }
+    }
+    @GetMapping("user/pinConfirmation")
+    public String pinConfirmation(Model model, HttpServletRequest request, HttpSession session) {
+        User user = (User) session.getAttribute("session_user1");
+        if (user != null) {
+            model.addAttribute("user", user);
+            return "user/pinConfirmation"; 
+        } else {
+            return "user/inputEmailForPin";
+        }
+    }
+    @PostMapping("user/pinConfirmation")
+    public String confirmPin(@RequestParam Map<String, String> formData, Model model, HttpServletRequest request, HttpSession session) {
+        User user = (User) session.getAttribute("session_user1");
+        String userPin = user.getPin();
+        String userPinInput = formData.get("pin");
+
+        if (userPinInput.equals(userPin)) {
+            return "/user/changePassword"; 
+        } else {
+            model.addAttribute("pinError", "Invalid pin entered. Please try again.");
+            return "user/pinConfirmation";
+        }
+    }
+    @GetMapping("user/changePassword")
+    public String promptToChangePassword() {
+        return "user/changePassword";
+    }
+    @PostMapping("user/changePassword")
+    public String changePassword(@RequestParam("password") String newPassword, HttpServletRequest request, HttpSession session) {
+        User user = (User) session.getAttribute("session_user1");
+    
+        // create new random pin
+        String newPin = generatePin.genPin();
+        user.setPin(newPin);
+        
+        user.setPassword(newPassword);
+        userRepo.save(user);
+        session.invalidate();
+        
+        return "redirect:/login";
     }
 }
