@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Trip Planner - Plan your trip here</title>
+	<title>WayFinder - Trip Planner</title>
 
 	<!-- Meta Tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Trip Planner">
 
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="../../static/images/favicon.ico"/>
+	<link rel="shortcut icon" href="/images/favicon.ico"/>
 
 	<!-- Google Font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -17,15 +17,15 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap"/>
 
 	<!-- Plugins CSS -->
-	<link rel="stylesheet" type="text/css" href="../../static/vendor/font-awesome/css/all.min.css"/>
-	<link rel="stylesheet" type="text/css" href="../../static/vendor/bootstrap-icons/bootstrap-icons.css"/>
-	<link rel="stylesheet" type="text/css" href="../../static/vendor/tiny-slider/tiny-slider.css"/>
-	<link rel="stylesheet" type="text/css" href="../../static/vendor/glightbox/css/glightbox.css"/>
-	<link rel="stylesheet" type="text/css" href="../../static/vendor/choices/css/choices.min.css"/>
-	<link rel="stylesheet" type="text/css" href="../../static/vendor/flatpickr/css/flatpickr.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/font-awesome/css/all.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap-icons/bootstrap-icons.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/tiny-slider/tiny-slider.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/glightbox/css/glightbox.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/choices/css/choices.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/flatpickr/css/flatpickr.min.css"/>
 
 	<!-- Theme CSS -->
-	<link rel="stylesheet" type="text/css" href="../../static/css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 
 
 </head>
@@ -52,7 +52,7 @@
 				<li class="nav-item ms-3 dropdown">
 					<!-- Avatar -->
 					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-						<img class="avatar-img rounded-2" src="../../static/images/avatar/profile_avatar.jpg" alt="profile_avatar">
+						<img class="avatar-img rounded-2" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
 					</a>
                     
 					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
@@ -61,20 +61,18 @@
 							<div class="d-flex align-items-center">
 								<!-- Avatar -->
 								<div class="avatar me-3">
-									<img class="avatar-img rounded-circle shadow" src="../../static/images/avatar/profile_avatar.jpg" alt="profile_avatar">
+									<img class="avatar-img rounded-circle shadow" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
 								</div>
 								<div>
-									<a class="h6 mt-2 mt-sm-0" href="#"><span th:text="${user.username}">Profile Name</span></a>
-									<p class="small m-0">example@gmail.com</p>
+									<a class="h6 mt-2 mt-sm-0" href="#"><span th:text="${user.username}"></span></a>
+									<p class="small m-0"><span th:text="${user.email}"></span></p>
 								</div>
 							</div>
 						</li>
 
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
-                        <!-- <form action ="/user/edit" method = "post"> -->
 						    <li><a class="dropdown-item" href="user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i> Profile Settings</a></li>
-                        <!-- </form> -->
                         <li><a class="dropdown-item bg-danger-soft-hover" href="logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
 						<li> <hr class="dropdown-divider"></li>
 					</ul>
@@ -95,7 +93,7 @@ Main Banner START -->
 <section class="pt-0">
 	<div class="container position-relative">
 		<!-- Bg image -->
-		<div class="rounded-3 p-4 p-sm-5" style="background-image: url(../../static/images/bg/02.jpg); background-position: center center; background-repeat: no-repeat; background-size: cover;">
+		<div class="rounded-3 p-4 p-sm-5" style="background-image: url(/images/bg/02.jpg); background-position: center center; background-repeat: no-repeat; background-size: cover;">
 			<!-- Banner title -->
 			<div class="row justify-content-between pt-0 pb-5"> 
 				<div class="col-md-7 col-lg-8 col-xxl-7 pb-5 mb-0 mb-lg-5"> 
@@ -135,7 +133,7 @@ Main Banner START -->
                                             <!-- Budget -->
                                             <div class="col-lg-4">
                                                 <div class="form-icon-input form-size-lg form-fs-lg">
-                                                    <select class="form-select js-choice" th:value="${budget}" id="budget" name="budget" title = "budget" required>
+                                                    <select class="form-select js-choice" th:value="${budget}" id="budget" name="budget" title="budget" required>
                                                         <option value="">Select Budget</option>
                                                         <option th:selected="${budget=='Low'}">Low Budget</option>
                                                         <option th:selected="${budget=='Medium'}">Average Budget</option>
@@ -216,16 +214,16 @@ Footer START -->
 <!-- =======================
 Footer END -->
 <!-- Bootstrap JS -->
-<script src="../../static/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Vendors -->
-<script src="../../static/vendor/tiny-slider/tiny-slider.js"></script>
-<script src="../../static/vendor/glightbox/js/glightbox.js"></script>
-<script src="../../static/vendor/choices/js/choices.min.js"></script>
-<script src="../../static/vendor/flatpickr/js/flatpickr.min.js"></script>
+<script src="/vendor/tiny-slider/tiny-slider.js"></script>
+<script src="/vendor/glightbox/js/glightbox.js"></script>
+<script src="/vendor/choices/js/choices.min.js"></script>
+<script src="/vendor/flatpickr/js/flatpickr.min.js"></script>
 
 <!-- ThemeFunctions -->
-<script src="../../static/js/functions.js"></script>
+<script src="/js/functions.js"></script>
 
 </body>
 </html>

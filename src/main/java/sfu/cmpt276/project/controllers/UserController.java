@@ -107,7 +107,7 @@ public class UserController {
         return "user/userLanding";
     }
     @PostMapping("/tripPrefsSaved") 
-    public String saveTripPreferences(@RequestParam Map<String, String> newTripUser, HttpServletRequest request,HttpSession session, Model model){
+    public String saveTripPreferences(@RequestParam Map<String, String> newTripUser, HttpServletRequest request, HttpSession session, Model model){
         User editedTripUser = (User) request.getSession().getAttribute("session_user");
         String location = newTripUser.get("location");
         String budget = newTripUser.get("budget");
@@ -117,6 +117,11 @@ public class UserController {
         editedTripUser.setTripPreferences(location, budget, startDate, endDate);
         userRepo.save(editedTripUser);
         model.addAttribute("user", editedTripUser);
+        return "user/tripDisplay";
+    }
+    @GetMapping("/user/tripDisplay") 
+    public String itineraryDisplay(@RequestParam Map<String, String> tripUser, HttpServletRequest request, HttpSession session, Model model){
+        model.addAttribute("user", tripUser);
         return "user/tripDisplay";
     }
     @GetMapping("/login")

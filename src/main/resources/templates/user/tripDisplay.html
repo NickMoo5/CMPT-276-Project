@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title> Itinerary Display - View your trips here</title>
+	<meta charset="utf-8">
+	<title> WayFinder - Itinerary Display</title>
+	
 
 	<!-- Meta Tags -->
-	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="author" content="Webestica.com">
 	<meta name="description" content="Trip Display - View itinerary here">
 
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="../../static/images/favicon.ico"/>
+	<link rel="shortcut icon" href="/images/favicon.ico"/>
 
 	<!-- Google Font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,13 +19,13 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
 
 	<!-- Plugins CSS -->
-	<link rel="stylesheet" type="text/css" href="../../static/vendor/font-awesome/css/all.min.css"/>
-	<link rel="stylesheet" type="text/css" href="../../static/vendor/bootstrap-icons/bootstrap-icons.css"/>
-	<link rel="stylesheet" type="text/css" href="../../static/vendor/splide-master/dist/css/splide.min.css">
-	<link rel="stylesheet" type="text/css" href="../../static/vendor/glightbox/css/glightbox.css">
+	<link rel="stylesheet" type="text/css" href="/vendor/font-awesome/css/all.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap-icons/bootstrap-icons.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/splide-master/dist/css/splide.min.css">
+	<link rel="stylesheet" type="text/css" href="/vendor/glightbox/css/glightbox.css">
 
 	<!-- Theme CSS -->
-	<link rel="stylesheet" type="text/css" href="../../static/css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 
 </head>
 
@@ -51,7 +52,7 @@
 				<li class="nav-item ms-3 dropdown">
 					<!-- Avatar -->
 					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-						<img class="avatar-img rounded-2" src="../../static/images/avatar/profile_avatar.jpg" alt="profile_avatar">
+						<img class="avatar-img rounded-2" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
 					</a>
                     
 					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
@@ -60,20 +61,18 @@
 							<div class="d-flex align-items-center">
 								<!-- Avatar -->
 								<div class="avatar me-3">
-									<img class="avatar-img rounded-circle shadow" src="../../static/images/avatar/profile_avatar.jpg" alt="profile_avatar">
+									<img class="avatar-img rounded-circle shadow" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
 								</div>
 								<div>
-									<a class="h6 mt-2 mt-sm-0" href="#"><span th:text="${user.username}">Profile Name</span></a>
-									<p class="small m-0">example@gmail.com</p>
+									<a class="h6 mt-2 mt-sm-0" href="#"><span>username</span></a>
+									<p class="small m-0"><span>email</span></p>
 								</div>
 							</div>
 						</li>
 
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
-                        <!-- <form action ="/user/edit" method = "post"> -->
 						    <li><a class="dropdown-item" href="user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i> Profile Settings</a></li>
-                        <!-- </form> -->
                         <li><a class="dropdown-item bg-danger-soft-hover" href="logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
 						<li> <hr class="dropdown-divider"></li>
 					</ul>
@@ -102,7 +101,7 @@ Main Banner START -->
 				<div class="d-md-flex justify-content-md-between">
 					<!-- Title -->
 					<div>
-						<h1 class="fs-2">Location City Goes Here</h1>
+						<h1 class="fs-2">Location</h1>
 						<ul class="nav nav-divider h6 text-body mb-0">
 							<li class="nav-item">Country goes here</li>
 							<li class="nav-item">Duration of trip goes here ex.5 nights - 6 Days</li>
@@ -120,7 +119,7 @@ Main Banner START -->
 				<div class="splide splide-main mb-3" data-splide='{"type" : "fade","autoplay": true,"heightRatio":0.5,"pagination":false,"arrows":false,"cover":true,"lazyLoad":"sequential"}'>
 					<div class="splide__track">
 						<ul class="splide__list">
-							<li class="splide__slide rounded"><img src="../../static/images/gallery/04.jpg" alt="">
+							<li class="splide__slide rounded"><img src="/images/gallery/04.jpg" alt="">
 						</ul>
 					</div>
 				</div>
@@ -193,19 +192,19 @@ Tabs-content START -->
 								<!-- List -->
 								<ul class="list-group list-group-borderless mb-4">
 									<li class="list-group-item">
-										<span class="h6 mb-0 me-1">City:</span>
+										<span class="h6 mb-0 me-1">Event:</span>
 										<span class="h6 fw-light mb-0">more info</span>
 									</li>
 									<li class="list-group-item">
-										<span class="h6 mb-0 me-1">City:</span>
+										<span class="h6 mb-0 me-1">Event:</span>
 										<span class="h6 fw-light mb-0">more info</span>
 									</li>
 									<li class="list-group-item">
-										<span class="h6 mb-0 me-1">City:</span>
+										<span class="h6 mb-0 me-1">Event:</span>
 										<span class="h6 fw-light mb-0">more info</span>
 									</li>
 									<li class="list-group-item">
-										<span class="h6 mb-0 me-1">City</span>
+										<span class="h6 mb-0 me-1">Event</span>
 										<span class="h6 fw-light mb-0">more info</span>
 									</li>
 								</ul>
@@ -268,14 +267,14 @@ Footer END -->
 <div class="back-top"></div>
 
 <!-- Bootstrap JS -->
-<script src="../../static/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Vendors -->
-<script src="../../static/vendor/splide-master/dist/js/splide.min.js"></script>
-<script src="../../static/vendor/glightbox/js/glightbox.js"></script>
+<script src="/vendor/splide-master/dist/js/splide.min.js"></script>
+<script src="/vendor/glightbox/js/glightbox.js"></script>
 
 <!-- ThemeFunctions -->
-<script src="../../static/js/functions.js"></script>
+<script src="/js/functions.js"></script>
 
 </body>
 </html>
