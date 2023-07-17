@@ -15,11 +15,10 @@
     <!--Taskbar-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-          <a class="navbar-brand">Wayfinder</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          
+            <a class="navbar-brand" href="/">Wayfinder</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <!-- <li class="nav-item">
@@ -58,44 +57,25 @@
     <div class="container-fluid d-flex justify-content-center">
         <div class="col-md-4 m-sm-4" id="formInputsCont" style="width: 300px; padding: 25px;background-color: #D3D3D3; border-radius: 10px;" >
             <!-- ADD CORRECT FORM PATH LATER -->
-            <form action="../tripPrefsSaved" method="post" class="errorCheck" novalidate>
-                <h2 class="row justify-content-center">Plan a Trip!</h2>
+            <form action="/" method="post" class="errorCheck" novalidate>
+                <h2 class="row justify-content-center">Trip Itinerary</h2>
                 
                 <div class="mb-3"  style="margin-top: 40px;">
-                    <input type="text" id="location" name="location" class="form-control"
-                        placeholder="Where to?" th:value="${location}" required>
+                    <span th:text="${user.location}">           
                 </div>
-            
-                <input type="text" id="startDate" name="startDate" class="form-control datepicker" style="margin-top: 40px;" placeholder="Start Date"  th:value="${startDate}" required>
-
-                <input type="text" id="endDate" name="endDate" class="form-control datepicker"  style="margin-top: 40px;" placeholder="End Date" th:value="${endDate}" required>
-
-                <select id="budget" name="budget" class="form-select" style="margin-top: 40px;" required th:value="${budget}">
-                    <option value="" selected disabled>Select Budget</option>
-                    <option th:selected="${budget=='Low'}">Low</option>
-                    <option th:selected="${budget=='Medium'}">Medium</option>
-                    <option th:selected="${budget=='High'}">High</option>
-                </select>
-
-                <div class="container-fluid" style="margin-top: 40px;">
-                    <div class="row justify-content-center">
-                        <!-- <p th:if="${locationError}" p style="color:red" class="error-message">[[${locationError}]]</p>
-                        <p th:if="${dateError}" p style="color:red" class="error-message">[[${dateError}]]</p> -->
-                        <div class="col-12 text-center">
-                            <button class="btn btn-primary" id="plan" type="submit" href="/user/tripDisplay" style="width: 200px;">Plan</button>
-                        </div>
-                    </div>
+                <div class="mb-3"  style="margin-top: 40px;">
+                    <span th:text="${user.budget}">           
                 </div>
+                <div class="mb-3"  style="margin-top: 40px;">
+                    <span th:text="${user.startDate}">           
+                </div>
+                <div class="mb-3"  style="margin-top: 40px;">
+                    <span th:text="${user.endDate}">           
+                </div>
+        
 
             </form>
         </div>
     </div>
-    <script>
-        $(function() {
-            $(".datepicker").datepicker({
-                dateFormat: "yy-mm-dd" 
-            });
-        });
-    </script>
 </body>
 </html>

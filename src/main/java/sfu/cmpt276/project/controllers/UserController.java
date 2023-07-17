@@ -1,5 +1,4 @@
 package sfu.cmpt276.project.controllers;
-
 import java.util.List;
 import java.util.Map;
 
@@ -83,7 +82,7 @@ public class UserController {
         return "user/login";
     }
     @GetMapping("/user/editPrefs") 
-    public String editPreferences(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+    public String editPreferences(@RequestParam Map<String, String> user, HttpServletRequest request, HttpSession session, Model model){
         User user2 = (User) request.getSession().getAttribute("session_user");
         model.addAttribute("edit", user2);
         return "user/editPrefs";
@@ -100,6 +99,25 @@ public class UserController {
         userRepo.save(editedUser);
         model.addAttribute("user", editedUser);
         return "user/userLanding";
+    }
+    @GetMapping("/user/userLanding") 
+    public String tripPreferences(@RequestParam Map<String, String> tripUser, HttpServletRequest request, HttpSession session, Model model){
+        User tripUser2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("tripEdit", tripUser2);
+        return "user/userLanding";
+    }
+    @PostMapping("/tripPrefsSaved") 
+    public String saveTripPreferences(@RequestParam Map<String, String> newTripUser, HttpServletRequest request,HttpSession session, Model model){
+        User editedTripUser = (User) request.getSession().getAttribute("session_user");
+        String location = newTripUser.get("location");
+        String budget = newTripUser.get("budget");
+        String startDate = newTripUser.get("startDate");
+        String endDate = newTripUser.get("endDate");
+
+        editedTripUser.setTripPreferences(location, budget, startDate, endDate);
+        userRepo.save(editedTripUser);
+        model.addAttribute("user", editedTripUser);
+        return "user/tripDisplay";
     }
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletResponse request, HttpSession session){
