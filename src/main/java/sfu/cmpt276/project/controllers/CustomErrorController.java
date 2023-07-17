@@ -23,6 +23,10 @@ public class CustomErrorController implements ErrorController {
                 return "error/error-404";
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 return "error/error-500";
+            } else if (statusCode == HttpStatus.METHOD_NOT_ALLOWED.value()) {
+                return "error/error-405";
+            } else {
+                return "error/error";
             }
         }
         return "error/error";
