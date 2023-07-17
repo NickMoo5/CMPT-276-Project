@@ -156,6 +156,7 @@ public class User {
     }
 
     public void setPin(String pin) {
+        this.pin = pin;
     }
 
     public void setUid(int uid) {
