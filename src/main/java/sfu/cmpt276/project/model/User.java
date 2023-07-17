@@ -23,6 +23,7 @@ public class User {
     private String budget;
     private String startDate;
     private String endDate;
+    private String pin;
     
     public static final String ACCOUNTTYPE_USER = "user";
     public static final String ACCOUNTTYPE_ADMIN = "admin";
@@ -36,6 +37,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.accountType = ACCOUNTTYPE_USER;
+        this.pin = null;
         this.accessibility = null;
         this.dietaryRestriction = null;
         this.languageOne = null;
@@ -180,5 +182,13 @@ public class User {
 
     public void setBudget(String budget) {
         this.budget = budget;
+    }
+    
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
     }   
 }
