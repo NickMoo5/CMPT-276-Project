@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import sfu.cmpt276.project.chatGptApi.ChatController;
 import sfu.cmpt276.project.email.emailUtility;
 import sfu.cmpt276.project.model.AddUser;
 import sfu.cmpt276.project.model.User;
@@ -22,7 +24,12 @@ import sfu.cmpt276.project.password.generatePin;
 @Controller
 public class UserController {
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository userRepo; 
+    private ChatController chatController = new ChatController();
+
+    @Value("${openai.key}")             // ChatGPT api key
+    private String openaikey;
+
     @GetMapping("/")
     public RedirectView rootView(){
         return new RedirectView("login");
@@ -346,5 +353,17 @@ public class UserController {
         session.invalidate();
         
         return "redirect:/login";
+    }
+
+    // Test function for testing chatgpt package
+    @GetMapping("/test")
+    public String chatTest(Model model) {
+        String response;
+        String prompt = "when was calculus invented?";
+
+        response = chatController.queryChatGPT(prompt, openaikey);
+
+        model.addAttribute("chat", response);
+        return "testing/chatTest";
     }
 }
