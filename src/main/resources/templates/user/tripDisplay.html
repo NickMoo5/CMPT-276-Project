@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title> WayFinder - Itinerary Display</title>
+	<title>WayFinder - Itinerary Display</title>
 	
 
 	<!-- Meta Tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="author" content="Webestica.com">
 	<meta name="description" content="Trip Display - View itinerary here">
 
 	<!-- Favicon -->
@@ -38,9 +37,8 @@
 	<nav class="navbar navbar-light navbar-expand-xl">
 		<div class="container-fluid px-md-5">
 			<!-- Logo START -->
-			<a class="navbar-brand" href="userLanding.html">
-				<span>WayFinder</span>
-			</a>
+			<a class="navbar-brand" href="/">
+				<h3>WayFinder</h3>
 			<!-- Logo END -->
 
 			
@@ -64,15 +62,15 @@
 									<img class="avatar-img rounded-circle shadow" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
 								</div>
 								<div>
-									<a class="h6 mt-2 mt-sm-0" href="#"><span>username</span></a>
-									<p class="small m-0"><span>email</span></p>
+									<a class="h6 mt-2 mt-sm-0" href="#"><span th:text="${user.username}"></span></a>
+									<p class="small m-0"><span th:text="${user.email}"></span></p>
 								</div>
 							</div>
 						</li>
 
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
-						    <li><a class="dropdown-item" href="user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i> Profile Settings</a></li>
+						    <li><a class="dropdown-item" href="/user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i>Preference Settings</a></li>
                         <li><a class="dropdown-item bg-danger-soft-hover" href="logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
 						<li> <hr class="dropdown-divider"></li>
 					</ul>
@@ -101,10 +99,10 @@ Main Banner START -->
 				<div class="d-md-flex justify-content-md-between">
 					<!-- Title -->
 					<div>
-						<h1 class="fs-2">Location</h1>
+						<h1 class="fs-2"><span th:text="${user.location}"></span></h1>
 						<ul class="nav nav-divider h6 text-body mb-0">
 							<li class="nav-item">Country goes here</li>
-							<li class="nav-item">Duration of trip goes here ex.5 nights - 6 Days</li>
+							<li class="nav-item"><span th:text="${user.startDate}"></span> to <span th:text="${user.endDate}"></span></li>
 						</ul>
 					</div>
 				</div>
@@ -247,7 +245,7 @@ Footer START -->
 			<div class="container">
 				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
 					<!-- copyright text -->
-					<div class="text-muted text-primary-hover"> Created by Project Group # </div>
+					<div class="text-muted text-primary-hover"> Created by Project Group 12 </div>
 					<!-- copyright links-->
 					<div class="nav mt-2 mt-lg-0">
 						<ul class="list-inline text-primary-hover mx-auto mb-0">

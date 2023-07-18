@@ -126,8 +126,9 @@ public class UserController {
         return "user/tripDisplay";
     }
     @GetMapping("/user/tripDisplay") 
-    public String itineraryDisplay(@RequestParam Map<String, String> tripUser, HttpServletRequest request, HttpSession session, Model model){
-        model.addAttribute("user", tripUser);
+    public String itineraryDisplay(HttpServletRequest request, HttpSession session, Model model){
+        User itineraryUser = (User) session.getAttribute("session_user");
+        model.addAttribute("user", itineraryUser);
         return "user/tripDisplay";
     }
     @GetMapping("/login")
