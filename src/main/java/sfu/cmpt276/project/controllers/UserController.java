@@ -93,6 +93,104 @@ public class UserController {
         model.addAttribute("edit", user2);
         return "user/editPrefs";
     }
+    @GetMapping("/user/editAccSettings") 
+    public String editAcc(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("edit", user2);
+        return "user/editAccSettings";
+    }
+    @GetMapping("/user/changeUsername") 
+    public String editUsername(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("edit", user2);
+        return "user/changeUsername";
+    }
+    @GetMapping("/user/changeEmail") 
+    public String editEmail(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("edit", user2);
+        return "user/changeEmail";
+    }
+    @GetMapping("/user/changeAccPass") 
+    public String editPassword(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("edit", user2);
+        return "user/changeAccPass";
+    }
+    @PostMapping("/user/editUsername")
+    public String updateUsername(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        String username = editUser.get("username");
+        String pass1 = editUser.get("password1");
+        String pass2 = editUser.get("password2");
+        List <User> checkUsernameList = userRepo.findByUsername(username);
+        model.addAttribute("edit", user2);
+        if (pass1.equals(pass2) && pass1.equals(user2.getPassword())){
+            if(checkUsernameList.isEmpty()){
+                user2.setUsername(username);
+                userRepo.save(user2);
+            }
+            else{
+                model.addAttribute("usernameError", "Username is taken. Please try again.");
+                return "user/changeUsername";
+            }
+        }
+        else{
+            model.addAttribute("passwordError", "Password is incorrect. Please try again.");
+            return "user/changeUsername";
+        }
+        return "user/editAccSettings";
+    }
+    @PostMapping("/user/editEmail")
+    public String updateEmail(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        String email = editUser.get("email");
+        String pass1 = editUser.get("password1");
+        String pass2 = editUser.get("password2");
+        List <User> checkEmailList = userRepo.findByEmail(email);
+        model.addAttribute("edit", user2);
+        if (pass1.equals(pass2) && pass1.equals(user2.getPassword())){
+            if(checkEmailList.isEmpty()){
+                user2.setEmail(email);
+                userRepo.save(user2);
+            }
+            else{
+                model.addAttribute("emailError", "Email is taken. Please try again.");
+                return "user/changeEmail";
+            }
+        }
+        else{
+            model.addAttribute("passwordError", "Password is incorrect. Please try again.");
+            return "user/changeEmail";
+        }
+        return "user/editAccSettings";
+    }
+    @PostMapping("/user/editPassword")
+    public String updatePassword(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        String newPass = editUser.get("password1");
+        String newPass2 = editUser.get("password2");
+        String currentPass = editUser.get("password3");
+        String currentPass2 = editUser.get("password4");
+        model.addAttribute("edit", user2);
+        if (currentPass.equals(user2.getPassword())){
+            if(currentPass.equals(currentPass2)){
+                if(newPass.equals(newPass2)){
+                    user2.setPassword(newPass);
+                    userRepo.save(user2);
+                }
+            }
+            else{
+                model.addAttribute("passwordError", "Your current password entered does not match. Please try again.");
+                return "user/changeAccPass";
+            }
+        }
+        else{
+            model.addAttribute("passwordError", "Password entered is incorrect. Please try again.");
+            return "user/changeAccPass";
+        }
+        return "user/editAccSettings";
+    }
     @PostMapping("/editPrefsSaved") 
     public String savePreferences(@RequestParam Map<String, String> newUser, HttpServletRequest request,HttpSession session, Model model){
         User editedUser = (User) request.getSession().getAttribute("session_user");
