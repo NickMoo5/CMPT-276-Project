@@ -24,7 +24,6 @@ public class User {
     private String startDate;
     private String endDate;
     private String pin;
-    
     public static final String ACCOUNTTYPE_USER = "user";
     public static final String ACCOUNTTYPE_ADMIN = "admin";
 
@@ -151,7 +150,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
     public String getLocation() {
         return location;
     }
@@ -190,5 +188,47 @@ public class User {
 
     public void setPin(String pin) {
         this.pin = pin;
-    }   
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getBudget() {
+        return budget;
+    }
+
+    public void setBudget(String budget) {
+        this.budget = budget;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+    
+
 }
