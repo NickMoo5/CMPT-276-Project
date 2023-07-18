@@ -19,6 +19,10 @@ public class User {
     private String languageTwo;
     private String languageThree;
     private String accountType;
+    private String location;
+    private String budget;
+    private String startDate;
+    private String endDate;
     private String pin;
     public static final String ACCOUNTTYPE_USER = "user";
     public static final String ACCOUNTTYPE_ADMIN = "admin";
@@ -38,6 +42,17 @@ public class User {
         this.languageOne = null;
         this.languageTwo = null;
         this.languageThree = null;
+        this.location = null;
+        this.budget = null;
+        this.startDate = null;
+        this.endDate = null;
+    }
+
+    public void setTripPreferences(String location, String budget, String startDate, String endDate) {
+        this.location = location;
+        this.budget = budget;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public void setPreferences(String accessibility, String dietaryRestriction, String languageOne, String languageTwo, String languageThree) {
@@ -135,7 +150,38 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+    public String getLocation() {
+        return location;
+    }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+    
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+    
+    public String getEndDate() {
+        return endDate;
+    }
+    
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getBudget() {
+        return budget;
+    }
+
+    public void setBudget(String budget) {
+        this.budget = budget;
+    }
+    
     public String getPin() {
         return pin;
     }
@@ -143,4 +189,13 @@ public class User {
     public void setPin(String pin) {
         this.pin = pin;
     }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
 }
