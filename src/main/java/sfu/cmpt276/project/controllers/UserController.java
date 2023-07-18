@@ -14,10 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-<<<<<<< HEAD
-=======
 import sfu.cmpt276.project.chatGptApi.ChatController;
->>>>>>> devMain
 import sfu.cmpt276.project.email.emailUtility;
 import sfu.cmpt276.project.model.AddUser;
 import sfu.cmpt276.project.model.User;
@@ -77,6 +74,9 @@ public class UserController {
             return "user/addUser";
         }
         else{
+            String userEmail = email;
+            String body = "Welcome to Wayfinder!\n Your username is: " + username + "\n\n Happy exploring!";
+            emailUtility.sendEmail(userEmail, "Welcome to Wayfinder", body);
             response.setStatus(201);
             return "user/addPrefs";
         }
@@ -357,8 +357,6 @@ public class UserController {
         
         return "redirect:/login";
     }
-<<<<<<< HEAD
-=======
 
     // Test function for testing chatgpt package
     @GetMapping("/test")
@@ -371,5 +369,4 @@ public class UserController {
         model.addAttribute("chat", response);
         return "testing/chatTest";
     }
->>>>>>> devMain
 }

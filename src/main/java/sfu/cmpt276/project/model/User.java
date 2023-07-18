@@ -19,13 +19,10 @@ public class User {
     private String languageTwo;
     private String languageThree;
     private String accountType;
-<<<<<<< HEAD
-=======
     private String location;
     private String budget;
     private String startDate;
     private String endDate;
->>>>>>> devMain
     private String pin;
     public static final String ACCOUNTTYPE_USER = "user";
     public static final String ACCOUNTTYPE_ADMIN = "admin";
@@ -153,9 +150,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-<<<<<<< HEAD
-
-=======
     public String getLocation() {
         return location;
     }
@@ -188,7 +182,6 @@ public class User {
         this.budget = budget;
     }
     
->>>>>>> devMain
     public String getPin() {
         return pin;
     }
@@ -196,8 +189,6 @@ public class User {
     public void setPin(String pin) {
         this.pin = pin;
     }
-<<<<<<< HEAD
-=======
 
     public void setUid(int uid) {
         this.uid = uid;
@@ -207,5 +198,4 @@ public class User {
         this.accountType = accountType;
     }
 
->>>>>>> devMain
 }
