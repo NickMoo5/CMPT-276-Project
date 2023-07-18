@@ -1,75 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.9.0/mdb.min.js" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/mdb-ui-kit@3.9.0/dist/css/mdb.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <title>Wayfinder</title>
+	<meta charset="utf-8">
+	<title>WayFinder - Itinerary Display</title>
+	
+
+	<!-- Meta Tags -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Trip Display - View itinerary here">
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="/images/favicon.ico"/>
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="/vendor/font-awesome/css/all.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap-icons/bootstrap-icons.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/splide-master/dist/css/splide.min.css">
+	<link rel="stylesheet" type="text/css" href="/vendor/glightbox/css/glightbox.css">
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+
 </head>
+
 <body>
-    <!--Taskbar-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">Wayfinder</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!-- <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Trips</a>
-                </li> -->
-            </ul>   
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="padding-right: 25px;">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                        <span th:text="${user.username}">
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="min-width: 20px; float:right; right:0">
-                        <li>    
-                            <!--REDIRECT TO PREFERENCE SETTINGS-->
-                            <form action ="/user/edit" method = "post">
-                            <a class="dropdown-item" href="user/editPrefs">Preference Settings</a>
-                        </form>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="logout">Log out</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-          </div>
-        </div>
-    </nav>
-    <!-- Add new trip itinerary container-->
-    <div class="container-fluid d-flex justify-content-center">
-        <div class="col-md-4 m-sm-4" id="formInputsCont" style="width: 300px; padding: 25px;background-color: #D3D3D3; border-radius: 10px;" >
-            <!-- ADD CORRECT FORM PATH LATER -->
-            <form action="/" method="post" class="errorCheck" novalidate>
-                <h2 class="row justify-content-center">Trip Itinerary</h2>
-                
-                <div class="mb-3"  style="margin-top: 40px;">
-                    <span th:text="${user.location}">           
-                </div>
-                <div class="mb-3"  style="margin-top: 40px;">
-                    <span th:text="${user.budget}">           
-                </div>
-                <div class="mb-3"  style="margin-top: 40px;">
-                    <span th:text="${user.startDate}">           
-                </div>
-                <div class="mb-3"  style="margin-top: 40px;">
-                    <span th:text="${user.endDate}">           
-                </div>
-            </form>
-        </div>
-    </div>
+
+
+<!-- Header START -->
+<header class="header-sticky">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-light navbar-expand-xl">
+		<div class="container-fluid px-md-5">
+			<!-- Logo START -->
+			<a class="navbar-brand" href="/">
+				<h3>WayFinder</h3>
+			<!-- Logo END -->
+
+			
+
+			<!-- Profile and Notification START -->
+			<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+
+				<!-- Profile dropdown START -->
+				<li class="nav-item ms-3 dropdown">
+					<!-- Avatar -->
+					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+						<img class="avatar-img rounded-2" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
+					</a>
+                    
+					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+						<!-- Profile info -->
+						<li class="px-3 mb-3">
+							<div class="d-flex align-items-center">
+								<!-- Avatar -->
+								<div class="avatar me-3">
+									<img class="avatar-img rounded-circle shadow" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
+								</div>
+								<div>
+									<a class="h6 mt-2 mt-sm-0" href="#"><span th:text="${user.username}"></span></a>
+									<p class="small m-0"><span th:text="${user.email}"></span></p>
+								</div>
+							</div>
+						</li>
+
+						<!-- Links -->
+						<li> <hr class="dropdown-divider"></li>
+						    <li><a class="dropdown-item" href="/user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i>Preference Settings</a></li>
+                        <li><a class="dropdown-item bg-danger-soft-hover" href="logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+						<li> <hr class="dropdown-divider"></li>
+					</ul>
+				</li>
+				<!-- Profile dropdown END -->
+			</ul>
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+	
+<!-- =======================
+Main Banner START -->
+<section class="pt-4 pt-lg-5">
+	<div class="container position-relative">
+
+		<!-- Title and button START -->
+		<div class="row">
+			<div class="col-12">
+
+				<!-- Meta -->
+				<div class="d-md-flex justify-content-md-between">
+					<!-- Title -->
+					<div>
+						<h1 class="fs-2"><span th:text="${user.location}"></span></h1>
+						<ul class="nav nav-divider h6 text-body mb-0">
+							<li class="nav-item"><span th:text="${user.startDate}"></span> to <span th:text="${user.endDate}"></span></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Title and button END -->
+
+		<!-- Image gallery START -->
+		<div class="row mt-md-5">
+			<div class="col-12">
+				<!-- Primary image -->
+				<div class="splide splide-main mb-3" data-splide='{"type" : "fade","autoplay": true,"heightRatio":0.5,"pagination":false,"arrows":false,"cover":true,"lazyLoad":"sequential"}'>
+					<div class="splide__track">
+						<ul class="splide__list">
+							<li class="splide__slide rounded"><img src="/images/gallery/04.jpg" alt="">
+						</ul>
+					</div>
+				</div>
+				<!-- Secondary image -->
+				<div class="splide splide-thumb display-none" data-splide='{"arrows":false}'>
+					<div class="splide__track">
+						<ul class="splide__list">
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Image gallery END -->
+
+	</div>
+</section>
+<!-- =======================
+Main Banner END -->
+
+<!-- =======================
+Tabs START -->
+<section class="py-0">
+	<div class="container">
+		
+		<!-- Tabs START -->
+		<div class="row">
+			<div class="col-12">
+				<!-- Outer tabs START -->
+				<ul class="nav nav-pills nav-justified nav-responsive bg-primary bg-opacity-10 rounded p-2" id="tour-pills-tab" role="tablist">
+					<!-- Tab item -->
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active mb-0" id="tour-pills-tab-1" data-bs-toggle="pill" data-bs-target="#tour-pills-tab1" type="button" role="tab" aria-controls="tour-pills-tab1" aria-selected="true">ITINERARY</button>
+					</li>
+					<!-- Tab item -->
+					<li class="nav-item" role="presentation">
+						<button class="nav-link mb-0" id="tour-pills-tab-2" data-bs-toggle="pill" data-bs-target="#tour-pills-tab2" type="button" role="tab" aria-controls="tour-pills-tab2" aria-selected="false">OTHER</button>
+					</li>
+				</ul> 
+				<!-- Outer tabs END -->
+			</div>
+		</div>
+		<!-- Tabs END -->
+	</div>
+</section>
+<!-- =======================
+Tabs END -->
+
+<!-- =======================
+Tabs-content START -->
+<section class="pt-4 pt-md-5">
+	<div class="container">
+
+		<div class="row g-4 g-md-5">
+			<!-- Tabs Content START -->
+			<div class="col-xl-8">
+				<!-- Outer tabs contents START -->
+				<div class="tab-content mb-0" id="tour-pills-tabContent">
+
+					<!-- Content item START -->
+					<div class="tab-pane fade show active" id="tour-pills-tab1" role="tabpanel" aria-labelledby="tour-pills-tab-1">
+						<div class="card bg-transparent p-0">
+							<!-- Card header -->
+							<div class="card-header bg-transparent border-bottom p-0 pb-3">
+								<h3 class="mb-0">Trip Overview</h3>
+							</div>
+
+							<!-- Card body START -->
+							<div class="card-body p-0 pt-3">
+
+								<!-- List -->
+								<ul class="list-group list-group-borderless mb-4">
+									<li class="list-group-item">
+										<span class="h6 mb-0 me-1">Event:</span>
+										<span class="h6 fw-light mb-0">more info</span>
+									</li>
+									<li class="list-group-item">
+										<span class="h6 mb-0 me-1">Event:</span>
+										<span class="h6 fw-light mb-0">more info</span>
+									</li>
+									<li class="list-group-item">
+										<span class="h6 mb-0 me-1">Event:</span>
+										<span class="h6 fw-light mb-0">more info</span>
+									</li>
+									<li class="list-group-item">
+										<span class="h6 mb-0 me-1">Event</span>
+										<span class="h6 fw-light mb-0">more info</span>
+									</li>
+								</ul>
+							</div>
+							<!-- Card body END -->
+						</div>
+					</div>		
+					<!-- Content item END -->
+			<!-- Tabs Content END -->
+
+		</div> <!-- Row END -->
+	</div>
+</section>
+<!-- =======================
+Tabs-content END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer class="bg-dark pt-5">
+	<div class="container">
+		<!-- Row START -->
+		<div class="row g-4">
+
+			<!-- Widget 1 START -->
+			<div class="col-lg-3">
+				<p class="my-3 text-muted">Footer info goes here.</p>
+			</div>
+			<!-- Widget 1 END -->
+
+		</div><!-- Row END -->
+
+		<!-- Divider -->
+		<hr class="mt-4 mb-0">
+
+		<!-- Bottom footer -->
+		<div class="row">
+			<div class="container">
+				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+					<!-- copyright text -->
+					<div class="text-muted text-primary-hover"> Created by Project Group 12 </div>
+					<!-- copyright links-->
+					<div class="nav mt-2 mt-lg-0">
+						<ul class="list-inline text-primary-hover mx-auto mb-0">
+							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Meet the Team</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Home</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top"></div>
+
+<!-- Bootstrap JS -->
+<script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendors -->
+<script src="/vendor/splide-master/dist/js/splide.min.js"></script>
+<script src="/vendor/glightbox/js/glightbox.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="/js/functions.js"></script>
+
 </body>
 </html>
