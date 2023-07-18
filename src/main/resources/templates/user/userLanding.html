@@ -43,8 +43,6 @@
 			</a>
 			<!-- Logo END -->
 
-			
-
 			<!-- Profile and Notification START -->
 			<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
 
@@ -112,7 +110,7 @@ Main Banner START -->
                         
                         <!-- Tab content item START -->
                         <div class="tab-pane fade show active" id="tab-1-1">
-                            <form class="card shadow p-0">
+                            <form class="card shadow p-0" onsubmit="return validateForm()" action="../tripPrefsSaved" method="POST">
                                 <!-- Card header -->
                                 <div class="card-header p-4">
                                     <h5 class="mb-0"><i class="fa-solid fa-plane fa-fw me-2"></i>Planning Itinerary</h5>
@@ -121,7 +119,6 @@ Main Banner START -->
                                 <!-- Card body -->
                                 <div class="card-body p-4 pt-0">
                                     <div class="row g-4">
-                                        <form action="../tripPrefsSaved" method="post" class="errorCheck" novalidate>
 
                                             <!-- Location -->
                                             <div class="col-12">
@@ -164,7 +161,8 @@ Main Banner START -->
             
                                     <!-- Button -->
                                     <div class="text-center pt-0">
-                                        <a class="btn btn-lg btn-primary mb-n7" href="/user/tripDisplay">Plan Your Trip! <i class="bi bi-arrow-right ps-3"></i></a>
+                                        <button class="btn btn-lg btn-primary mb-n7" type="submit">Plan Your Trip! <i class="bi bi-arrow-right ps-3"></i></button>
+                                    </div>
                                     </div>
                                 </div>
                             </form>
@@ -224,7 +222,36 @@ Footer END -->
 <script src="/vendor/flatpickr/js/flatpickr.min.js"></script>
 
 <!-- ThemeFunctions -->
+<script src="https://cdn.jsdelivr.net/npm/moment"></script>
 <script src="/js/functions.js"></script>
+
+<!-- Form Validation -->
+<script>
+	function validateForm() {
+		const location = document.getElementById('location');
+		const budget = document.getElementById('budget');
+		const startDate = document.getElementById('startDate');
+		const endDate = document.getElementById('endDate');
+
+		if (location.value === '' || budget.value === '' || startDate.value === '' || endDate.value === '') {
+			alert('Please fill in all required fields.');
+			return false;
+		}
+		const startDateMoment = moment(startDate.value, 'D/M/Y', true);
+        const endDateMoment = moment(endDate.value, 'D/M/Y', true);
+
+        if (!startDateMoment.isValid() || !endDateMoment.isValid()) {
+            alert('Invalid date format. Please use the format: DD/MM/YYYY');
+            return false;
+        }
+
+        if (startDateMoment.isSameOrAfter(endDateMoment)) {
+            alert('Start date must be before end date.');
+            return false;
+        }
+		return true;
+	}
+</script>
 
 </body>
 </html>
