@@ -326,6 +326,18 @@ Footer END -->
 			return false;
 		}
 
+		const startDateMoment = moment(startDate.value, 'D/M/Y', true);
+        const endDateMoment = moment(endDate.value, 'D/M/Y', true);
+
+        if (!startDateMoment.isValid() || !endDateMoment.isValid()) {
+            alert('Invalid date format. Please use the format: DD/MM/YYYY');
+            return false;
+        }
+
+        if (startDateMoment.isSameOrAfter(endDateMoment)) {
+            alert('Start date must be before end date.');
+            return false;
+        }
 		return true;
 	}
 
