@@ -1,96 +1,362 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.9.0/mdb.min.js" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/mdb-ui-kit@3.9.0/dist/css/mdb.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <title>Wayfinder</title>
+	<meta charset="utf-8">
+	<title>WayFinder - Trip Planner</title>
+
+	<!-- Meta Tags -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Trip Planner - Plan Itinerary here">
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="/images/favicon.ico"/>
+
+	<!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com"/>
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap"/>
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="/vendor/font-awesome/css/all.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap-icons/bootstrap-icons.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/tiny-slider/tiny-slider.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/glightbox/css/glightbox.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/choices/css/choices.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/splide-master/dist/css/splide.min.css">
+	<link rel="stylesheet" type="text/css" href="/vendor/flatpickr/css/flatpickr.min.css"/>
+
+	<!-- Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/loading.js}"></script>
 </head>
+
 <body>
-    <!--Taskbar-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand">Wayfinder</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!-- <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Trips</a>
-                </li> -->
-            </ul>   
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="padding-right: 25px;">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                        <span th:text="${user.username}">
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="min-width: 20px; float:right; right:0">
-                        <li>    
-                            <!--REDIRECT TO PREFERENCE SETTINGS-->
-                            <form action ="/user/edit" method = "post">
-                            <a class="dropdown-item" href="user/editPrefs">Preference Settings</a>
-                        </form>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="logout">Log out</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-          </div>
-        </div>
-    </nav>
 
+<!-- Header START -->
+<header class="header-sticky">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-light navbar-expand-xl">
+		<div class="container-fluid px-md-5">
+			<!-- Logo START -->
+			<a class="navbar-brand">
+				<h3>WayFinder</h3>
+			</a>
+			<!-- Logo END -->
 
-    <!--Add new trip container-->
-    <!-- Needs: location error message in UserController.java, line 71-->
-    <!-- Needs: date error message in UserController.java, line 72-->
-    <!-- <div class="container-fluid d-flex justify-content-center">
-        <div class="col-md-4 m-sm-4" id="formInputsCont" style="width: 300px; padding: 25px;background-color: #D3D3D3; border-radius: 10px;" > -->
-            <!--ADD CORRECT FORM PATH LATER-->
-            <center><h1>Welcome to the user landing! It is quite bare right now, but in the future you will be able to plan your trip here!</h1></center>
-            <!-- <form action="/" method="post" class="errorCheck" novalidate>
-                <h2 class="row justify-content-center">Plan a Trip!</h2>
-                
-                <div class="mb-3"  style="margin-top: 40px;">
-                    <input type="text" id="location" name="location" class="form-control"
-                        placeholder="Where to?" required>
-                </div>
+			
+
+			<!-- Profile and Notification START -->
+			<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+
+				<!-- Profile dropdown START -->
+				<li class="nav-item ms-3 dropdown">
+					<!-- Avatar -->
+					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+						<img class="avatar-img rounded-2" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
+					</a>
+                    
+					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+						<!-- Profile info -->
+						<li class="px-3 mb-3">
+							<div class="d-flex align-items-center">
+								<!-- Avatar -->
+								<div class="avatar me-3">
+									<img class="avatar-img rounded-circle shadow" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
+								</div>
+								<div>
+									<a class="h6 mt-2 mt-sm-0" href="#"><span th:text="${user.username}"></span></a>
+									<p class="small m-0"><span th:text="${user.email}"></span></p>
+								</div>
+							</div>
+						</li>
+
+						<!-- Links -->
+						<li> <hr class="dropdown-divider"></li>
+						    <li><a class="dropdown-item" href="/user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i>Preference Settings</a></li>
+							<li><a class="dropdown-item" href="/user/editAccSettings"><i class="bi bi-person fa-fw me-2"></i>Account Settings</a></li>
+                        	<li><a class="dropdown-item bg-danger-soft-hover" href="/user/logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+						<li> <hr class="dropdown-divider"></li>
+					</ul>
+				</li>
+				<!-- Profile dropdown END -->
+			</ul>
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+	
+<!-- =======================
+Main Banner START -->
+<section class="pt-0">
+	<div class="container position-relative">
+		<!-- Bg image -->
+		<div class="rounded-3 p-4 p-sm-5" style="background-image: url(/images/bg/02.jpg); background-position: center center; background-repeat: no-repeat; background-size: cover;">
+			<!-- Banner title -->
+			<div class="row justify-content-between pt-0 pb-5"> 
+				<div class="col-md-7 col-lg-8 col-xxl-7 pb-5 mb-0 mb-lg-5"> 
+					<h1 class="text-white">Welcome to WayFinder!</h1>
+					<p class="text-white mb-0">Create a custom AI generated travel itinierary with a press of a button!</p>
+				</div>
+
+			</div>
+		</div>
+		<div class="loader" id="loader" style="display: none">
+			<div class="d-flex-column text-center mt-2">
+				<h4 class="mb-0">Your Next Adventure Awaits!</h4>
+				<h5>We are currently generating your grand adventure, this may take some time</h5>
+			</div>
+			<div class="d-flex justify-content-center mb-2">
+				<div class="row spinner-border text-primary" role="status">
+					<span class="sr-only">Loading...</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="errorQuery" id="errorQuery" style="display: none">
+			<div class="d-flex-column text-center mt-2">
+				<h4>Sorry there was an error generating your trip</h4>
+				<h4>Please try again later</h4>
+			</div>
+		</div>
+
+		<div class="row" id="tripForm" style="display: block">
+                <!-- Tab content START -->
+                <div class="col-12">
+                    <div class="tab-content" id="nav-tabContent">
+                        
+                        <!-- Tab content item START -->
+                        <div class="tab-pane fade show active" id="tab-1-1">
+                            <div class="card shadow p-0">
+                                <!-- Card header -->
+                                <div class="card-header p-4">
+                                    <h5 class="mb-0"><i class="fa-solid fa-plane fa-fw me-2"></i>Planning Itinerary</h5>
+                                </div>
             
-                <input type="text" id="start-date" name="start-date"  class="form-control"  style="margin-top: 35px;" placeholder="Start Date" required>
+                                <!-- Card body -->
+                                <!--<form class="card-body p-4 pt-0">-->
+                                    <div class="row g-4">
+                                        <form action="/tripPrefsSaved" method="post" id="tripPrefs">
+                                            <!-- Location -->
+                                            <div class="col-12 p-4 m-0">
+                                                <div class="form-icon-input form-fs-lg">
+                                                    <input type="text" class="form-control form-control-lg" id="location" name="location" placeholder="Enter a city" required>
+                                                    <span class="form-icon"><i class="bi bi-geo-alt fs-5"></i></span>
+                                                </div>
+                                            </div>
+											
+											<div class="row p-4">
+                                            <!-- Budget -->
+                                            <div class="col-lg-4">
+                                                <div class="form-icon-input form-size-lg form-fs-lg">
+                                                    <select class="form-select js-choice" id="budget" name="budget" title="budget" required>
+                                                        <option selected disabled>Select Budget</option>
+                                                        <option>Low Budget</option>
+                                                        <option>Average Budget</option>
+                                                        <option>High Budget</option>
+                                                    </select>
+                                                    <span class="form-icon"><i class="bi bi-currency-dollar fs-5"></i></span>
+                                                </div>
+                                            </div>
+                
+                                            <!-- Start Date -->
+                                            <div class="col-lg-4">
+                                                <div class="form-icon-input form-fs-lg">
+                                                    <input type="text" class="form-control form-control-lg flatpickr" data-date-format="d/m/y"  id="startDate" name="startDate" placeholder="Select start date" required>
+                                                    <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
+                                                </div>
+                                            </div>
+                
+                                            <!-- End Date -->
+                                            <div class="col-lg-4">
+                                                <div class="form-icon-input form-fs-lg">
+                                                    <input type="text" class="form-control form-control-lg flatpickr" data-date-format="d/m/y"  id="endDate" name="endDate" placeholder="Select end date" required>
+                                                    <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
+                                                </div>
+                                            </div>
+											<div class="text-center pt-0">
+												<button class="btn btn-lg btn-primary mb-n7" type="submit">Plan Your Trip! <i class="bi bi-arrow-right ps-3"></i></button>
+											</div>
+											</div>
+                                        </form>
+                                    </div> <!-- Row END -->
+            
+                                    <!-- Button -->
 
-                <input type="text" id="end-date" name="end-date" class="form-control"  style="margin-top: 30px;" placeholder="End Date" required>
-
-                <div class="container-fluid" style="margin-top: 40px;">
-                    <div class="row justify-content-center"> -->
-                        <!-- <p th:if="${locationError}" p style="color:red" class="error-message">[[${locationError}]]</p>
-                        <p th:if="${dateError}" p style="color:red" class="error-message">[[${dateError}]]</p> -->
-                        <!-- <div class="col-6 d-flex justify-content-end">
-                            <button class="btn btn-secondary" id="clear" type="reset">Reset</button>
+                                <!--</form>-->
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <button class="btn btn-primary" id="plan" type="submit">Plan</button>
-                        </div>
-                    </div>
-                </div> -->
-
-            <!-- </form>
+                        <!-- Tab content item END -->
+                    </div> 
+                </div>
+            </div>    <!-- Tab content END -->
         </div>
-    </div> -->
-    <script>
-        $(function() {
-          $("#start-date").datepicker();
-          $("#end-date").datepicker();
+	</div>		
+</section>
+
+<!-- =======================
+Footer START -->
+<footer class="bg-dark pt-5">
+	<div class="container">
+		<!-- Row START -->
+		<div class="row g-4">
+
+			<!-- Widget 1 START -->
+			<div class="col-lg-3">
+				<div class="my-3 text-muted">Created by Project Group 12</div>
+			</div>
+			<!-- Widget 1 END -->
+
+		</div><!-- Row END -->
+
+		<!-- Divider -->
+		<hr class="mt-4 mb-0">
+
+		<!-- Bottom footer -->
+		<div class="row">
+			<div class="container">
+				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+					<!-- copyright text -->
+					<p class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </p>
+					<!-- copyright links-->
+					<!-- HIDE FROM VIEW SINCE NOT DOING ANYTHING -->
+					<div class="nav mt-2 mt-lg-0" style="display: none">
+						<ul class="list-inline text-primary-hover mx-auto mb-0">
+							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Meet the Team</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Home</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
+</footer>
+
+<!-- =======================
+Footer END -->
+<!-- Bootstrap JS -->
+<script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendors -->
+<script src="/vendor/tiny-slider/tiny-slider.js"></script>
+<script src="/vendor/glightbox/js/glightbox.js"></script>
+<script src="/vendor/choices/js/choices.min.js"></script>
+<script src="/vendor/flatpickr/js/flatpickr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment"></script>
+
+<!-- ThemeFunctions -->
+<script src="/js/functions.js"></script>
+<script>
+	$(document).ready(function() {
+		// Submit the form and show the loading screen
+		$('#tripPrefs').submit(function(event) {
+			event.preventDefault();
+
+			if (validateForm()) {
+				showLoadingScreen();
+				var location = $('#location').val();
+				var budget = $('#budget :selected').text();
+				var startDate = $('#startDate').val();
+				var endDate = $('#endDate').val();
+
+				var data = 'location=' + encodeURIComponent(location) +
+							'&budget=' + encodeURIComponent(budget) +
+							'&startDate=' + encodeURIComponent(startDate) +
+							'&endDate=' + encodeURIComponent(endDate);  
+				var dataTest = 'location=' + encodeURIComponent(location);
+
+				// Perform long-running query using AJAX
+				$.ajax({
+					url: "/tripPrefsSaved",
+					type: "GET",
+					data: data,
+					success: function() {
+						// Task completed, switch to the completion template
+						switchToCompletionTemplate();
+					},
+					error: function() {
+						// Handle error if needed
+						showErrorMsg();
+					}
+				});
+			}
+		});
+		
+		function showLoadingScreen() {
+			var loadingContainer = document.getElementById('loader');
+			loadingContainer.style.display = "block";
+			hideForm();
+		}
+
+		function hideLoadingScreen() {
+			var loadingContainer = document.getElementById('loader');
+			loadingContainer.style.display = "none";
+		}
+
+		function showErrorMsg() {
+			var errorContainer = document.getElementById('errorQuery');
+			errorContainer.style.display = "block";
+			hideLoadingScreen();
+		}
+
+		function hideForm() {
+			var form = document.getElementById('tripForm');
+			form.style.display = "none";
+		}
+		
+		function switchToCompletionTemplate() {
+			var link = document.getElementById('linkToTripDisplay');
+			link.click();
+		}
+	});
+
+	function validateForm() {
+		const location = document.getElementById('location');
+		const budget = document.getElementById('budget');
+		const startDate = document.getElementById('startDate');
+		const endDate = document.getElementById('endDate');
+
+		if (location.value === '' || budget.value === 'Select Budget' || startDate.value === '' || endDate.value === '') {
+			alert('Please fill in all required fields.');
+			return false;
+		}
+
+		const startDateMoment = moment(startDate.value, 'D/M/Y', true);
+        const endDateMoment = moment(endDate.value, 'D/M/Y', true);
+
+        if (!startDateMoment.isValid() || !endDateMoment.isValid()) {
+            alert('Invalid date format. Please use the format: DD/MM/YYYY');
+            return false;
+        }
+
+        if (startDateMoment.isSameOrAfter(endDateMoment)) {
+            alert('Start date must be before end date.');
+            return false;
+        }
+		return true;
+	}
+
+	// Restrict past dates
+	flatpickr("input[id=startDate]", {minDate: "today"});
+	flatpickr("input[id=endDate]", {minDate: "today"});
+
+	addEventListener("DOMContentLoaded", (event) => {
+        const startdate = document.getElementById("startDate");
+        startdate.addEventListener("blur", () => {
+            const startDateMoment = moment(startDate.value, 'D/M/Y', true);
+            if (startDateMoment.isValid()) {
+                flatpickr("input[id=endDate]", { minDate: startDate.value });
+            } else {
+                flatpickr("input[id=endDate]", { minDate: "today" });
+            }
         });
-      </script>
+    });
+</script>
+
 </body>
 </html>

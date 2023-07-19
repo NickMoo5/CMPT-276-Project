@@ -29,3 +29,34 @@
 .good .charbad {
     display: none;
 }
+.wrong .chargood {
+    display: none;
+}
+
+.good .charbad {
+    display: none;
+}
+
+.wrong .biglgood {
+    display: none;
+}
+
+.good .biglbad {
+    display: none;
+}
+
+.wrong .numgood {
+    display: none;
+}
+
+.good .numbad {
+    display: none;
+}
+
+.wrong .chargood {
+    display: none;
+}
+
+.good .charbad {
+    display: none;
+}
