@@ -1,44 +1,106 @@
-package sfu.cmpt276.project.model;
+package sfu.cmpt276.project.model.TripModel;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hibernate.mapping.Array;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="trips")
 public class Trip {
-    private static Pattern regExp = Pattern.compile("@(.*?)@");
-    private List<String> locations;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int uid;
+    private static final Pattern REG_EXP = Pattern.compile("~(.*?)~");
+    private static String LOCATIONS_SEP = "~";
+    private String[] locations;
     private String startDate;
     private String endDate;
     private String location;
     private String budget;
+    private int userUid;            // The UID of the user account that this trip belongs to
 
-    public Trip(String chatResponse, String startDate, String endDate, String location, String budget) {
+    public Trip() {}
+
+    public Trip(String chatResponse, String startDate, String endDate, String location, String budget, int userUid) {
         this.locations = parseLocations(chatResponse);
         this.location = location;
         this.startDate = startDate;
         this.endDate = endDate;
         this.budget = budget;
+        this.userUid = userUid;
     }
 
-    private List<String> parseLocations(String chatResponse) {
+    private String[] parseLocations(String chatResponse) {
         String extractedText;
-        List<String> locations = new ArrayList<String>();
-        Matcher matcher = regExp.matcher(chatResponse);
+        String[] locations = new String[25];
+        Matcher matcher = REG_EXP.matcher(chatResponse);
+        int i = 0;
 
         while (matcher.find()) {
             extractedText = matcher.group(1);
-            locations.add(extractedText);
+            System.out.printf(extractedText);
+            locations[i] = extractedText;
+            i++;
         }
-
         return locations;
     }
 
-    public List<String> getLocations() {
-        return locations;
+    public List<String> getLocationsList() {
+        List<String> locationsList = new ArrayList<String>(Arrays.asList(locations));
+        while (locationsList.remove(null)) {}
+
+        return locationsList;
     }
 
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getBudget() {
+        return budget;
+    }
+
+    public void setBudget(String budget) {
+        this.budget = budget;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public int getUserUid() {
+        return userUid;
+    }
+
+    /*
     public static void main(String[] args) {
         String query = "Sure! Here's a list of must-see places in Tokyo for your visit from 17/07/2023 to 24/07/2023:\n" +
                 "\n" +
@@ -74,7 +136,8 @@ public class Trip {
                 "\n" +
                 "Enjoy your trip to Tokyo! \uD83D\uDDFC\uD83C\uDDEF\uD83C\uDDF5";
 
-        Trip newTrip = new Trip(query, "n", "n", "m,", "n");
-        System.out.println(newTrip.getLocations());
+        Trip newTrip = new Trip(query, "n", "n", "m,", "n", 1);
+        System.out.println(newTrip.getLocationsList());
     }
+    */
 }
