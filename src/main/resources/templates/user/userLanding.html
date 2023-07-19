@@ -270,7 +270,7 @@ Footer END -->
 							'&endDate=' + encodeURIComponent(endDate);  
 				var dataTest = 'location=' + encodeURIComponent(location);
 
-				// Perform your long-running task using AJAX or any other method
+				// Perform long-running query using AJAX
 				$.ajax({
 					url: "/tripPrefsSaved",
 					type: "GET",
@@ -282,7 +282,6 @@ Footer END -->
 					error: function() {
 						// Handle error if needed
 						showErrorMsg();
-						
 					}
 				});
 			}
@@ -341,6 +340,11 @@ Footer END -->
         }
 		return true;
 	}
+
+	// Restrict past dates
+	flatpickr("input[id=startDate]", {minDate: "today"});
+	flatpickr("input[id=endDate]", {minDate: "today"});
+
 </script>
 
 </body>
