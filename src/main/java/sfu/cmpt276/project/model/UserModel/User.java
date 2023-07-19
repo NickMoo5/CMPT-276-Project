@@ -1,6 +1,9 @@
-package sfu.cmpt276.project.model;
+package sfu.cmpt276.project.model.UserModel;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -19,10 +22,11 @@ public class User {
     private String languageTwo;
     private String languageThree;
     private String accountType;
-    private String location;
-    private String budget;
-    private String startDate;
-    private String endDate;
+    //private String location;
+    //private String budget;
+    //private String startDate;
+    //private String endDate;
+    private String mostRecentTrip;
     private String pin;
     public static final String ACCOUNTTYPE_USER = "user";
     public static final String ACCOUNTTYPE_ADMIN = "admin";
@@ -42,18 +46,17 @@ public class User {
         this.languageOne = null;
         this.languageTwo = null;
         this.languageThree = null;
-        this.location = null;
-        this.budget = null;
-        this.startDate = null;
-        this.endDate = null;
+        this.mostRecentTrip = "-1";
     }
 
+    /*
     public void setTripPreferences(String location, String budget, String startDate, String endDate) {
         this.location = location;
         this.budget = budget;
         this.startDate = startDate;
         this.endDate = endDate;
     }
+    */
 
     public void setPreferences(String accessibility, String dietaryRestriction, String languageOne, String languageTwo, String languageThree) {
         this.accessibility = accessibility;
@@ -150,6 +153,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    /*
     public String getLocation() {
         return location;
     }
@@ -181,6 +186,24 @@ public class User {
     public void setBudget(String budget) {
         this.budget = budget;
     }
+    */
+    /*
+    public List<Trip> getTrips() {
+        return this.trips;
+    }
+
+    public void addTrip(Trip addTrip) {
+        this.trips.add(addTrip);
+        this.mostRecentTrip = addTrip;
+    }
+    */
+    public int getMostRecentTrip() {
+        return Integer.parseInt(this.mostRecentTrip);
+    }
+
+    public void setMostRecentTrip(int trip) {
+        this.mostRecentTrip = Integer.toString(trip);
+    }
     
     public String getPin() {
         return pin;
@@ -188,10 +211,6 @@ public class User {
 
     public void setPin(String pin) {
         this.pin = pin;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
     }
 
     public void setAccountType(String accountType) {

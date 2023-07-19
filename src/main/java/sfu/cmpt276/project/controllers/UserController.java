@@ -4,10 +4,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -16,16 +19,25 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import sfu.cmpt276.project.chatGptApi.ChatController;
 import sfu.cmpt276.project.email.emailUtility;
-import sfu.cmpt276.project.model.AddUser;
-import sfu.cmpt276.project.model.User;
-import sfu.cmpt276.project.model.UserRepository;
+import sfu.cmpt276.project.model.TripModel.Trip;
+import sfu.cmpt276.project.model.TripModel.TripRepository;
+import sfu.cmpt276.project.model.UserModel.AddUser;
+import sfu.cmpt276.project.model.UserModel.User;
+import sfu.cmpt276.project.model.UserModel.UserRepository;
 import sfu.cmpt276.project.password.generatePin;
+import sfu.cmpt276.project.tripGeneration.GenTripQuery;
 
 @Controller
 public class UserController {
     @Autowired
-    private UserRepository userRepo; 
+    private TripRepository tripRepo;
+
+    @Autowired
+    private UserRepository userRepo;
+
     private ChatController chatController = new ChatController();
+
+    private String queryTest;
 
     @Value("${openai.key}")             // ChatGPT api key
     private String openaikey;
@@ -217,25 +229,53 @@ public class UserController {
         model.addAttribute("tripEdit", tripUser2);
         return "user/userLanding";
     }
-    @PostMapping("/tripPrefsSaved") 
-    public String saveTripPreferences(@RequestParam Map<String, String> newTripUser, HttpServletRequest request, HttpSession session, Model model){
-        User editedTripUser = (User) request.getSession().getAttribute("session_user");
-        String location = newTripUser.get("location");
-        String budget = newTripUser.get("budget");
-        String startDate = newTripUser.get("startDate");
-        String endDate = newTripUser.get("endDate");
 
-        editedTripUser.setTripPreferences(location, budget, startDate, endDate);
-        userRepo.save(editedTripUser);
-        model.addAttribute("user", editedTripUser);
-        return "user/tripDisplay";
+    //@PostMapping("/tripPrefsSaved")
+    @RequestMapping(value = "/tripPrefsSaved", method = RequestMethod.GET)
+    public ResponseEntity<?> saveTripPreferences(@RequestParam("location") String location, @RequestParam("budget") String budget, @RequestParam("startDate") 
+                                                 String startDate, @RequestParam("endDate") String endDate, HttpServletRequest request, HttpSession session, Model model){
+        User editedTripUser = (User) request.getSession().getAttribute("session_user");
+
+        // Generate and parse trip list of locations/activities
+        String chatTripQuery = GenTripQuery.genTripQuery(location, startDate, endDate, budget);
+        try {
+            String chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey);
+            if (chatResponse == ChatController.ERROR) return ResponseEntity.badRequest().build();
+                queryTest = chatResponse;                                           
+            Trip tripObject = new Trip(chatResponse, startDate, endDate, location, budget, editedTripUser.getUid());
+
+            Trip savedTrip = tripRepo.save(tripObject);
+
+            editedTripUser.setMostRecentTrip(savedTrip.getUid());
+            userRepo.save(editedTripUser);
+        } catch(InterruptedException e) {
+            return ResponseEntity.badRequest().build();
+        }
+                                            
+        return ResponseEntity.ok().build();
+
     }
+
     @GetMapping("/user/tripDisplay") 
     public String itineraryDisplay(HttpServletRequest request, HttpSession session, Model model){
-        User itineraryUser = (User) session.getAttribute("session_user");
+        User itineraryUser = (User) session.getAttribute("session_user"); 
+        Trip currTrip = tripRepo.getById(itineraryUser.getMostRecentTrip());
+        //List<String> locations = currTrip.get(0).getLocationsList();
+        List<String> locations = currTrip.getLocationsList();
+        // remove null values
+
         model.addAttribute("user", itineraryUser);
+        model.addAttribute("currTrip", currTrip);
+        model.addAttribute("locations", locations);
+        model.addAttribute("query", queryTest);
+        
+        //model.addAttribute("location", locationTest);
+
         return "user/tripDisplay";
+        //return "test";
     }
+     
+
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletResponse request, HttpSession session){
         User user = (User) session.getAttribute("session_user");
@@ -275,7 +315,7 @@ public class UserController {
             }
         }
     }
-    @GetMapping("/logout")
+    @GetMapping("user/logout")
     public String removeSession(HttpServletRequest request){
         request.getSession().invalidate();
         return "user/login";
@@ -290,6 +330,7 @@ public class UserController {
             return "user/inputEmailForPin";
         }
     }
+
     @PostMapping("/inputEmailForPin") 
     public String getEmailForPin(@RequestParam Map<String,String> formData, Model model, HttpServletRequest request, HttpSession session) {
         String email = formData.get("email");
@@ -360,8 +401,11 @@ public class UserController {
     public String chatTest(Model model) {
         String response;
         String prompt = "when was calculus invented?";
-
-        response = chatController.queryChatGPT(prompt, openaikey);
+        try {
+            response = chatController.queryChatGPT(prompt, openaikey);
+        } catch(InterruptedException e) {
+            response = ChatController.ERROR;
+        }
 
         model.addAttribute("chat", response);
         return "testing/chatTest";

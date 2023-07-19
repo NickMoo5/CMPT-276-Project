@@ -22,12 +22,13 @@
 	<link rel="stylesheet" type="text/css" href="/vendor/tiny-slider/tiny-slider.css"/>
 	<link rel="stylesheet" type="text/css" href="/vendor/glightbox/css/glightbox.css"/>
 	<link rel="stylesheet" type="text/css" href="/vendor/choices/css/choices.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/splide-master/dist/css/splide.min.css">
 	<link rel="stylesheet" type="text/css" href="/vendor/flatpickr/css/flatpickr.min.css"/>
 
 	<!-- Theme CSS -->
 	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-
-
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/loading.js}"></script>
 </head>
 
 <body>
@@ -73,7 +74,8 @@
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
 						    <li><a class="dropdown-item" href="/user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i>Preference Settings</a></li>
-                        <li><a class="dropdown-item bg-danger-soft-hover" href="logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+							<li><a class="dropdown-item" href="/user/editAccSettings"><i class="bi bi-person fa-fw me-2"></i>Account Settings</a></li>
+                        	<li><a class="dropdown-item bg-danger-soft-hover" href="/user/logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
 						<li> <hr class="dropdown-divider"></li>
 					</ul>
 				</li>
@@ -103,41 +105,59 @@ Main Banner START -->
 
 			</div>
 		</div>
+		<div class="loader" id="loader" style="display: none">
+			<div class="d-flex-column text-center mt-2">
+				<h4 class="mb-0">Your Next Adventure Awaits!</h4>
+				<h5>We are currently generating your grand adventure, this may take some time</h5>
+			</div>
+			<div class="d-flex justify-content-center mb-2">
+				<div class="row spinner-border text-primary" role="status">
+					<span class="sr-only">Loading...</span>
+				</div>
+			</div>
+		</div>
 
-		<div class="row">
+		<div class="errorQuery" id="errorQuery" style="display: none">
+			<div class="d-flex-column text-center mt-2">
+				<h4>Sorry there was an error generating your trip</h4>
+				<h4>Please try again later</h4>
+			</div>
+		</div>
+
+		<div class="row" id="tripForm" style="display: block">
                 <!-- Tab content START -->
                 <div class="col-12">
                     <div class="tab-content" id="nav-tabContent">
                         
                         <!-- Tab content item START -->
                         <div class="tab-pane fade show active" id="tab-1-1">
-                            <form class="card shadow p-0">
+                            <div class="card shadow p-0">
                                 <!-- Card header -->
                                 <div class="card-header p-4">
                                     <h5 class="mb-0"><i class="fa-solid fa-plane fa-fw me-2"></i>Planning Itinerary</h5>
                                 </div>
             
                                 <!-- Card body -->
-                                <div class="card-body p-4 pt-0">
+                                <!--<form class="card-body p-4 pt-0">-->
                                     <div class="row g-4">
-                                        <form action="../tripPrefsSaved" method="post" class="errorCheck" novalidate>
-
+                                        <form action="/tripPrefsSaved" method="post" id="tripPrefs">
                                             <!-- Location -->
-                                            <div class="col-12">
+                                            <div class="col-12 p-4 m-0">
                                                 <div class="form-icon-input form-fs-lg">
-                                                    <input type="text" class="form-control form-control-lg" id="location" name="location" th:value="${location}" placeholder="Enter a city" required>
+                                                    <input type="text" class="form-control form-control-lg" id="location" name="location" placeholder="Enter a city" required>
                                                     <span class="form-icon"><i class="bi bi-geo-alt fs-5"></i></span>
                                                 </div>
                                             </div>
-
+											
+											<div class="row p-4">
                                             <!-- Budget -->
                                             <div class="col-lg-4">
                                                 <div class="form-icon-input form-size-lg form-fs-lg">
-                                                    <select class="form-select js-choice" th:value="${budget}" id="budget" name="budget" title="budget" required>
-                                                        <option value="">Select Budget</option>
-                                                        <option th:selected="${budget=='Low'}">Low Budget</option>
-                                                        <option th:selected="${budget=='Medium'}">Average Budget</option>
-                                                        <option th:selected="${budget=='High'}">High Budget</option>
+                                                    <select class="form-select js-choice" id="budget" name="budget" title="budget" required>
+                                                        <option selected disabled>Select Budget</option>
+                                                        <option>Low Budget</option>
+                                                        <option>Average Budget</option>
+                                                        <option>High Budget</option>
                                                     </select>
                                                     <span class="form-icon"><i class="bi bi-currency-dollar fs-5"></i></span>
                                                 </div>
@@ -146,7 +166,7 @@ Main Banner START -->
                                             <!-- Start Date -->
                                             <div class="col-lg-4">
                                                 <div class="form-icon-input form-fs-lg">
-                                                    <input type="text" class="form-control form-control-lg flatpickr" data-date-format="d/m/y"  id="startDate" name="startDate" th:value="${startDate}" placeholder="Select start date" required>
+                                                    <input type="text" class="form-control form-control-lg flatpickr" data-date-format="d/m/y"  id="startDate" name="startDate" placeholder="Select start date" required>
                                                     <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
                                                 </div>
                                             </div>
@@ -154,27 +174,30 @@ Main Banner START -->
                                             <!-- End Date -->
                                             <div class="col-lg-4">
                                                 <div class="form-icon-input form-fs-lg">
-                                                    <input type="text" class="form-control form-control-lg flatpickr" data-date-format="d/m/y"  id="endDate" name="endDate" th:value="${endDate}" placeholder="Select end date" required>
+                                                    <input type="text" class="form-control form-control-lg flatpickr" data-date-format="d/m/y"  id="endDate" name="endDate" placeholder="Select end date" required>
                                                     <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
                                                 </div>
                                             </div>
+											<div class="text-center pt-0">
+												<button class="btn btn-lg btn-primary mb-n7" type="submit">Plan Your Trip! <i class="bi bi-arrow-right ps-3"></i></button>
+											</div>
+											</div>
                                         </form>
                                     </div> <!-- Row END -->
             
                                     <!-- Button -->
-                                    <div class="text-center pt-0">
-                                        <a class="btn btn-lg btn-primary mb-n7" href="/user/tripDisplay">Plan Your Trip! <i class="bi bi-arrow-right ps-3"></i></a>
-                                    </div>
-                                </div>
-                            </form>
+
+                                <!--</form>-->
+                            </div>
                         </div>
                         <!-- Tab content item END -->
                     </div> 
                 </div>
             </div>    <!-- Tab content END -->
         </div>
-	</div>
+	</div>		
 </section>
+
 <!-- =======================
 Footer START -->
 <footer class="bg-dark pt-5">
@@ -184,7 +207,7 @@ Footer START -->
 
 			<!-- Widget 1 START -->
 			<div class="col-lg-3">
-				<p class="my-3 text-muted">Footer info goes here.</p>
+				<div class="my-3 text-muted">Created by Project Group 12</div>
 			</div>
 			<!-- Widget 1 END -->
 
@@ -198,9 +221,10 @@ Footer START -->
 			<div class="container">
 				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
 					<!-- copyright text -->
-					<div class="text-muted text-primary-hover"> Created by Project Group 12 </div>
+					<p class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </p>
 					<!-- copyright links-->
-					<div class="nav mt-2 mt-lg-0">
+					<!-- HIDE FROM VIEW SINCE NOT DOING ANYTHING -->
+					<div class="nav mt-2 mt-lg-0" style="display: none">
 						<ul class="list-inline text-primary-hover mx-auto mb-0">
 							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Meet the Team</a></li>
 							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Home</a></li>
@@ -210,7 +234,9 @@ Footer START -->
 			</div>
 		</div>
 	</div>
+	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
+
 <!-- =======================
 Footer END -->
 <!-- Bootstrap JS -->
@@ -221,9 +247,116 @@ Footer END -->
 <script src="/vendor/glightbox/js/glightbox.js"></script>
 <script src="/vendor/choices/js/choices.min.js"></script>
 <script src="/vendor/flatpickr/js/flatpickr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment"></script>
 
 <!-- ThemeFunctions -->
 <script src="/js/functions.js"></script>
+<script>
+	$(document).ready(function() {
+		// Submit the form and show the loading screen
+		$('#tripPrefs').submit(function(event) {
+			event.preventDefault();
+
+			if (validateForm()) {
+				showLoadingScreen();
+				var location = $('#location').val();
+				var budget = $('#budget :selected').text();
+				var startDate = $('#startDate').val();
+				var endDate = $('#endDate').val();
+
+				var data = 'location=' + encodeURIComponent(location) +
+							'&budget=' + encodeURIComponent(budget) +
+							'&startDate=' + encodeURIComponent(startDate) +
+							'&endDate=' + encodeURIComponent(endDate);  
+				var dataTest = 'location=' + encodeURIComponent(location);
+
+				// Perform long-running query using AJAX
+				$.ajax({
+					url: "/tripPrefsSaved",
+					type: "GET",
+					data: data,
+					success: function() {
+						// Task completed, switch to the completion template
+						switchToCompletionTemplate();
+					},
+					error: function() {
+						// Handle error if needed
+						showErrorMsg();
+					}
+				});
+			}
+		});
+		
+		function showLoadingScreen() {
+			var loadingContainer = document.getElementById('loader');
+			loadingContainer.style.display = "block";
+			hideForm();
+		}
+
+		function hideLoadingScreen() {
+			var loadingContainer = document.getElementById('loader');
+			loadingContainer.style.display = "none";
+		}
+
+		function showErrorMsg() {
+			var errorContainer = document.getElementById('errorQuery');
+			errorContainer.style.display = "block";
+			hideLoadingScreen();
+		}
+
+		function hideForm() {
+			var form = document.getElementById('tripForm');
+			form.style.display = "none";
+		}
+		
+		function switchToCompletionTemplate() {
+			var link = document.getElementById('linkToTripDisplay');
+			link.click();
+		}
+	});
+
+	function validateForm() {
+		const location = document.getElementById('location');
+		const budget = document.getElementById('budget');
+		const startDate = document.getElementById('startDate');
+		const endDate = document.getElementById('endDate');
+
+		if (location.value === '' || budget.value === 'Select Budget' || startDate.value === '' || endDate.value === '') {
+			alert('Please fill in all required fields.');
+			return false;
+		}
+
+		const startDateMoment = moment(startDate.value, 'D/M/Y', true);
+        const endDateMoment = moment(endDate.value, 'D/M/Y', true);
+
+        if (!startDateMoment.isValid() || !endDateMoment.isValid()) {
+            alert('Invalid date format. Please use the format: DD/MM/YYYY');
+            return false;
+        }
+
+        if (startDateMoment.isSameOrAfter(endDateMoment)) {
+            alert('Start date must be before end date.');
+            return false;
+        }
+		return true;
+	}
+
+	// Restrict past dates
+	flatpickr("input[id=startDate]", {minDate: "today"});
+	flatpickr("input[id=endDate]", {minDate: "today"});
+
+	addEventListener("DOMContentLoaded", (event) => {
+        const startdate = document.getElementById("startDate");
+        startdate.addEventListener("blur", () => {
+            const startDateMoment = moment(startDate.value, 'D/M/Y', true);
+            if (startDateMoment.isValid()) {
+                flatpickr("input[id=endDate]", { minDate: startDate.value });
+            } else {
+                flatpickr("input[id=endDate]", { minDate: "today" });
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
