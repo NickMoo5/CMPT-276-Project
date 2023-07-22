@@ -82,6 +82,97 @@
     </header>
     <!-- Header END -->
 <body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <h1 class="text-center mt-5 mb-4">Edit User Settings</h1>
+                <form action="/admin/saveEditedUser" method="post">
+                    <div class="mb-3">
+                        Username
+                        <input type="text" id="username" name="username" class="form-control form-control-lg"
+                            th:value = "${edit.username}" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="hidden" id="userId" name="userId" class="form-control form-control-lg"
+                        th:value = "${edit.uid}">
+                    </div>
+                    <div class="mb-3">
+                        First Name
+                        <input type="text" id="firstName" name="firstName" class="form-control form-control-lg"
+                            th:value = "${edit.firstName}" required>
+                    </div>
+                    <div class="mb-3">
+                        Last Name
+                        <input type="text" id="lastName" name="lastName" class="form-control form-control-lg"
+                            th:value = "${edit.lastName}" required>
+                    </div>
+                    <div class="mb-3">
+                        Password
+                        <input type="text" id="password" name="password" class="form-control form-control-lg"
+                            th:value = "${edit.password}" required>
+                    </div>
+                    <div class="mb-3">
+                        Email
+                        <input type="text" id="email" name="email" class="form-control form-control-lg"
+                            th:value = "${edit.email}" required>
+                    </div>
+                    <div class="container p-1">
+                        <label for="access">Accessibility</label>   
+                        <select class="form-select" id="access" name="access" required th:value="${edit.accessibility}">
+                            <option th:selected="${edit.accessibility=='Wheelchair'}">Wheelchair</option>
+                            <option th:selected="${edit.accessibility=='None'}">None</option>
+                        </select>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                    <div class="container p-1">
+                        <label for="diet">Dietary Restrictions</label>
+                        <select class="form-select" id="diet" name="diet" required th:value="${edit.dietaryRestriction}">
+                            <option th:selected="${edit.dietaryRestriction=='Halal'}">Halal</option>
+                            <option th:selected="${edit.dietaryRestriction=='Vegetarian'}">Vegetarian</option>
+                            <option th:selected="${edit.dietaryRestriction=='Vegan'}">Vegan</option>
+                            <option th:selected="${edit.dietaryRestriction=='Pescatarian'}">Pescatarian</option>
+                            <option th:selected="${edit.dietaryRestriction=='None'}">None</option>
+                        </select>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                    <div class="container p-1">
+                        <label for="language1">Language Preferred #1</label>
+                        <select class="form-select" id="language1" name="language1" required>
+                            <option th:selected="${edit.languageOne=='English'}">English</option>
+                            <option th:selected="${edit.languageOne=='French'}">French</option>
+                            <option th:selected="${edit.languageOne=='Spanish'}">Spanish</option>
+                        </select>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                    <div class="container p-1">
+                        <label for="language2">Language Preferred #2</label>
+                        <select class="form-select" id="language2" name="language2" required>
+                            <option th:selected="${edit.languageTwo=='English'}">English</option>
+                            <option th:selected="${edit.languageTwo=='French'}">French</option>
+                            <option th:selected="${edit.languageTwo=='Spanish'}">Spanish</option>
+                            <option th:selected="${edit.languageTwo=='None'}">None</option>
+                        </select>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                    <div class="container p-1">
+                        <label for="language3">Language Preferred #3</label>
+                        <select class="form-select" id="language3" name="language3" required>
+                            <option th:selected="${edit.languageThree=='English'}">English</option>
+                            <option th:selected="${edit.languageThree=='French'}">French</option>
+                            <option th:selected="${edit.languageThree=='Spanish'}">Spanish</option>
+                            <option th:selected="${edit.languageThree=='None'}">None</option>
+                        </select>
+                        <div class="invalid-feedback">Please select an option</div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <p th:if="${usernameError}" p style="color:red" class="error-message">[[${usernameError}]]</p>
+                        <p th:if="${passwordError}" p style="color:red" class="error-message">[[${passwordError}]]</p>
+                        <input class="btn btn-primary" id="regButton" type="submit" href="editAccSettings" value="Save changes"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>  
     <!-- footer start -->
     <footer class="bg-dark pt-5">
         <div class="container">
@@ -118,6 +209,87 @@
             </div>
         </div>
     </footer>
+    <script>
+        (() => {
+        'use strict'
+        // gets all input boxes that need to be error checked
+        const forms = document.querySelectorAll('.errorCheck')
+
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+            }, false)
+        })
+        })()
+
+        // Get references to the language select elements
+        const language1Select = document.getElementById('language1');
+        const language2Select = document.getElementById('language2');
+        const language3Select = document.getElementById('language3');
+
+        // Function to update options in other language selects
+        function updateLanguageOptions(languageBox) {
+            const options1 = language1Select.querySelectorAll('option');
+            const options2 = language2Select.querySelectorAll('option');
+            const options3 = language3Select.querySelectorAll('option');
+            var languages = [];
+
+            // Get the selected values from all language selects
+            var selectedValues = [
+                language1Select.value,
+                language2Select.value,
+                language3Select.value
+            ];
+
+            // Exclude "None" values from selectedValues
+            var filteredValues = selectedValues.filter(value => value !== 'None');
+
+            // Add unique selected values to the languages array
+            filteredValues.forEach(value => {
+                if (!languages.includes(value)) {
+                languages.push(value);
+                }
+            });
+            
+            // Loop through the options and enable/disable based on selected values
+            options1.forEach(option => {
+                if (languages.includes(option.value) && (option.value != language1Select.value)) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            });
+            options2.forEach(option => {
+                if (languages.includes(option.value) && (option.value != language2Select.value)) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            });
+            options3.forEach(option => {
+                if (languages.includes(option.value) && (option.value != language3Select.value)) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            });
+            
+        }
+
+        language1Select.addEventListener("change", updateLanguageOptions.bind(null, language1Select))
+        language2Select.addEventListener("change", updateLanguageOptions.bind(null, language2Select))
+        language3Select.addEventListener("change", updateLanguageOptions.bind(null, language3Select))
+
+        updateLanguageOptions(language1Select)
+        updateLanguageOptions(language2Select)
+        updateLanguageOptions(language3Select)
+
+    </script>
         <!-- Bootstrap JS -->
     <script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 

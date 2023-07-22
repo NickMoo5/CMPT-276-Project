@@ -229,9 +229,8 @@ public class UserController {
         User user2 = (User) request.getSession().getAttribute("session_user");
         model.addAttribute("user", user2);
         String userId = deleteUser.get("userId");
-        // User delete = userRepo.getById(Integer.valueOf(userId));
-        // userRepo.delete(delete);
-        System.out.println(userId);
+        User delete = userRepo.getById(Integer.valueOf(userId));
+        userRepo.delete(delete);
         List<User> us = userRepo.findAll();
         model.addAttribute("userList" , us);
         return "admin/adminLanding";
@@ -240,9 +239,39 @@ public class UserController {
     public void editUser(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
         User user2 = (User) request.getSession().getAttribute("session_user");
         model.addAttribute("user", user2);
-        User editedUser = (User) request.getSession().getAttribute("session_user");
         String userId = editUser.get("userId");
+        User editedUser = userRepo.getById(Integer.valueOf(userId));
+        model.addAttribute("edit", editedUser);
         System.out.println(userId);
+    }
+    @PostMapping("/admin/saveEditedUser")
+    public String saveEditedUser(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("user", user2);
+        String username = editUser.get("username");
+        String userId = editUser.get("userId");
+        String first = editUser.get("firstName");
+        String last = editUser.get("lastName");
+        String pass = editUser.get("password");
+        String email = editUser.get("email");
+        String access = editUser.get("access");
+        String diet = editUser.get("diet");
+        String lang1 = editUser.get("language1");
+        String lang2 = editUser.get("language2");
+        String lang3 = editUser.get("language3");
+        User editedUser = userRepo.getById(Integer.valueOf(userId));
+        editedUser.setPreferences(access, diet, lang1, lang2, lang3);
+        editedUser.setUsername(username);
+        editedUser.setFirstName(first);
+        editedUser.setLastName(last);
+        editedUser.setFirstName(first);
+        editedUser.setPassword(pass);
+        editedUser.setEmail(email);
+        userRepo.save(editedUser);
+        List<User> us = userRepo.findAll();
+        model.addAttribute("userList" , us);
+        model.addAttribute("edit", editedUser);
+        return "admin/adminLanding";
     }
     @GetMapping("/user/userLanding") 
     public String tripPreferences(@RequestParam Map<String, String> tripUser, HttpServletRequest request, HttpSession session, Model model){
