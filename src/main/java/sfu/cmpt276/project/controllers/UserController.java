@@ -223,6 +223,27 @@ public class UserController {
         model.addAttribute("user", editedUser);
         return "user/userLanding";
     }
+    
+    @PostMapping("/admin/delete")
+    public String deleteUser(@RequestParam Map<String, String> deleteUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("user", user2);
+        String userId = deleteUser.get("userId");
+        // User delete = userRepo.getById(Integer.valueOf(userId));
+        // userRepo.delete(delete);
+        System.out.println(userId);
+        List<User> us = userRepo.findAll();
+        model.addAttribute("userList" , us);
+        return "admin/adminLanding";
+    }
+    @PostMapping("/admin/editUser")
+    public void editUser(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("user", user2);
+        User editedUser = (User) request.getSession().getAttribute("session_user");
+        String userId = editUser.get("userId");
+        System.out.println(userId);
+    }
     @GetMapping("/user/userLanding") 
     public String tripPreferences(@RequestParam Map<String, String> tripUser, HttpServletRequest request, HttpSession session, Model model){
         User tripUser2 = (User) request.getSession().getAttribute("session_user");
