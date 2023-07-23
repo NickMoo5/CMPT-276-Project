@@ -101,19 +101,17 @@
             <div class="">
                 <div class="container">
                     <center>
-                        <h2>Users</h2>
-                        <!-- <form class="col-md-4">
-                            <input class="form-control me-2" type="search" placeholder="Search users..." aria-label="Search">    
-                        </form>   -->
+                        <h2>Users</h2>  
                         <ul>
                             <form id= "edit"action="/admin/editUser" method = "post">
                             </form>
                             <form id= "delete"action="/admin/delete" method = "post">
                             </form>
-                            <input form = "edit" name = "userId" id = "userId" type="number" href="/admin/edit" placeholder="Enter UserID" required> </input>
-                            <input form = "edit" class="btn btn-primary" type="submit" href="/admin/edit" value = "Edit User"></input>
+                            <input form = "edit" name = "userId" id = "userId" type="number" href="/admin/edit" placeholder="Enter UserID" required>
+                            <input form = "edit" class="btn btn-primary" type="submit" onclick="validateForm()" href="/admin/edit" value = "Edit User"></input></input>
                             <input form = "delete" name = "userId" id = "userId" type="number" href="/admin/delete" placeholder="Enter UserID" required> </input>
-                            <input onclick="return confirm('Are you sure you want to delete this user')" form = "delete" class="btn btn-primary" type="submit" href="/admin/delete" value = "Delete User"></input>   
+                            <input onclick="return confirm('Are you sure you want to delete this user')" form = "delete" class="btn btn-primary" type="submit" href="/admin/delete" value = "Delete User"></input>
+                            <p th:if="${userIdError}" p style="color:red" class="error-message">[[${userIdError}]]</p> 
                         </center>
                             <table style = "width:100%">
                                 <tr align = "center" >
@@ -129,9 +127,6 @@
                                     <th>Language Three</th>
                                 </tr>
                                 <tr align = "left" th:each="user:${userList}">
-                                    <!-- <td th:text="${user.username} + ' | ' +${user.uid} + ' | '  + ${user.firstName} + ' | ' + ${user.lastName} + ' | ' 
-                                    + ${user.email} + ' | ' + ${user.accessibility} + ' | ' + ${user.languageOne} + ' | ' + ${user.languageTwo} + ' | ' 
-                                    + ${user.languageThree}";> </td> -->
                                     <td th:text="${user.username}"> </td>
                                     <td th:text="${user.uid}"> </td>
                                     <td th:text="${user.firstName}"> </td>

@@ -56,8 +56,10 @@ public class UserController {
         model.addAttribute("addUser", tempUser);
         return "user/addUser";
     }
-    @PostMapping("/admin/adminLanding")
-    public String displayUsers(Model model){
+    @GetMapping("/admin/adminLanding")
+    public String displayUsers(Model model,HttpSession session,HttpServletRequest request){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("user", user2);
         List<User> us = userRepo.findAll();
         model.addAttribute("userList" , us);
         return "admin/adminLanding";
@@ -229,6 +231,13 @@ public class UserController {
         User user2 = (User) request.getSession().getAttribute("session_user");
         model.addAttribute("user", user2);
         String userId = deleteUser.get("userId");
+        List<User> checkValid = userRepo.findByUid(Integer.parseInt(userId));
+        if(checkValid.isEmpty()){
+            List<User> us = userRepo.findAll();
+            model.addAttribute("userList" , us);
+            model.addAttribute("userIdError", "UserId does not exist.");
+            return "admin/adminLanding";
+        }
         User delete = userRepo.getById(Integer.valueOf(userId));
         userRepo.delete(delete);
         List<User> us = userRepo.findAll();
@@ -236,13 +245,22 @@ public class UserController {
         return "admin/adminLanding";
     }
     @PostMapping("/admin/editUser")
-    public void editUser(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+    public String editUser(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
         User user2 = (User) request.getSession().getAttribute("session_user");
         model.addAttribute("user", user2);
         String userId = editUser.get("userId");
+        List<User> checkValid = userRepo.findByUid(Integer.parseInt(userId));
+        if(checkValid.isEmpty()){
+            List<User> us = userRepo.findAll();
+            model.addAttribute("userList" , us);
+            model.addAttribute("userIdError", "UserId does not exist.");
+            System.out.println("error!");
+            return "/admin/adminLanding";
+        }
         User editedUser = userRepo.getById(Integer.valueOf(userId));
         model.addAttribute("edit", editedUser);
         System.out.println(userId);
+        return "/admin/editUser";
     }
     @PostMapping("/admin/saveEditedUser")
     public String saveEditedUser(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
@@ -327,7 +345,7 @@ public class UserController {
      
 
     @GetMapping("/login")
-    public String getLogin(Model model, HttpServletResponse request, HttpSession session){
+    public String getLogin(Model model, HttpServletRequest request, HttpSession session){
         User user = (User) session.getAttribute("session_user");
         if(user == null){
             return "user/login";
@@ -335,7 +353,7 @@ public class UserController {
         else{
             model.addAttribute("user", user);
            if(user.getAccountType().equals("admin")){
-                return displayUsers(model);
+                return displayUsers(model,session,request);
             }
             else{
             return "user/userLanding";
