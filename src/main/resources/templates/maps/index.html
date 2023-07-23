@@ -5,7 +5,6 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/map.css}" />
-    <!-- <script type="module" th:src="@{/js/map.js}"></script> -->
 </head>
 
 <body>
@@ -20,15 +19,26 @@
 <script>
     var map;
     var geocoder;
+    var service;
+    var infowindow;
+    var origincoords; //origin
+    var request;
+
+    // radius to search for nearby locations (in m)
+    const range = '500';
+
 
     async function initMap() {
 
         // async library loading
         const { Map } = await google.maps.importLibrary("maps");
         const { Geocoder } = await google.maps.importLibrary("geocoding");
+        const { PlacesService } = await google.maps.importLibrary("places");
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
-        // new geocoder to grab latlan of city
-        var geocoder = new google.maps.Geocoder();
+        // new variables to start respective processes
+        geocoder = new google.maps.Geocoder();
+        infowindow = new google.maps.InfoWindow();
 
         //make new map 
         map = new Map(document.getElementById("map"), {
@@ -37,16 +47,62 @@
         });
 
         //geocodes place based on string result and if successful, updates map location to said point
-        geocoder.geocode({ 'address': "Mexico City" }, function (results, status) {
+        geocoder.geocode({ 'address': "Tokyo" }, function (results, status) {
             if (status === 'OK') {
-                map.setCenter(results[0].geometry.location);
+                origincoords = new google.maps.LatLng(results[0].geometry.location);
+                map.setCenter(origincoords);
+
+                searchRestuarants(origincoords);
+
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }
         });
+
+
     }
 
-    initMap();
+    function searchRestuarants(origin) {
+        // calls nearby search to get restuarants in range (in metres)
+        //sets up request to look for nearby restuarants
+        request = {
+            location: origincoords,
+            radius: range,
+            type: ['restuarant'],
+        };
+
+        //actually calling the request
+        service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, callback);
+    }
+
+    //display results from nearbySearch
+    function callback(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+                createMarker(results[i]);
+            }
+        } else {
+            alert('nearbySearch was not successful for the following reason: ' + status);
+        }
+    }
+
+    //creates a marker based on location 
+    function createMarker(place) {
+        if (!place.geometry || !place.geometry.location) return;
+
+        const marker = new google.maps.Marker({
+            map,
+            position: place.geometry.location,
+        });
+
+        google.maps.event.addListener(marker, "click", () => {
+            infowindow.setContent(place.name || "");
+            infowindow.open(map);
+        });
+    }
+
+    window.initMap = initMap()
 </script>
 
 </html>
