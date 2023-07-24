@@ -44,12 +44,18 @@ public class UserController {
 
     @GetMapping("/")
     public RedirectView rootView(){
-        return new RedirectView("login");
+        return new RedirectView("user/home");
     }
     @PostMapping("/")
     public RedirectView returnLanding(){
-        return new RedirectView("login");
+        return new RedirectView("user/home");
     }
+
+    @GetMapping("user/home") 
+    public String displayHome(){
+        return "user/home";
+    }
+
     @GetMapping("user/addUser") 
     public String displaySignup(AddUser addUser, Model model){
         AddUser tempUser = new AddUser();
