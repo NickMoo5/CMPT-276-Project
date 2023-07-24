@@ -136,7 +136,8 @@ Main Banner START -->
                                 <div class="card-header p-4">
                                     <h5 class="mb-0"><i class="fa-solid fa-plane fa-fw me-2"></i>Planning Itinerary</h5>
                                 </div>
-            
+
+							
                                 <!-- Card body -->
                                 <!--<form class="card-body p-4 pt-0">-->
                                     <div class="row g-4">
@@ -144,9 +145,13 @@ Main Banner START -->
                                             <!-- Location -->
                                             <div class="col-12 p-4 m-0">
                                                 <div class="form-icon-input form-fs-lg">
+													<div class="error-msg" id="inputErrorMsg"></div>
+													<div class="error-msg" id="dateErrorMsg"></div>
+            
                                                     <input type="text" class="form-control form-control-lg" id="location" name="location" placeholder="Enter a city" required>
                                                     <span class="form-icon"><i class="bi bi-geo-alt fs-5"></i></span>
                                                 </div>
+											
                                             </div>
 											
 											<div class="row p-4">
@@ -166,6 +171,7 @@ Main Banner START -->
                                             <!-- Start Date -->
                                             <div class="col-lg-4">
                                                 <div class="form-icon-input form-fs-lg">
+							
                                                     <input type="text" class="form-control form-control-lg flatpickr" data-date-format="d/m/y"  id="startDate" name="startDate" placeholder="Select start date" required>
                                                     <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
                                                 </div>
@@ -313,7 +319,19 @@ Footer END -->
 			var link = document.getElementById('linkToTripDisplay');
 			link.click();
 		}
+
 	});
+
+	function displayErrorMsg(inputId, message) {
+            var errorDiv = document.getElementById(inputId + "ErrorMsg");
+            errorDiv.innerHTML = message;
+            errorDiv.style.color = "red";
+        }
+
+        function clearErrorMsg(inputId) {
+            var errorDiv = document.getElementById(inputId + "ErrorMsg");
+            errorDiv.innerHTML = "";
+        }
 
 	function validateForm() {
 		const location = document.getElementById('location');
@@ -322,22 +340,25 @@ Footer END -->
 		const endDate = document.getElementById('endDate');
 
 		if (location.value === '' || budget.value === 'Select Budget' || startDate.value === '' || endDate.value === '') {
-			alert('Please fill in all required fields.');
+			displayErrorMsg("input", "Please fill in all required fields.");
 			return false;
+
+		} else {
+			clearErrorMsg("input");
 		}
 
 		const startDateMoment = moment(startDate.value, 'D/M/Y', true);
         const endDateMoment = moment(endDate.value, 'D/M/Y', true);
 
-        if (!startDateMoment.isValid() || !endDateMoment.isValid()) {
-            alert('Invalid date format. Please use the format: DD/MM/YYYY');
-            return false;
-        }
 
         if (startDateMoment.isSameOrAfter(endDateMoment)) {
-            alert('Start date must be before end date.');
-            return false;
-        }
+            displayErrorMsg("date", "Start Date must be before End Date.");
+			return false;
+
+		} else {
+			clearErrorMsg("date");
+		}
+
 		return true;
 	}
 
