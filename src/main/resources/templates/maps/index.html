@@ -20,7 +20,7 @@
     var map;
     var geocoder;
     var service;
-    var infowindow;
+    var infoWindow;
     var origincoords; //origin
     var request;
 
@@ -31,28 +31,29 @@
     async function initMap() {
 
         // async library loading
-        const { Map } = await google.maps.importLibrary("maps");
+        const { Map, InfoWindow } = await google.maps.importLibrary("maps");
         const { Geocoder } = await google.maps.importLibrary("geocoding");
         const { PlacesService } = await google.maps.importLibrary("places");
         const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
         // new variables to start respective processes
         geocoder = new google.maps.Geocoder();
-        infowindow = new google.maps.InfoWindow();
+        infoWindow = new google.maps.InfoWindow();
 
         //make new map 
         map = new Map(document.getElementById("map"), {
             center: { lat: 0, lng: 0 },
             zoom: 15,
+            mapId: "869d907a4ff86e0",
         });
 
         //geocodes place based on string result and if successful, updates map location to said point
-        geocoder.geocode({ 'address': "Tokyo" }, function (results, status) {
+        geocoder.geocode({ 'address': "Vancouver Harbor" }, function (results, status) {
             if (status === 'OK') {
                 origincoords = new google.maps.LatLng(results[0].geometry.location);
                 map.setCenter(origincoords);
 
-                searchRestuarants(origincoords);
+                searchRestaurants(origincoords);
 
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
@@ -62,13 +63,13 @@
 
     }
 
-    function searchRestuarants(origin) {
-        // calls nearby search to get restuarants in range (in metres)
-        //sets up request to look for nearby restuarants
+    function searchRestaurants(origin) {
+        // calls nearby search to get restaurants in range (in metres)
+        //sets up request to look for nearby restaurants
         request = {
             location: origincoords,
             radius: range,
-            type: ['restuarant'],
+            type: ['restaurant'],
         };
 
         //actually calling the request
@@ -91,14 +92,19 @@
     function createMarker(place) {
         if (!place.geometry || !place.geometry.location) return;
 
-        const marker = new google.maps.Marker({
+        const marker = new google.maps.marker.AdvancedMarkerElement({
             map,
             position: place.geometry.location,
+            title: place.name,
         });
 
-        google.maps.event.addListener(marker, "click", () => {
-            infowindow.setContent(place.name || "");
-            infowindow.open(map);
+        //adds event listener to display title information when clicked on
+        marker.addListener("click", ({ domEvent, latlng }) => {
+            const { target } = domEvent;
+
+            infoWindow.close();
+            infoWindow.setContent(marker.title);
+            infoWindow.open(marker.map, marker);
         });
     }
 
