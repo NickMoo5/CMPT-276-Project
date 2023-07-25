@@ -1,45 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.9.0/mdb.min.js" defer></script>
-    <link href="https://cdn.jsdelivr.net/npm/mdb-ui-kit@3.9.0/dist/css/mdb.min.css" rel="stylesheet">
-    <title>Wayfinder</title>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <title>WayFinder</title>
+    
+        <!-- Meta Tags -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Trip Planner - Plan Itinerary here">
+    
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="/images/favicon.ico"/>
+    
+        <!-- Google Font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap"/>
+    
+        <!-- Plugins CSS -->
+        <link rel="stylesheet" type="text/css" href="/vendor/font-awesome/css/all.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/vendor/bootstrap-icons/bootstrap-icons.css"/>
+        <link rel="stylesheet" type="text/css" href="/vendor/tiny-slider/tiny-slider.css"/>
+        <link rel="stylesheet" type="text/css" href="/vendor/glightbox/css/glightbox.css"/>
+        <link rel="stylesheet" type="text/css" href="/vendor/choices/css/choices.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/vendor/splide-master/dist/css/splide.min.css">
+        <link rel="stylesheet" type="text/css" href="/vendor/flatpickr/css/flatpickr.min.css"/>
+    
+        <!-- Theme CSS -->
+        <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script th:src="@{/js/loading.js}"></script>
+    </head>
 <body>
-    <!--Taskbar-->
-    <!--TODO: ACC/LOGIN redirects-->
-    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Wayfinder</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Temp</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="padding-right: 25px;">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">UserID </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="min-width: 20px; float:right; right:0">
-                        <li>
-                            <a class="dropdown-item" href="/logout">Log out</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-          </div>
-        </div>
-    </nav> -->
-
     <!--Add prefs container-->
     <div class="container-fluid d-flex justify-content-center">
         <div class="col-md-4 m-sm-4" id="formInputsCont">

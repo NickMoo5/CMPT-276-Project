@@ -1,4 +1,6 @@
 package sfu.cmpt276.project.controllers;
+import java.util.Collections;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -56,9 +58,13 @@ public class UserController {
         model.addAttribute("addUser", tempUser);
         return "user/addUser";
     }
-    @PostMapping("/admin/adminLanding")
-    public String displayUsers(Model model){
+    @GetMapping("/admin/adminLanding")
+    public String displayUsers(Model model,HttpSession session,HttpServletRequest request){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("user", user2);
         List<User> us = userRepo.findAll();
+        Collections.sort(us);
+        us.remove(0);
         model.addAttribute("userList" , us);
         return "admin/adminLanding";
     }
@@ -221,7 +227,80 @@ public class UserController {
         editedUser.setPreferences(access, diet, lang1, lang2, lang3);
         userRepo.save(editedUser);
         model.addAttribute("user", editedUser);
-        return "user/userLanding";
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("edit", user2);
+        return "user/editPrefs";
+    }
+    
+    @PostMapping("/admin/delete")
+    public String deleteUser(@RequestParam Map<String, String> deleteUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("user", user2);
+        String userId = deleteUser.get("userId");
+        List<User> checkValid = userRepo.findByUid(Integer.parseInt(userId));
+        if(checkValid.isEmpty()){
+            List<User> us = userRepo.findAll();
+            us.remove(0);
+            model.addAttribute("userList" , us);
+            model.addAttribute("userIdError", "UserId does not exist.");
+            return "admin/adminLanding";
+        }
+        User delete = userRepo.getById(Integer.valueOf(userId));
+        userRepo.delete(delete);
+        List<User> us = userRepo.findAll();
+        Collections.sort(us);
+        us.remove(0);
+        model.addAttribute("userList" , us);
+        return "admin/adminLanding";
+    }
+    @PostMapping("/admin/editUser")
+    public String editUser(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("user", user2);
+        String userId = editUser.get("userId");
+        List<User> checkValid = userRepo.findByUid(Integer.parseInt(userId));
+        if(checkValid.isEmpty()){
+            List<User> us = userRepo.findAll();
+            Collections.sort(us);
+            us.remove(0);
+            model.addAttribute("userList" , us);
+            model.addAttribute("userIdError", "UserId does not exist.");
+            return "/admin/adminLanding";
+        }
+        User editedUser = userRepo.getById(Integer.valueOf(userId));
+        model.addAttribute("edit", editedUser);
+        return "/admin/editUser";
+    }
+    @PostMapping("/admin/saveEditedUser")
+    public String saveEditedUser(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("user", user2);
+        String username = editUser.get("username");
+        String userId = editUser.get("userId");
+        String first = editUser.get("firstName");
+        String last = editUser.get("lastName");
+        String pass = editUser.get("password");
+        String email = editUser.get("email");
+        String access = editUser.get("access");
+        String diet = editUser.get("diet");
+        String lang1 = editUser.get("language1");
+        String lang2 = editUser.get("language2");
+        String lang3 = editUser.get("language3");
+        User editedUser = userRepo.getById(Integer.valueOf(userId));
+        editedUser.setPreferences(access, diet, lang1, lang2, lang3);
+        editedUser.setUsername(username);
+        editedUser.setFirstName(first);
+        editedUser.setLastName(last);
+        editedUser.setFirstName(first);
+        editedUser.setPassword(pass);
+        editedUser.setEmail(email);
+        userRepo.save(editedUser);
+        List<User> us = userRepo.findAll();
+        Collections.sort(us);
+        us.remove(0);
+        model.addAttribute("userList" , us);
+        model.addAttribute("edit", editedUser);
+        return "admin/adminLanding";
     }
     @GetMapping("/user/userLanding") 
     public String tripPreferences(@RequestParam Map<String, String> tripUser, HttpServletRequest request, HttpSession session, Model model){
@@ -277,7 +356,7 @@ public class UserController {
      
 
     @GetMapping("/login")
-    public String getLogin(Model model, HttpServletResponse request, HttpSession session){
+    public String getLogin(Model model, HttpServletRequest request, HttpSession session){
         User user = (User) session.getAttribute("session_user");
         if(user == null){
             return "user/login";
@@ -285,7 +364,7 @@ public class UserController {
         else{
             model.addAttribute("user", user);
            if(user.getAccountType().equals("admin")){
-                return displayUsers(model);
+                return displayUsers(model,session,request);
             }
             else{
             return "user/userLanding";
@@ -307,6 +386,8 @@ public class UserController {
             model.addAttribute("user", user);
             if(user.getAccountType().equals("admin")){
                 List<User> us = userRepo.findAll();
+                Collections.sort(us);
+                us.remove(0);
                 model.addAttribute("userList" , us);
                 return "admin/adminLanding";
             }

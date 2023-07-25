@@ -4,11 +4,9 @@ package sfu.cmpt276.project.model.TripModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.hibernate.mapping.Array;
 
 import jakarta.persistence.*;
 
