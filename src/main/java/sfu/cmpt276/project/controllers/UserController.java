@@ -1,4 +1,6 @@
 package sfu.cmpt276.project.controllers;
+import java.util.Collections;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +63,8 @@ public class UserController {
         User user2 = (User) request.getSession().getAttribute("session_user");
         model.addAttribute("user", user2);
         List<User> us = userRepo.findAll();
+        Collections.sort(us);
+        us.remove(0);
         model.addAttribute("userList" , us);
         return "admin/adminLanding";
     }
@@ -234,6 +238,7 @@ public class UserController {
         List<User> checkValid = userRepo.findByUid(Integer.parseInt(userId));
         if(checkValid.isEmpty()){
             List<User> us = userRepo.findAll();
+            us.remove(0);
             model.addAttribute("userList" , us);
             model.addAttribute("userIdError", "UserId does not exist.");
             return "admin/adminLanding";
@@ -241,6 +246,8 @@ public class UserController {
         User delete = userRepo.getById(Integer.valueOf(userId));
         userRepo.delete(delete);
         List<User> us = userRepo.findAll();
+        Collections.sort(us);
+        us.remove(0);
         model.addAttribute("userList" , us);
         return "admin/adminLanding";
     }
@@ -252,14 +259,14 @@ public class UserController {
         List<User> checkValid = userRepo.findByUid(Integer.parseInt(userId));
         if(checkValid.isEmpty()){
             List<User> us = userRepo.findAll();
+            Collections.sort(us);
+            us.remove(0);
             model.addAttribute("userList" , us);
             model.addAttribute("userIdError", "UserId does not exist.");
-            System.out.println("error!");
             return "/admin/adminLanding";
         }
         User editedUser = userRepo.getById(Integer.valueOf(userId));
         model.addAttribute("edit", editedUser);
-        System.out.println(userId);
         return "/admin/editUser";
     }
     @PostMapping("/admin/saveEditedUser")
@@ -287,6 +294,8 @@ public class UserController {
         editedUser.setEmail(email);
         userRepo.save(editedUser);
         List<User> us = userRepo.findAll();
+        Collections.sort(us);
+        us.remove(0);
         model.addAttribute("userList" , us);
         model.addAttribute("edit", editedUser);
         return "admin/adminLanding";
@@ -375,6 +384,8 @@ public class UserController {
             model.addAttribute("user", user);
             if(user.getAccountType().equals("admin")){
                 List<User> us = userRepo.findAll();
+                Collections.sort(us);
+                us.remove(0);
                 model.addAttribute("userList" , us);
                 return "admin/adminLanding";
             }
