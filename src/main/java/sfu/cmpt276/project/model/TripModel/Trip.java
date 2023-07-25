@@ -89,7 +89,7 @@ public class Trip {
         Pattern DAY_TAG_REG_EXP = Pattern.compile("\\^(.*?)\\^");
         Pattern ATTRACTION_REG_EXP = Pattern.compile("\\((.*?)\\)");
         Pattern LOCATION_REG_EXP = Pattern.compile("~(.*?)~");
-        Pattern DESCRIPTION_REG_EXP = Pattern.compile("@(.*?)@");
+        Pattern DESCRIPTION_REG_EXP = Pattern.compile("@([^@]+)@");
         String extractedDay = null;
         String extractedAttraction = null;
         String dayTag = null;
