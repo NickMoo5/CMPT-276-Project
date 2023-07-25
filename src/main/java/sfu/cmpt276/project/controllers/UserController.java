@@ -227,7 +227,9 @@ public class UserController {
         editedUser.setPreferences(access, diet, lang1, lang2, lang3);
         userRepo.save(editedUser);
         model.addAttribute("user", editedUser);
-        return "user/userLanding";
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("edit", user2);
+        return "user/editPrefs";
     }
     
     @PostMapping("/admin/delete")

@@ -83,7 +83,6 @@
 		</div>
 	</nav>
 <body>
-
     <!--Add prefs container-->
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -108,6 +107,12 @@
                         <input class="btn btn-primary" id="regButton" type="submit" href="editAccSettings" value="Save changes"></input>
                     </div>
                 </form>
+				<form action="editAccSettings" method="get">
+					<div class="d-grid gap-2">
+							<input class="btn btn-primary" style = "background-color: darkorchid;" id="returnToEditAcc" type="submit" value="Go Back" href="editAccSettings"></input>
+							<p style="font-style: italic; font-size: small; text-align: center;">Changes will not be saved</p>
+					</div>
+				</form>
             </div>
         </div>
     </div>  
