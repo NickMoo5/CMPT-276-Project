@@ -1,15 +1,36 @@
 package sfu.cmpt276.project.tripGeneration;
 
 public class GenTripQuery {
-    private static final String TRAVEL_ADVISOR_QUERY = "You are a travel advisor. Give me a list of places to visit in ";
+    private static final String TRAVEL_ADVISOR_QUERY = "Could you suggest a day by day itinerary for a trip to ";
     private static final String DATE_QUERY = "I will be visiting from ";
-    private static final String FILTERSYMBOL_QUERY = "Enclose all locations to visit in tilde symbols.";
 
-    public static String genTripQuery(String city, String startDate, String endDate, String budget) {
+    private static final String CHAT_INSTRUCTIONS = " include places to visit, organized in a " +
+            "logical sequence based on the types of activities, and their general geographic proximity. For each item, " +
+            "provide the name of the place, a brief description of why we should visit or what we could do there, please " +
+            "return the itinerary back in the following format. ";
+
+    private static final String FORMAT = "{\n" +
+            "{\n" +
+            "^Day 1^\n" +
+            "(~name of place enclosed in tildes~: @why you should come here or what you should do enclosed in at symbols@)\n" +
+            "(~name of place enclosed in tildes~: @why you should come here or what you should do enclosed in at symbols@)\n" +
+            "(~name of place enclosed in tildes~: @why you should come here or what you should do enclosed in at symbols@)\n" +
+            "}\n" +
+            "\n" +
+            "{\n" +
+            "^Day 2^\n" +
+            "(~name of place enclosed in tildes~: @why you should come here or what you should do enclosed in at symbols@)\n" +
+            "(~name of place enclosed in tildes~: @why you should come here or what you should do enclosed in at symbols@)\n" +
+            "}\n";
+    private static final String LIMITING_STATEMENT = "Do NOT return any other information.";
+
+    public static String genTripQuery(String city, String startDate, String endDate) {
         String query;
-        query = TRAVEL_ADVISOR_QUERY + city + ". ";
-        query += DATE_QUERY + startDate + " to " + endDate + ". ";
-        query += FILTERSYMBOL_QUERY;
+        query = TRAVEL_ADVISOR_QUERY + city + ", ";
+        query += DATE_QUERY + startDate + " to " + endDate + ", ";
+        query += CHAT_INSTRUCTIONS;
+        query += FORMAT;
+        query += LIMITING_STATEMENT;
         return query;
     }
 }

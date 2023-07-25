@@ -223,10 +223,10 @@ public class UserController {
         model.addAttribute("user", editedUser);
         return "user/userLanding";
     }
-    @GetMapping("/user/userLanding") 
+    @GetMapping("/userLanding") 
     public String tripPreferences(@RequestParam Map<String, String> tripUser, HttpServletRequest request, HttpSession session, Model model){
         User tripUser2 = (User) request.getSession().getAttribute("session_user");
-        model.addAttribute("tripEdit", tripUser2);
+        model.addAttribute("user", tripUser2);
         return "user/userLanding";
     }
 
@@ -237,7 +237,7 @@ public class UserController {
         User editedTripUser = (User) request.getSession().getAttribute("session_user");
 
         // Generate and parse trip list of locations/activities
-        String chatTripQuery = GenTripQuery.genTripQuery(location, startDate, endDate, budget);
+        String chatTripQuery = GenTripQuery.genTripQuery(location, startDate, endDate);
         try {
             String chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey);
             if (chatResponse == ChatController.ERROR) return ResponseEntity.badRequest().build();
@@ -260,21 +260,17 @@ public class UserController {
     public String itineraryDisplay(HttpServletRequest request, HttpSession session, Model model){
         User itineraryUser = (User) session.getAttribute("session_user"); 
         Trip currTrip = tripRepo.getById(itineraryUser.getMostRecentTrip());
-        //List<String> locations = currTrip.get(0).getLocationsList();
-        List<String> locations = currTrip.getLocationsList();
-        // remove null values
+        Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary();       // Itinerary Hashmap
 
         model.addAttribute("user", itineraryUser);
         model.addAttribute("currTrip", currTrip);
-        model.addAttribute("locations", locations);
-        model.addAttribute("query", queryTest);
+        model.addAttribute("itinerary", tripItinerary);
         
-        //model.addAttribute("location", locationTest);
+        model.addAttribute("location", queryTest);          // Used for debugging and testing ChatGPT API
 
         return "user/tripDisplay";
-        //return "test";
+        //return "test";                // Used for debugging and testing ChatGPT API
     }
-     
 
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletResponse request, HttpSession session){

@@ -180,16 +180,19 @@ Tabs-content START -->
 						<div class="card bg-transparent p-0">
 							<!-- Card header -->
 							<div class="card-header bg-transparent border-bottom p-0 pb-3">
-								<h3 class="mb-0">Trip Overview</h3>
+								<h3 class="mb-0">Trip Itinerary</h3>
 							</div>
-
-							<!-- Card body START -->
-							<div class="card-body p-0 pt-3">
-
+						
 								<!-- List -->
 								<ul class="list-group list-group-borderless mb-4">
-									<li class="list-group-item" th:each="location:${locations}">
-										<span class="h6 mb-0 me-1" th:text="${location}"></span>
+									<li class="list-group-item" th:each="day:${itinerary}">
+										<span class="h3 mb-0 me-1" th:text="${day.key}"></span>
+										<ul>
+											<li class="list-group-item" th:each="location:${day.value}">
+												<span class="h5 mb-0 me-1" th:text="${location.key}"></span>
+												<p class="h6 mb-0 me-1" th:text="${location.value}"></p>
+											</li>
+										</ul>
 									</li>
 									
 								</ul>
@@ -203,7 +206,7 @@ Tabs-content START -->
 		</div> <!-- Row END -->
 	
 	<!-- THIS IS FOR DEBUGGING PURPOSES ONLY -->
-	<p style="display: none">[[${query}]]</p>
+	<p style="display: none">[[${location}]]</p>
 </section>
 <!-- =======================
 Tabs-content END -->
