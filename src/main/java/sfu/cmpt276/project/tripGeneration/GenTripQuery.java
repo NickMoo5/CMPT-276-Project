@@ -3,7 +3,7 @@ package sfu.cmpt276.project.tripGeneration;
 public class GenTripQuery {
     private static final String TRAVEL_ADVISOR_QUERY = "Could you suggest a day by day itinerary for a trip to ";
     private static final String DATE_QUERY = "I will be visiting from ";
-
+    private static final String DATE_FORMAT = "The dates given are in the following format Day/month/year";
     private static final String CHAT_INSTRUCTIONS = " include places to visit, organized in a " +
             "logical sequence based on the types of activities, and their general geographic proximity. For each item, " +
             "provide the name of the place, a brief description of why we should visit or what we could do there, please " +
@@ -28,6 +28,7 @@ public class GenTripQuery {
         String query;
         query = TRAVEL_ADVISOR_QUERY + city + ", ";
         query += DATE_QUERY + startDate + " to " + endDate + ", ";
+        query += DATE_FORMAT;
         query += CHAT_INSTRUCTIONS;
         query += FORMAT;
         query += LIMITING_STATEMENT;
