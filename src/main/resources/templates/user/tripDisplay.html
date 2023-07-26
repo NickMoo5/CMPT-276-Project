@@ -26,12 +26,18 @@
 	<!-- Theme CSS -->
 	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 
+	<style>
+		.scroll-shadow {
+			box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+		}
+	</style>
+
 </head>
 
 <body>
 
 	<!-- Header START -->
-<header class="header-sticky" style="display:block">
+<header id="header" style="position: sticky; top: 0;">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-light navbar-expand-xl">
 		<div class="container-fluid px-md-5">
@@ -252,6 +258,18 @@ Footer END -->
 
 <!-- ThemeFunctions -->
 <script src="/js/functions.js"></script>
+
+<script>
+	// JavaScript to add/remove the scroll-shadow class on scroll
+	window.addEventListener("scroll", function() {
+		const header = document.getElementById("header");
+		if (window.scrollY > 0) {
+			header.classList.add("scroll-shadow");
+		} else {
+			header.classList.remove("scroll-shadow");
+		}
+	});
+</script>
 
 </body>
 </html>
