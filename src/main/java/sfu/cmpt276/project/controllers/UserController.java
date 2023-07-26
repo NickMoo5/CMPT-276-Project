@@ -302,10 +302,10 @@ public class UserController {
         model.addAttribute("edit", editedUser);
         return "admin/adminLanding";
     }
-    @GetMapping("/user/userLanding") 
+    @GetMapping("/userLanding") 
     public String tripPreferences(@RequestParam Map<String, String> tripUser, HttpServletRequest request, HttpSession session, Model model){
         User tripUser2 = (User) request.getSession().getAttribute("session_user");
-        model.addAttribute("tripEdit", tripUser2);
+        model.addAttribute("user", tripUser2);
         return "user/userLanding";
     }
 
@@ -314,14 +314,24 @@ public class UserController {
     public ResponseEntity<?> saveTripPreferences(@RequestParam("location") String location, @RequestParam("budget") String budget, @RequestParam("startDate") 
                                                  String startDate, @RequestParam("endDate") String endDate, HttpServletRequest request, HttpSession session, Model model){
         User editedTripUser = (User) request.getSession().getAttribute("session_user");
+        int chatReRequestDelay = 19000;
+        int chatRequestCounter = 0;
 
         // Generate and parse trip list of locations/activities
-        String chatTripQuery = GenTripQuery.genTripQuery(location, startDate, endDate, budget);
+        String chatTripQuery = GenTripQuery.genTripQuery(location, startDate, endDate);
         try {
-            String chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey);
+            String chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey, 0);
             if (chatResponse == ChatController.ERROR) return ResponseEntity.badRequest().build();
                 queryTest = chatResponse;                                           
             Trip tripObject = new Trip(chatResponse, startDate, endDate, location, budget, editedTripUser.getUid());
+
+            while (!tripObject.isItineraryArrValid()) {
+                if (chatRequestCounter > 3) return ResponseEntity.badRequest().build();
+                chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey, chatReRequestDelay);
+                if (chatResponse == ChatController.ERROR) return ResponseEntity.badRequest().build();
+                tripObject.setItineraryArr(chatResponse);
+                chatRequestCounter++;
+            }
 
             Trip savedTrip = tripRepo.save(tripObject);
 
@@ -339,21 +349,17 @@ public class UserController {
     public String itineraryDisplay(HttpServletRequest request, HttpSession session, Model model){
         User itineraryUser = (User) session.getAttribute("session_user"); 
         Trip currTrip = tripRepo.getById(itineraryUser.getMostRecentTrip());
-        //List<String> locations = currTrip.get(0).getLocationsList();
-        List<String> locations = currTrip.getLocationsList();
-        // remove null values
+        Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary();       // Itinerary Hashmap
 
         model.addAttribute("user", itineraryUser);
         model.addAttribute("currTrip", currTrip);
-        model.addAttribute("locations", locations);
-        model.addAttribute("query", queryTest);
+        model.addAttribute("itinerary", tripItinerary);
         
-        //model.addAttribute("location", locationTest);
+        model.addAttribute("location", queryTest);          // Used for debugging and testing ChatGPT API
 
         return "user/tripDisplay";
-        //return "test";
+        //return "test";                // Used for debugging and testing ChatGPT API
     }
-     
 
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletRequest request, HttpSession session){
@@ -483,7 +489,7 @@ public class UserController {
         String response;
         String prompt = "when was calculus invented?";
         try {
-            response = chatController.queryChatGPT(prompt, openaikey);
+            response = chatController.queryChatGPT(prompt, openaikey, 0);
         } catch(InterruptedException e) {
             response = ChatController.ERROR;
         }
