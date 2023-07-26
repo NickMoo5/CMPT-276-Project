@@ -120,8 +120,10 @@ public class UserController {
         return "user/editAccSettings";
     }
     @GetMapping("/user/aboutUs")
-    public String aboutUs(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
-        return "user/aboutUs";
+    public String aboutUs(@RequestParam Map<String, String> user, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("edit", user2);
+        return "/user/aboutUs";
     }
     @GetMapping("/user/changeUsername") 
     public String editUsername(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
