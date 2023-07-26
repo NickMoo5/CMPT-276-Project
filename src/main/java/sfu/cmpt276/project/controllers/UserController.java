@@ -314,14 +314,24 @@ public class UserController {
     public ResponseEntity<?> saveTripPreferences(@RequestParam("location") String location, @RequestParam("budget") String budget, @RequestParam("startDate") 
                                                  String startDate, @RequestParam("endDate") String endDate, HttpServletRequest request, HttpSession session, Model model){
         User editedTripUser = (User) request.getSession().getAttribute("session_user");
+        int chatReRequestDelay = 19000;
+        int chatRequestCounter = 0;
 
         // Generate and parse trip list of locations/activities
         String chatTripQuery = GenTripQuery.genTripQuery(location, startDate, endDate);
         try {
-            String chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey);
+            String chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey, 0);
             if (chatResponse == ChatController.ERROR) return ResponseEntity.badRequest().build();
                 queryTest = chatResponse;                                           
             Trip tripObject = new Trip(chatResponse, startDate, endDate, location, budget, editedTripUser.getUid());
+
+            while (!tripObject.isItineraryArrValid()) {
+                if (chatRequestCounter > 3) return ResponseEntity.badRequest().build();
+                chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey, chatReRequestDelay);
+                if (chatResponse == ChatController.ERROR) return ResponseEntity.badRequest().build();
+                tripObject.setItineraryArr(chatResponse);
+                chatRequestCounter++;
+            }
 
             Trip savedTrip = tripRepo.save(tripObject);
 
@@ -479,7 +489,7 @@ public class UserController {
         String response;
         String prompt = "when was calculus invented?";
         try {
-            response = chatController.queryChatGPT(prompt, openaikey);
+            response = chatController.queryChatGPT(prompt, openaikey, 0);
         } catch(InterruptedException e) {
             response = ChatController.ERROR;
         }

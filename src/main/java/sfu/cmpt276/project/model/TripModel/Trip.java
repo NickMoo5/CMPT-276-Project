@@ -33,6 +33,16 @@ public class Trip {
         this.userUid = userUid;
     }
 
+    public Boolean isItineraryArrValid() {
+        if (hasNullBeforeString(this.itinerary)) 
+            return false;
+        return true;
+    }
+
+    public void setItineraryArr(String chatResponse) {
+        this.itinerary = parseChatGpt(chatResponse);
+    }
+
     /**
      * Returns the itinerary in the form of a hashmap, the structure is as follows:
      * {Day Number: {location: description,
@@ -84,6 +94,25 @@ public class Trip {
         }
         return copiedMap;
     }
+
+    private static boolean hasNullBeforeString(String[] array) {
+        boolean foundString = false;
+
+        for (String item : array) {
+            if (item != null) {
+                if (foundString) {
+                    // Found a non-null string value after a null value
+                    return true;
+                }
+            } else {
+                // Encountered a null value
+                foundString = true;
+            }
+        }
+
+        return false;
+    }
+    
 
     private String[] parseChatGpt(String chatResponse) {
         Pattern DAY_REG_EXP = Pattern.compile("\\{([^}]+)\\}");
