@@ -102,6 +102,7 @@ Main Banner START -->
 						<h1 class="fs-2"><span th:text="${currTrip.location}"></span></h1>
 						<ul class="nav nav-divider h6 text-body mb-0">
 							<li class="nav-item"><span th:text="${currTrip.startDate}"></span> to <span th:text="${currTrip.endDate}"></span></li>
+							<li class="nav-item"><span th:text="${currTrip.budget}"></span>
 						</ul>
 					</div>
 				</div>
@@ -137,71 +138,55 @@ Main Banner START -->
 Main Banner END -->
 
 <!-- =======================
-Tabs START -->
-<section class="py-0">
-	<div class="container">
-		
-		<!-- Tabs START -->
-		<div class="row">
-			<div class="col-12">
-				<!-- Outer tabs START -->
-				<ul class="nav nav-pills nav-justified nav-responsive bg-primary bg-opacity-10 rounded p-2" id="tour-pills-tab" role="tablist" style="display: none;">
-					<!-- Tab item -->
-					<li class="nav-item" role="presentation">
-						<button class="nav-link active mb-0" id="tour-pills-tab-1" data-bs-toggle="pill" data-bs-target="#tour-pills-tab1" type="button" role="tab" aria-controls="tour-pills-tab1" aria-selected="true">ITINERARY</button>
-					</li>
-					<!-- Tab item -->
-					<li class="nav-item" role="presentation">
-						<button class="nav-link mb-0" id="tour-pills-tab-2" data-bs-toggle="pill" data-bs-target="#tour-pills-tab2" type="button" role="tab" aria-controls="tour-pills-tab2" aria-selected="false">OTHER</button>
-					</li>
-				</ul> 
-				<!-- Outer tabs END -->
-			</div>
-		</div>
-		<!-- Tabs END -->
-	</div>
-</section>
-<!-- =======================
-Tabs END -->
-
-<!-- =======================
 Tabs-content START -->
-<section class="pt-4 pt-md-5">
-	<div class="container">
-
-		<div class="row g-4 g-md-5">
+<section class="pt-1 pt-md-5">
+		<div class="row">
 			<!-- Tabs Content START -->
-			<div class="col-xl-8">
-				<!-- Outer tabs contents START -->
-				<div class="tab-content mb-0" id="tour-pills-tabContent">
-
+			<div class="col-8 mx-auto">
 					<!-- Content item START -->
-					<div class="tab-pane fade show active" id="tour-pills-tab1" role="tabpanel" aria-labelledby="tour-pills-tab-1">
-						<div class="card bg-transparent p-0">
+						<div class="card bg-transparent p-4">
 							<!-- Card header -->
-							<div class="card-header bg-transparent border-bottom p-0 pb-3">
-								<h3 class="mb-0">Trip Itinerary</h3>
+							<div class="card-header bg-transparent p-0 pb-3">
+								<h2 class="mb-0">Trip Itinerary</h2>
 							</div>
-						
-								<!-- List -->
-								<ul class="list-group list-group-borderless mb-4">
-									<li class="list-group-item" th:each="day:${itinerary}">
-										<span class="h3 mb-0 me-1" th:text="${day.key}"></span>
-										<ul>
-											<li class="list-group-item" th:each="location:${day.value}">
-												<span class="h5 mb-0 me-1" th:text="${location.key}"></span>
-												<p class="h6 mb-0 me-1" th:text="${location.value}"></p>
-											</li>
-										</ul>
-									</li>
-									
-								</ul>
-							</div>
+
+							<!--						TESTING 								-->
+							<!-- Card body START -->
+							<div class="card-body p-0 pt-3" th:each="day, num:${itinerary}">
+									<span class="h3 p-0 pb-2" th:text="${day.key}"></span>
+									<hr class="my-0 p-2 mt-2"> <!-- Divider -->
+									<div class="accordion accordion-icon accordion-bg-light" th:id="'#accordionExample' + ${num.index}">
+										<!-- Item -->
+										<div th:each="location, i:${day.value}">
+											<div class="accordion-item mb-3">
+												<h6 class="accordion-header font-base" th:id="'heading-' + ${i.index + (num.index * 4)}">
+													<button class="accordion-button rounded d-inline-block collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
+													 th:attr="data-bs-target='#collapse-'+ ${i.index + (num.index * 4)}, aria-controls='collapse-' + ${i.index + (num.index * 4)}">
+														<span class="lead me-1 fw-normal" th:text="${location.key}"><span>
+													</button>
+												</h6>
+												<!-- Body -->
+												<div th:id="'collapse-' + ${i.index + (num.index * 4)}" class="accordion-collapse collapse"  
+												 th:attr="aria-labelledby='heading-' + ${i.index + (num.index * 4)}, data-bs-parent='#accordionExample' + ${num.index}">
+													<div class="accordion-body mt-3">
+														
+														<span class="h5 mb-0 me-1" th:text="${location.key}"></span>
+														<p class="h6 mb-0 me-1" th:text="${location.value}"></p>
+
+														<!--				MAP WOULD GO HERE  						-->
+																
+													</div>
+												</div>
+											</div>
+										</div>	
+									</div>
+							</div>		
 							<!-- Card body END -->
 						</div>
-					</div>		
 					<!-- Content item END -->
+				
 			<!-- Tabs Content END -->
+			</div>
 
 		</div> <!-- Row END -->
 	
