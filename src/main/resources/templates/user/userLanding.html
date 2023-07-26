@@ -29,6 +29,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/loading.js}"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
 </head>
 
 <body>
@@ -253,6 +254,7 @@ Footer END -->
 <script src="https://cdn.jsdelivr.net/npm/moment"></script>
 
 <!-- ThemeFunctions -->
+<script src="/js/autoComplete.js"></script>
 <script src="/js/functions.js"></script>
 <script>
 	$(document).ready(function() {
@@ -360,6 +362,6 @@ Footer END -->
         });
     });
 </script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=places"></script>
 </body>
 </html>
