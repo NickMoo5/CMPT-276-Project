@@ -287,16 +287,19 @@ Footer END -->
 
 	<!-- Start Google Maps API for Javascript -->
 	<script th:inline="javascript">
-		//var map;
-		var maplist = [];
+		var itineraryObj = [[${ itinerary }]];
+		var originCity = [[${ currTrip.location }]];
+
 		var geocoder;
 		var service;
 		var infowindow;
 		var request;
-		var originCity = [[${ currTrip.location }]];
-		var origincoords = [];
+		
+		var maplist = [];
+		var locationlist = [];
+		var locationcoords = [];
 		var mapindex;
-		var locationcounter = [[${ itinerary }]];
+		
 
 		//initialize maps
 		async function initMap() {
@@ -307,30 +310,38 @@ Footer END -->
 			const { PlacesService } = await google.maps.importLibrary("places");
 			const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
-			// new variables to start respective processes
-			geocoder = new google.maps.Geocoder();
+			
 
 			//first for loop is to iterate between each day of itinerary
-			for (var i = 1; i < Object.keys(locationcounter).length + 1; i++) {
+			for (var i = 1; i < Object.keys(itineraryObj).length + 1; i++) {
 				//second for loop is to iterate between each location for each day
-				for (var j = 0; j < Object.keys(locationcounter["Day " + i]).length; j++) {
+				for (var j = 0; j < Object.keys(itineraryObj["Day " + i]).length; j++) {
 
+					//index to correspond to the div
 					mapindex = (i - 1) * 4 + j;
 
+					//map options to generate new map
 					var mapOptions = {
 						zoom: 18,
 						center: { lat:0, lng:0 },
 					}
 
+					//building new map and pushing it to maplist
 					var map = new google.maps.Map(document.getElementById("map" + mapindex), mapOptions);
 					maplist.push(map);
 
-					geocoder.geocode({ 'address': originCity }, function (results, status) {
-						if (status == google.maps.GeocoderStatus.OK) {
+					//obtains location of the container and stores it for later use
+					var location = Object.keys(itineraryObj["Day " + i])[j];
+					locationlist.push(location);
 
-							var latitude = results[0].geometry.location.lat();
-							var longitude = results[0].geometry.location.lng();
-							origincoords.push(results[0].geometry.location);
+					//open a new geocode instance
+					geocoder = new google.maps.Geocoder();
+
+					//geocode address and stores it to center associated maps
+					geocoder.geocode({ 'address':  location}, function (results, status) {
+						if (status == google.maps.GeocoderStatus.OK) {
+							alert(results[0].geometry.location);
+							locationcoords.push(results[0].geometry.location);
 						}
 					});
 					document.getElementById("map" + mapindex).setAttribute("style", "height:500px");
@@ -341,11 +352,14 @@ Footer END -->
 				}
 
 			}
+
 		}
 
 		function updateCenter(index) {
-				maplist[index].setCenter(origincoords[index]);
+				maplist[index].setCenter(locationcoords[index]);
 		}
+
+		
 
 		window.initMap = initMap();
 	</script>
