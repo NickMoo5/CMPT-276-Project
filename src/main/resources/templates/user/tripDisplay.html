@@ -317,6 +317,7 @@ Footer END -->
 			const { Geocoder } = await google.maps.importLibrary("geocoding");
 			const { PlacesService } = await google.maps.importLibrary("places");
 			const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+			const { LatLng } = await google.maps.importLibrary("core");
 
 			//-------------------------------------------code for obtaining image of origin location----------------------------------------------------
 
@@ -389,18 +390,6 @@ Footer END -->
 					var location = Object.keys(itineraryObj["Day " + i])[j];
 					locationlist.push(location);
 
-					//open a new geocode instance
-					geocoder = new google.maps.Geocoder();
-
-					//geocode address and stores it to center associated maps
-					geocoder.geocode({ 'address': location }, function (results, status) {
-						if (status == google.maps.GeocoderStatus.OK) {
-							//alert(results[0].geometry.location);
-							locationcoords.push(results[0].geometry.location);
-						} else {
-							alert('Geocode was not successful for the following reason: ' + status);
-						}
-					});
 					document.getElementById("map" + mapindex).setAttribute("style", "height:500px");
 
 
@@ -409,11 +398,58 @@ Footer END -->
 				}
 
 			}
+			//geocodes the location obtained 
+			geocodeloc();
+		}
+
+		function geocodeloc() {
+
+			locationlist.forEach(function (location) {
+				//populate the locationcoords array with blanks
+				//locationcoords.push("");
+
+				//open a new geocode instance
+				var geocoder = new google.maps.Geocoder();
+
+				//geocode address and stores it to center associated maps
+				geocoder.geocode({ 'address': location }, function (results, status) {
+					if (status == google.maps.GeocoderStatus.OK) {
+						var latlng = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+						//alert(location + ", " + latlng);
+
+						//saves the latlng of the associated location on the same index as said location
+						var index = locationlist.indexOf(location);
+						locationcoords[index] = latlng;
+
+					} else {
+						alert('Geocoding ' + location + ' was not successful for the following reason: ' + status);
+						//saves the latlng of the associated location on the same index as said location
+						var index = locationlist.indexOf("location");
+						locationcoords[index] = "";
+					}
+				});
+			});
 
 		}
 
 		function updateCenter(index) {
-			maplist[index].setCenter(locationcoords[index]);
+			if (locationcoords[index] == null) {
+				maplist[index].__gm.ta.style.display = "none";
+			} else {
+				maplist[index].setCenter(locationcoords[index]);
+			}
+
+		}
+
+		function updateCenter() {
+			for (var index = 0; index < locationcoords.length; index++) {
+				if (locationcoords[index] == null) {
+					maplist[index].__gm.ta.style.display = "none";
+				} else {
+					maplist[index].setCenter(locationcoords[index]);
+				}
+			}
+
 		}
 
 
