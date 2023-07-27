@@ -354,13 +354,15 @@ Footer END -->
 							//alert(photos[0].getUrl());
 							document.getElementById("splide02-slide01").style.backgroundImage = 'url(' + photos[0].getUrl() + ')';
 						} else {
-							alert('Failed to obtain origin city details for the following reason: ' + status);
+							//alert('Failed to obtain origin city details for the following reason: ' + status);
+							system.log('Failed to obtain origin city details for the following reason: ' + status);
 						}
 					});
 
 
 				} else {
-					alert('Geocode was not successful for the following reason: ' + status);
+					//alert('Geocode was not successful for the following reason: ' + status);
+					system.log('Geocode was not successful for the following reason: ' + status);
 				}
 			});
 
@@ -378,7 +380,7 @@ Footer END -->
 
 					//map options to generate new map
 					var mapOptions = {
-						zoom: 18,
+						zoom: 15,
 						center: { lat: 0, lng: 0 },
 					}
 
@@ -394,6 +396,7 @@ Footer END -->
 
 
 					// ADD CODE HERE TO LOOP A TARGET TO ADDEVENTLISTENER AND CALL updateCenter(index)
+					// grab said index from uhhh locationlist.indexOf(location)
 
 				}
 
@@ -422,14 +425,14 @@ Footer END -->
 						locationcoords[index] = latlng;
 
 					} else {
-						alert('Geocoding ' + location + ' was not successful for the following reason: ' + status);
+						//alert('Geocoding ' + location + ' was not successful for the following reason: ' + status);
+						console.log('Geocoding ' + location + ' was not successful for the following reason: ' + status);
 						//saves the latlng of the associated location on the same index as said location
 						var index = locationlist.indexOf("location");
 						locationcoords[index] = "";
 					}
 				});
 			});
-
 		}
 
 		function updateCenter(index) {
