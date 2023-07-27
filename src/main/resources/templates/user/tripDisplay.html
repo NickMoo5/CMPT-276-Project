@@ -137,7 +137,10 @@ Main Banner START -->
 							data-splide='{"type" : "fade","autoplay": true,"heightRatio":0.5,"pagination":false,"arrows":false,"cover":true,"lazyLoad":"sequential"}'>
 							<div class="splide__track">
 								<ul class="splide__list">
-									<li class="splide__slide rounded"><img src="/images/gallery/04.jpg" alt="">
+									<!-- invisible map -->
+									<div id="map" class="d-none"></div>
+									<li id="background" class="splide__slide rounded">
+										<img src="" alt="">
 								</ul>
 							</div>
 						</div>
@@ -289,17 +292,22 @@ Footer END -->
 	<script th:inline="javascript">
 		var itineraryObj = [[${ itinerary }]];
 		var originCity = [[${ currTrip.location }]];
+		var originCityid;
+		var photos;
 
 		var geocoder;
 		var service;
 		var infowindow;
 		var request;
-		
+		//range for nearby restaurants in meters
+		const range = "500";
+
+		var map;
 		var maplist = [];
 		var locationlist = [];
 		var locationcoords = [];
 		var mapindex;
-		
+
 
 		//initialize maps
 		async function initMap() {
@@ -310,7 +318,54 @@ Footer END -->
 			const { PlacesService } = await google.maps.importLibrary("places");
 			const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
-			
+			//-------------------------------------------code for obtaining image of origin location----------------------------------------------------
+
+			//imaginary map to use other services
+			map = new google.maps.Map(document.getElementById("map"), {
+				center: { lat: 0, lng: 0 },
+				zoom: 15,
+			});
+
+			//geocodes origin city and updates origincity's place id
+			geocoder = new google.maps.Geocoder();
+			geocoder.geocode({ 'address': originCity }, function (results, status) {
+				if (status == google.maps.GeocoderStatus.OK) {
+					originCityid = results[0].place_id;
+					//alert(originCityid);
+
+					//request body to gain image for background use (up to 10 photos)
+					request = {
+						placeId: originCityid,
+						fields: ["photos"],
+					}
+
+					//requests photos of origin city based on placeID
+					service = new google.maps.places.PlacesService(map);
+					service.getDetails(request, (place, status) => {
+						if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+							photos = place.photos;
+							if (!photos) {
+								return;
+							}
+
+							//updates the background image
+							//alert(photos[0].getUrl());
+							document.getElementById("splide02-slide01").style.backgroundImage = 'url(' + photos[0].getUrl() + ')';
+						} else {
+							alert('Failed to obtain origin city details for the following reason: ' + status);
+						}
+					});
+
+
+				} else {
+					alert('Geocode was not successful for the following reason: ' + status);
+				}
+			});
+
+			//END
+
+			//------------------------------------------code for generating maps for each location and more----------------------------------------------
 
 			//first for loop is to iterate between each day of itinerary
 			for (var i = 1; i < Object.keys(itineraryObj).length + 1; i++) {
@@ -323,7 +378,7 @@ Footer END -->
 					//map options to generate new map
 					var mapOptions = {
 						zoom: 18,
-						center: { lat:0, lng:0 },
+						center: { lat: 0, lng: 0 },
 					}
 
 					//building new map and pushing it to maplist
@@ -338,17 +393,19 @@ Footer END -->
 					geocoder = new google.maps.Geocoder();
 
 					//geocode address and stores it to center associated maps
-					geocoder.geocode({ 'address':  location}, function (results, status) {
+					geocoder.geocode({ 'address': location }, function (results, status) {
 						if (status == google.maps.GeocoderStatus.OK) {
-							alert(results[0].geometry.location);
+							//alert(results[0].geometry.location);
 							locationcoords.push(results[0].geometry.location);
+						} else {
+							alert('Geocode was not successful for the following reason: ' + status);
 						}
 					});
 					document.getElementById("map" + mapindex).setAttribute("style", "height:500px");
 
 
 					// ADD CODE HERE TO LOOP A TARGET TO ADDEVENTLISTENER AND CALL updateCenter(index)
-					
+
 				}
 
 			}
@@ -356,10 +413,10 @@ Footer END -->
 		}
 
 		function updateCenter(index) {
-				maplist[index].setCenter(locationcoords[index]);
+			maplist[index].setCenter(locationcoords[index]);
 		}
 
-		
+
 
 		window.initMap = initMap();
 	</script>
