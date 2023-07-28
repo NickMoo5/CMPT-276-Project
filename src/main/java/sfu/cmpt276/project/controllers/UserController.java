@@ -97,7 +97,7 @@ public class UserController {
 
              String body = "<div style=\"text-align: center;\">"
             + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
-            + "<p>Welcome to Wayfinder " + fName + ", \n Your username is:" + username + "\nWe hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
+            + "<p>Welcome to Wayfinder " + fName + ", <br><br> Your username is:" + username + "<br>We hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
             + "</div>";
             emailUtility.sendEmail(email, "Welcome to Wayfinder!", body);
 
