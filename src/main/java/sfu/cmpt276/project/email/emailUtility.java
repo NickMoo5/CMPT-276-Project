@@ -11,8 +11,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage; 
 
 public class emailUtility {
-    private static final String senderEmail = "wayfinderpwreset@gmail.com"; 
-    private static final String senderPassword = "mdlqobgjamdhvdbc"; 
+    private static final String senderEmail = "teamwayfindercontact@gmail.com"; 
+    private static final String senderPassword = "azanludiknyfbnaq"; 
 
     public static void sendEmail(String sendTo, String subject, String body) {
         Properties properties = System.getProperties();
