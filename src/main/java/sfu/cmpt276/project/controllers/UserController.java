@@ -1,6 +1,5 @@
 package sfu.cmpt276.project.controllers;
 import java.util.Collections;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -308,7 +307,6 @@ public class UserController {
         model.addAttribute("user", tripUser2);
         return "user/userLanding";
     }
-
     //@PostMapping("/tripPrefsSaved")
     @RequestMapping(value = "/tripPrefsSaved", method = RequestMethod.GET)
     public ResponseEntity<?> saveTripPreferences(@RequestParam("location") String location, @RequestParam("budget") String budget, @RequestParam("startDate") 
@@ -359,6 +357,15 @@ public class UserController {
 
         return "user/tripDisplay";
         //return "test";                // Used for debugging and testing ChatGPT API
+    }
+
+    @GetMapping("/user/viewTrips") 
+    public String getTrips(@RequestParam Map<String, String> tripUser, HttpServletRequest request, HttpSession session, Model model){
+        User user = (User) request.getSession().getAttribute("session_user");
+        List <Trip> trips = tripRepo.findByUid(user.getUid());
+        model.addAttribute("user", user);
+        model.addAttribute("trips", trips);
+        return "user/viewTrips";
     }
 
     @GetMapping("/login")
