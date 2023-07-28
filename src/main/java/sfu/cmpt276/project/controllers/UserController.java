@@ -344,23 +344,46 @@ public class UserController {
         return ResponseEntity.ok().build();
 
     }
+    @GetMapping("/user/tripDisplay")
+    public String itineraryDisplay(@RequestParam(value = "uid", required = false) Integer tripUid, HttpServletRequest request, HttpSession session, Model model) {
+        User itineraryUser = (User) session.getAttribute("session_user");
 
-    @GetMapping("/user/tripDisplay") 
-    public String itineraryDisplay(HttpServletRequest request, HttpSession session, Model model){
-        User itineraryUser = (User) session.getAttribute("session_user"); 
-        Trip currTrip = tripRepo.getById(itineraryUser.getMostRecentTrip());
-        Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary();       // Itinerary Hashmap
+        if (tripUid != null) {
+            // Fetch the trip details based on the provided uid
+            Trip currTrip = tripRepo.getById(tripUid);
+            Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary(); // Itinerary Hashmap
 
-        model.addAttribute("user", itineraryUser);
-        model.addAttribute("currTrip", currTrip);
-        model.addAttribute("itinerary", tripItinerary);
-        
-        model.addAttribute("location", queryTest);          // Used for debugging and testing ChatGPT API
+            model.addAttribute("user", itineraryUser);
+            model.addAttribute("currTrip", currTrip);
+            model.addAttribute("itinerary", tripItinerary);
+  
+            return "user/tripDisplay";
+        } else {
+            // If uid is null, generate new trip
+            tripUid = itineraryUser.getMostRecentTrip();
+            Trip currTrip = tripRepo.getById(tripUid);
+            Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary(); 
 
-        return "user/tripDisplay";
-        //return "test";                // Used for debugging and testing ChatGPT API
+            model.addAttribute("user", itineraryUser);
+            model.addAttribute("currTrip", currTrip);
+            model.addAttribute("itinerary", tripItinerary);
+            model.addAttribute("location", queryTest);
+
+            //return "test";
+            return "user/tripDisplay";
+        }
     }
+    @GetMapping("/user/viewTrips") 
+    public String getTrips(HttpServletRequest request, HttpSession session, Model model){
+        User user = (User) request.getSession().getAttribute("session_user");
+        List <Trip> trips = tripRepo.findByUserUid(user.getUid());
 
+        model.addAttribute("user", user);
+        model.addAttribute("trips", trips);
+        model.addAttribute("hasTrips", !trips.isEmpty());
+        
+        return "user/viewTrips";
+    }
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletRequest request, HttpSession session){
         User user = (User) session.getAttribute("session_user");
