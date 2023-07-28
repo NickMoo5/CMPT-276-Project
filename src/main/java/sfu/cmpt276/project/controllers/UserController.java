@@ -97,7 +97,7 @@ public class UserController {
 
              String body = "<div style=\"text-align: center;\">"
             + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
-            + "<p>Welcome to Wayfinder " + fName + ", <br><br> Your username is:" + username + "<br>We hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
+            + "<p>Welcome to Wayfinder " + fName + ", <br><br> Your username is: " + username + "<br>We hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
             + "</div>";
             emailUtility.sendEmail(email, "Welcome to Wayfinder!", body);
 
@@ -375,11 +375,27 @@ public class UserController {
         User user2 = (User) request.getSession().getAttribute("session_user");
         Trip trip = tripRepo.getById(user2.getMostRecentTrip());
         Map<String, Map<String, String>> tripItin = trip.getItinerary();
+        String location = trip.getLocation();
+        String startDate = trip.getStartDate();
+        String endDate = trip.getEndDate();
+        String budget = trip.getBudget();
+
+        boolean isAn = false;
+
+        if (budget.equals("Average Budget")) {
+            isAn = true;
+        }
 
         // Construct the email body with the trip itinerary details
         StringBuilder bodyBuilder = new StringBuilder();
         bodyBuilder.append("<div style=\"text-align: center;\">");
         bodyBuilder.append("<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder Trip Itinerary</h1>");
+
+        if (isAn) {
+        bodyBuilder.append("<h3>This trip is for " + location + " from " + startDate + " to " + endDate + " with an " + budget + ".</h3>");
+        } else {
+        bodyBuilder.append("<h3>This trip is for " + location + " from " + startDate + " to " + endDate + " with a " + budget + ".</h3>");    
+        }
 
         for (Map.Entry<String, Map<String, String>> dayEntry : tripItin.entrySet()) {
             String day = dayEntry.getKey();
@@ -402,7 +418,7 @@ public class UserController {
         String body = bodyBuilder.toString();
 
         // Send the email using the emailUtility class or any other email sending mechanism
-        emailUtility.sendEmail(userEmail, "Wayfinder Trip Itinerary", body);
+        emailUtility.sendEmail(userEmail, "Wayfinder Trip Itinerary: " + location, body);
 
         return ResponseEntity.ok().body("{\"status\": \"success\"}");
        
