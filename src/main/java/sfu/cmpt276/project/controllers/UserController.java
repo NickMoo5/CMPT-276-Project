@@ -359,15 +359,6 @@ public class UserController {
         //return "test";                // Used for debugging and testing ChatGPT API
     }
 
-    @GetMapping("/user/viewTrips") 
-    public String getTrips(@RequestParam Map<String, String> tripUser, HttpServletRequest request, HttpSession session, Model model){
-        User user = (User) request.getSession().getAttribute("session_user");
-        List <Trip> trips = tripRepo.findByUid(user.getUid());
-        model.addAttribute("user", user);
-        model.addAttribute("trips", trips);
-        return "user/viewTrips";
-    }
-
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletRequest request, HttpSession session){
         User user = (User) session.getAttribute("session_user");
