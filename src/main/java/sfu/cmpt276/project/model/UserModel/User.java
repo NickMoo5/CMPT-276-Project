@@ -185,16 +185,16 @@ public class User implements Comparable<User>{
         this.budget = budget;
     }
     */
-    /*
-    public List<Trip> getTrips() {
-        return this.trips;
-    }
+    
+    // public List<Trip> getTrips() {
+    //     return this.trips;
+    // }
 
-    public void addTrip(Trip addTrip) {
-        this.trips.add(addTrip);
-        this.mostRecentTrip = addTrip;
-    }
-    */
+    // public void addTrip(Trip addTrip) {
+    //     this.trips.add(addTrip);
+    //     this.mostRecentTrip = addTrip;
+    // }
+    
     public int getMostRecentTrip() {
         return Integer.parseInt(this.mostRecentTrip);
     }

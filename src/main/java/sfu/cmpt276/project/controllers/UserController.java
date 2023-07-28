@@ -1,6 +1,5 @@
 package sfu.cmpt276.project.controllers;
 import java.util.Collections;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -47,12 +46,18 @@ public class UserController {
 
     @GetMapping("/")
     public RedirectView rootView(){
-        return new RedirectView("login");
+        return new RedirectView("user/home");
     }
     @PostMapping("/")
     public RedirectView returnLanding(){
-        return new RedirectView("login");
+        return new RedirectView("user/home");
     }
+
+    @GetMapping("user/home") 
+    public String displayHome(){
+        return "user/home";
+    }
+
     @GetMapping("user/addUser") 
     public String displaySignup(AddUser addUser, Model model){
         AddUser tempUser = new AddUser();
@@ -60,7 +65,7 @@ public class UserController {
         return "user/addUser";
     }
     @GetMapping("/admin/adminLanding")
-    public String displayUsers(Model model,HttpSession session,HttpServletRequest request){
+    public String displayUsers(Model model, HttpSession session, HttpServletRequest request){
         User user2 = (User) request.getSession().getAttribute("session_user");
         model.addAttribute("user", user2);
         List<User> us = userRepo.findAll();
@@ -74,6 +79,7 @@ public class UserController {
     private String email;
     private String username; 
     private String password;
+
     @PostMapping("/user/addUser")
     public String addUser(@RequestParam Map<String, String> newUser, AddUser addUser, HttpServletResponse response, Model model){
         AddUser tempUser = new AddUser(newUser.get("fname"), newUser.get("lname"), newUser.get("email"), newUser.get("username"));
@@ -317,7 +323,6 @@ public class UserController {
         model.addAttribute("user", tripUser2);
         return "user/userLanding";
     }
-
     //@PostMapping("/tripPrefsSaved")
     @RequestMapping(value = "/tripPrefsSaved", method = RequestMethod.GET)
     public ResponseEntity<?> saveTripPreferences(@RequestParam("location") String location, @RequestParam("budget") String budget, @RequestParam("startDate") 
@@ -438,7 +443,7 @@ public class UserController {
                 return displayUsers(model,session,request);
             }
             else{
-            return "user/userLanding";
+                return "user/userLanding";
             }
         }
     }
@@ -459,18 +464,18 @@ public class UserController {
                 List<User> us = userRepo.findAll();
                 Collections.sort(us);
                 us.remove(0);
-                model.addAttribute("userList" , us);
+                model.addAttribute("userList", us);
                 return "admin/adminLanding";
             }
             else{
-            return "user/userLanding";
+                return "user/userLanding";
             }
         }
     }
     @GetMapping("user/logout")
     public String removeSession(HttpServletRequest request){
         request.getSession().invalidate();
-        return "user/login";
+        return "user/home";
     }
     @GetMapping("user/inputEmailForPin")
     public String displayPinConfirmation(Model model, HttpServletRequest request, HttpSession session) {
