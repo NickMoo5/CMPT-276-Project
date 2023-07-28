@@ -32,8 +32,10 @@ public class emailUtility {
 
         session.setDebug(true);
 
+        
         try {
             MimeMessage message = new MimeMessage(session);
+
             //set header(from)
             message.setFrom(new InternetAddress(senderEmail));
             //set header(to)
@@ -41,7 +43,7 @@ public class emailUtility {
             //set subject
             message.setSubject(subject);
             //set body
-            message.setText(body);
+            message.setContent(body, "text/html");
             Transport.send(message);
         } catch (MessagingException mex) {
             mex.printStackTrace();
