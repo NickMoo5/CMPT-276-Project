@@ -301,12 +301,13 @@ Footer END -->
 		var infowindow;
 		var request;
 		//range for nearby restaurants in meters
-		const range = "500";
+		const range = "150";
 
 		var map;
 		var maplist = [];
 		var locationlist = [];
 		var locationcoords = [];
+		var markersets = [];
 		var mapindex;
 
 
@@ -422,7 +423,8 @@ Footer END -->
 						locationcoords[index] = latlng;
 
 						//searches nearbyRestaurants
-						restaurantSearch(latlng, index);
+						var markers = restaurantSearch(latlng, index);
+						markersets[index] = markers;
 
 					} else {
 						//alert('Geocoding ' + location + ' was not successful for the following reason: ' + status);
@@ -436,7 +438,6 @@ Footer END -->
 		}
 		// calls nearby search to get restaurants in range (in metres)
 		function restaurantSearch(latlng, index) {
-
 			//sets up request to look for nearby restaurants
 			request = {
 				location: latlng,
@@ -446,14 +447,19 @@ Footer END -->
 
 			//actually calling the request
 			var service = new google.maps.places.PlacesService(map0);
-			service.nearbySearch(request, callback);
+			var markers = service.nearbySearch(request, callback);
+
+			return markers;
 		}
 
 		//display results from nearbySearch
 		function callback(results, status) {
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
+				//array to store resulting markers
+				var results = [];
+
 				//alert("success?" + results.length);
-				for (var i = 0; i < results.length; i++) {
+				for (var i = 0; i < Math.min(results.length, 5); i++) {
 					//new request to gather place details request
 					const placeDetailsRequest = {
 						placeId: results[i].place_id,
@@ -471,15 +477,15 @@ Footer END -->
 						) {
 							//making a display marker to show up map
 							const marker = new google.maps.Marker({
-								map: maplist[1],				// As per request to change this		
 								position: place.geometry.location,
 							});
 
 							//when marker is clicked, show details
+							infowindow = new google.maps.InfoWindow();
 							google.maps.event.addListener(marker, "click", () => {
 								//container for details element
 								const content = document.createElement("div");
-								const nameElement = document.createElement("h2");
+								const nameElement = document.createElement("h1");
 
 								nameElement.textContent = place.name;
 								content.appendChild(nameElement);
@@ -506,6 +512,8 @@ Footer END -->
 								infowindow.open(map, marker);
 							});
 
+							results.push(marker);
+
 						} else {
 							alert('placeDetails request was not successful for the following reason: ' + status);
 						}
@@ -515,6 +523,7 @@ Footer END -->
 			} else {
 				alert('nearbySearch was not successful for the following reason: ' + status);
 			}
+			return results;
 		}
 
 		//update map display and center the map on to associated coordinates
