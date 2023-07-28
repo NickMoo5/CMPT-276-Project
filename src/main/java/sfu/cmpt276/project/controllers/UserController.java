@@ -94,6 +94,14 @@ public class UserController {
         }
         else{
             response.setStatus(201);
+
+             String body = "<div style=\"text-align: center;\">"
+            + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
+            + "<p>Welcome to Wayfinder " + fName + ", \n Your username is:" + username + "\nWe hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
+            + "</div>";
+            emailUtility.sendEmail(email, "Welcome to Wayfinder!", body);
+
+
             return "user/addPrefs";
         }
     }
@@ -476,9 +484,7 @@ public class UserController {
             // send email
             String userEmail = user.getEmail();
             String userPin = user.getPin();
-            String imageUrl = "https://media.istockphoto.com/id/876560704/photo/fuji-japan-in-spring.jpg?s=612x612&w=0&k=20&c=j1VZlzfNcsjQ4q4yHXJEohSrBZJf6nUhh2_smM4eioQ=";
             String body = "<div style=\"text-align: center;\">"
-            + "<img src=\"" + imageUrl + "\" alt=\"Header Image\">"
             + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
             + "<p>Your Wayfinder account pin reset code is " + userPin + ".<br>Do not share this with anyone!</p>"
             + "</div>";
