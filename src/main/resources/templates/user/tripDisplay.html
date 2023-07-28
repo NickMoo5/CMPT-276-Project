@@ -185,7 +185,7 @@ Tabs-content START -->
 									<div class="accordion-item mb-3">
 										<h6 class="accordion-header font-base"
 											th:id="'heading-' + ${i.index + (num.index * 4)}">
-											<button class="accordion-button rounded d-inline-block collapsed"
+											<button class="accordion-button rounded d-inline-block collapsed" th:id="'button-' + ${i.index + (num.index * 4)}"
 												type="button" data-bs-toggle="collapse" aria-expanded="false"
 												th:attr="data-bs-target='#collapse-'+ ${i.index + (num.index * 4)}, aria-controls='collapse-' + ${i.index + (num.index * 4)}">
 												<span class="lead me-1 fw-normal" th:text="${location.key}"><span>
@@ -394,10 +394,12 @@ Footer END -->
 
 					document.getElementById("map" + mapindex).setAttribute("style", "height:500px");
 
-
 					// ADD CODE HERE TO LOOP A TARGET TO ADDEVENTLISTENER AND CALL updateCenter(index)
 					// grab said index from uhhh locationlist.indexOf(location)
-
+					var button = document.getElementById("button-" + mapindex);
+					mapObjectIndex = locationlist.indexOf(location);
+					console.log(mapObjectIndex);
+					button.addEventListener("click", updateCenter.bind(null, mapObjectIndex));
 				}
 
 			}
@@ -471,7 +473,7 @@ Footer END -->
 						) {
 							//making a display marker to show up map
 							const marker = new google.maps.Marker({
-								map: mapindex[1],
+								map: maplist[1],				// As per request to change this		
 								position: place.geometry.location,
 							});
 

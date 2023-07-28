@@ -7,21 +7,17 @@ public class GenTripQuery {
     private static final String CHAT_INSTRUCTIONS = " include places to visit, organized in a " +
             "logical sequence based on the types of activities, and their general geographic proximity. For each item, " +
             "provide the name of the place, a brief description of why we should visit or what we could do there, please " +
-            "return the itinerary back in the following format. ";
+            "return each day back in the following format" +
+            ". An example is provided below for a day itinerary, return each day in the following format and KEEP THE CURLY BRACES: ";
 
-    private static final String FORMAT = "{\n" +
-            "{\n" +
-            "^Day 1^\n" +
-            "(~name of place enclosed in tildes~: @why you should come here or what you should do enclosed in at symbols@)\n" +
-            "(~name of place enclosed in tildes~: @why you should come here or what you should do enclosed in at symbols@)\n" +
-            "(~name of place enclosed in tildes~: @why you should come here or what you should do enclosed in at symbols@)\n" +
-            "}\n" +
+    private static final String FORMAT =
             "\n" +
-            "{\n" +
-            "^Day 2^\n" +
+            "{ ^Day 1^\n" +
             "(~name of place enclosed in tildes~: @why you should come here or what you should do enclosed in at symbols@)\n" +
             "(~name of place enclosed in tildes~: @why you should come here or what you should do enclosed in at symbols@)\n" +
-            "}\n";
+            "(~name of place enclosed in tildes~: @why you should come here or what you should do enclosed in at symbols@)\n" +
+            "}";
+
     private static final String LIMITING_STATEMENT = "Do NOT return any other information.";
 
     public static String genTripQuery(String city, String startDate, String endDate) {
