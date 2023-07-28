@@ -408,9 +408,6 @@ Footer END -->
 		function geocodeloc() {
 
 			locationlist.forEach(function (location) {
-				//populate the locationcoords array with blanks
-				//locationcoords.push("");
-
 				//open a new geocode instance
 				var geocoder = new google.maps.Geocoder();
 
@@ -424,6 +421,9 @@ Footer END -->
 						var index = locationlist.indexOf(location);
 						locationcoords[index] = latlng;
 
+						//searches nearbyRestaurants
+						restaurantSearch(latlng, index);
+
 					} else {
 						//alert('Geocoding ' + location + ' was not successful for the following reason: ' + status);
 						console.log('Geocoding ' + location + ' was not successful for the following reason: ' + status);
@@ -433,6 +433,88 @@ Footer END -->
 					}
 				});
 			});
+		}
+		// calls nearby search to get restaurants in range (in metres)
+		function restaurantSearch(latlng, index) {
+
+			//sets up request to look for nearby restaurants
+			request = {
+				location: latlng,
+				radius: range,
+				type: ['restaurant'],
+			};
+
+			//actually calling the request
+			var service = new google.maps.places.PlacesService(map0);
+			service.nearbySearch(request, callback);
+		}
+
+		//display results from nearbySearch
+		function callback(results, status) {
+			if (status == google.maps.places.PlacesServiceStatus.OK) {
+				alert("success?" + results.length);
+				for (var i = 0; i < results.length; i++) {
+					//new request to gather place details request
+					const placeDetailsRequest = {
+						placeId: results[i].place_id,
+						fields: ["name", "formatted_address", "place_id", "geometry", "rating", "price_level"],
+					}
+
+					//calling request
+					var service = new google.maps.places.PlacesService(map0);
+					service.getDetails(placeDetailsRequest, (place, status) => {
+						if (
+							status === google.maps.places.PlacesServiceStatus.OK &&
+							place &&
+							place.geometry &&
+							place.geometry.location
+						) {
+							//making a display marker to show up map
+							const marker = new google.maps.Marker({
+								map: mapindex[1],
+								position: place.geometry.location,
+							});
+
+							//when marker is clicked, show details
+							google.maps.event.addListener(marker, "click", () => {
+								//container for details element
+								const content = document.createElement("div");
+								const nameElement = document.createElement("h2");
+
+								nameElement.textContent = place.name;
+								content.appendChild(nameElement);
+
+								const placeRatingElement = document.createElement("p");
+
+								placeRatingElement.textContent = "User rating: " + place.rating;
+								content.appendChild(placeRatingElement);
+
+								if (place.price_level) {
+									const placePriceElement = document.createElement("p");
+
+									//TODO: replace price_level with dollar signs to signify price level
+									placePriceElement.textContent = "Price level: " + place.price_level;
+									content.appendChild(placePriceElement);
+								}
+
+								const placeAddressElement = document.createElement("p");
+
+								placeAddressElement.textContent = place.formatted_address;
+								content.appendChild(placeAddressElement);
+
+								infowindow.setContent(content);
+								infowindow.open(map, marker);
+							});
+
+						} else {
+							alert('placeDetails request was not successful for the following reason: ' + status);
+						}
+					});
+
+				}
+			} else {
+				alert('nearbySearch was not successful for the following reason: ' + status);
+			}
 		}
 
 		function updateCenter(index) {
