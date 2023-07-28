@@ -314,7 +314,6 @@ public class UserController {
         model.addAttribute("user", tripUser2);
         return "user/userLanding";
     }
-
     //@PostMapping("/tripPrefsSaved")
     @RequestMapping(value = "/tripPrefsSaved", method = RequestMethod.GET)
     public ResponseEntity<?> saveTripPreferences(@RequestParam("location") String location, @RequestParam("budget") String budget, @RequestParam("startDate") 

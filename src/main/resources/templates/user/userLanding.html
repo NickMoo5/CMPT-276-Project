@@ -127,7 +127,6 @@ Main Banner START -->
 				<h4>Please try again later</h4>
 				<form action="/userLanding" method="get">
 					<button class="btn btn-lg btn-primary mb-2" type="submit">Go back to Trip Planning Page<i class="bi bi-arrow-right ps-3"></i></button>
-				</form>
 			</div>
 		</div>
 
@@ -143,20 +142,22 @@ Main Banner START -->
                                 <div class="card-header p-4">
                                     <h5 class="mb-0"><i class="fa-solid fa-plane fa-fw me-2"></i>Planning Itinerary</h5>
                                 </div>
-            
+
+							
                                 <!-- Card body -->
                                 <!--<form class="card-body p-4 pt-0">-->
                                     <div class="row g-4">
-                                        <form action="/tripPrefsSaved" method="post" id="tripPrefs">
+                                        <form action="/tripPrefsSaved" method="post" id="tripPrefs" novalidate>
                                             <!-- Location -->
                                             <div class="col-12 p-4 m-0">
                                                 <div class="form-icon-input form-fs-lg">
                                                     <input type="text" class="form-control form-control-lg" id="location" name="location" placeholder="Enter a city" required>
                                                     <span class="form-icon"><i class="bi bi-geo-alt fs-5"></i></span>
                                                 </div>
+												<div class="error-msg" id="locationErrorMsg"></div>
                                             </div>
-											
 											<div class="row p-4">
+
                                             <!-- Budget -->
                                             <div class="col-lg-4">
                                                 <div class="form-icon-input form-size-lg form-fs-lg">
@@ -168,6 +169,7 @@ Main Banner START -->
                                                     </select>
                                                     <span class="form-icon"><i class="bi bi-currency-dollar fs-5"></i></span>
                                                 </div>
+												<div class="error-msg" id="budgetErrorMsg"></div>
                                             </div>
                 
                                             <!-- Start Date -->
@@ -176,6 +178,8 @@ Main Banner START -->
                                                     <input type="text" class="form-control form-control-lg flatpickr" data-date-format="d/m/y"  id="startDate" name="startDate" placeholder="Select start date" required>
                                                     <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
                                                 </div>
+												<div class="error-msg" id="startDateErrorMsg"></div>
+												<div class="error-msg" id="dateErrorMsg"></div>
                                             </div>
                 
                                             <!-- End Date -->
@@ -184,6 +188,7 @@ Main Banner START -->
                                                     <input type="text" class="form-control form-control-lg flatpickr" data-date-format="d/m/y"  id="endDate" name="endDate" placeholder="Select end date" required>
                                                     <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
                                                 </div>
+												<div class="error-msg" id="endDateErrorMsg"></div>
                                             </div>
 											<div class="text-center pt-0">
 												<button class="btn btn-lg btn-primary mb-n7" type="submit">Find Your Way! <i class="bi bi-arrow-right ps-3"></i></button>
@@ -260,10 +265,13 @@ Footer END -->
 <script src="/js/autoComplete.js"></script>
 <script src="/js/functions.js"></script>
 <script>
+	let formSubmitted = false;
+
 	$(document).ready(function() {
 		// Submit the form and show the loading screen
 		$('#tripPrefs').submit(function(event) {
 			event.preventDefault();
+			formSubmitted = true;
 
 			if (validateForm()) {
 				showLoadingScreen();
@@ -294,58 +302,86 @@ Footer END -->
 				});
 			}
 		});
-		
 		function showLoadingScreen() {
 			var loadingContainer = document.getElementById('loader');
 			loadingContainer.style.display = "block";
 			hideForm();
 		}
-
 		function hideLoadingScreen() {
 			var loadingContainer = document.getElementById('loader');
 			loadingContainer.style.display = "none";
 		}
-
 		function showErrorMsg() {
 			var errorContainer = document.getElementById('errorQuery');
 			errorContainer.style.display = "block";
 			hideLoadingScreen();
 		}
-
 		function hideForm() {
 			var form = document.getElementById('tripForm');
 			form.style.display = "none";
 		}
-		
+	
 		function switchToCompletionTemplate() {
 			var link = document.getElementById('linkToTripDisplay');
 			link.click();
 		}
 	});
+	
+	// Real-time validation and error message handling
+	$('#location').on('input', validateForm);
+    $('#budget').on('change', validateForm);
+    $('#startDate').on('input', validateForm);
+    $('#endDate').on('input', validateForm);
 
+	function displayErrorMsg(inputId, message) {
+            var errorDiv = document.getElementById(inputId + "ErrorMsg");
+            errorDiv.innerHTML = message;
+            errorDiv.style.color = "red";
+    }
+    function clearErrorMsg(inputId) {
+            var errorDiv = document.getElementById(inputId + "ErrorMsg");
+            errorDiv.innerHTML = "";
+    }
 	function validateForm() {
 		const location = document.getElementById('location');
 		const budget = document.getElementById('budget');
 		const startDate = document.getElementById('startDate');
 		const endDate = document.getElementById('endDate');
 
-		if (location.value === '' || budget.value === 'Select Budget' || startDate.value === '' || endDate.value === '') {
-			alert('Please fill in all required fields.');
+		if (formSubmitted && location.value === '' ){
+			displayErrorMsg("location", "Please select a location");
 			return false;
+		} else {
+			clearErrorMsg("location");
+		}
+		if (formSubmitted && budget.value === 'Select Budget') {
+			displayErrorMsg("budget", "Please select a budget");
+			return false;
+		} else {
+			clearErrorMsg("budget");
+		}
+		if (formSubmitted && startDate.value === '' ){
+			displayErrorMsg("startDate", "Please select a start date");
+			return false;
+		} else {
+			clearErrorMsg("startDate");
+		}
+		if (formSubmitted && endDate.value === '') {
+			displayErrorMsg("endDate", "Please select an end date");
+			return false;
+		} else {
+			clearErrorMsg("endDate");
 		}
 
 		const startDateMoment = moment(startDate.value, 'D/M/Y', true);
         const endDateMoment = moment(endDate.value, 'D/M/Y', true);
 
-        if (!startDateMoment.isValid() || !endDateMoment.isValid()) {
-            alert('Invalid date format. Please use the format: DD/MM/YYYY');
-            return false;
-        }
-
-        if (startDateMoment.isSameOrAfter(endDateMoment)) {
-            alert('Start date must be before end date.');
-            return false;
-        }
+        if (formSubmitted && startDateMoment.isSameOrAfter(endDateMoment)) {
+            displayErrorMsg("date", "Start date must be before end date");
+			return false;
+		} else {
+			clearErrorMsg("date");
+		}
 		return true;
 	}
 
