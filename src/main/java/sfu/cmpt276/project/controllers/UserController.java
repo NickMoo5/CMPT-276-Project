@@ -392,7 +392,7 @@ public class UserController {
     @GetMapping("user/logout")
     public String removeSession(HttpServletRequest request){
         request.getSession().invalidate();
-        return "user/login";
+        return "user/home";
     }
     @GetMapping("user/inputEmailForPin")
     public String displayPinConfirmation(Model model, HttpServletRequest request, HttpSession session) {
