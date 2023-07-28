@@ -44,18 +44,22 @@
 			box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
 		}
 	</style>
-	
 </head>
 <body>
-    <!-- Header START -->
+
+	<!-- Header START -->
 <header class="header-sticky" id="header" style="position: sticky; top: 0;">
+
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-light navbar-expand-xl">
 		<div class="container-fluid px-md-5">
 			<!-- Logo START -->
-			<a class="navbar-brand" href="/">
-				<h3>WayFinder</h3>
-			</a>
+			<a class="navbar-brand">
+				<div class="mt-3">	
+					<img class="light-mode-item navbar-brand-item" src="/images/logo-icon.svg" alt="logo"></a>
+				</div>
+				<h4>WayFinder</h4>
+				
 			<!-- Logo END -->
 
 			
@@ -66,8 +70,8 @@
 				<!-- Profile dropdown START -->
 				<li class="nav-item ms-3 dropdown">
 					<!-- Avatar -->
-					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-						<img class="avatar-img rounded-2" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
+					<a class="avatar avatar-sm p-0" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="bi bi-person-circle fa-fw" style="font-size: 40px;"></i>
 					</a>
                     
 					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
@@ -79,8 +83,8 @@
 									<img class="avatar-img rounded-circle shadow" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
 								</div>
 								<div>
-									<a class="h6 mt-2 mt-sm-0" href="#"><span th:text="${edit.username}"></span></a>
-									<p class="small m-0"><span th:text="${edit.email}"></span></p>
+									<a class="h6 mt-2 mt-sm-0"><span th:text="${user.username}"></span></a>
+									<p class="small m-0"><span th:text="${user.email}"></span></p>
 								</div>
 							</div>
 						</li>
@@ -98,84 +102,127 @@
 		</div>
 	</nav>
 	<!-- Logo Nav END -->
-
 </header>
 <!-- Header END -->
 
- <section>
-	<div class="container">
-		<div class="row mb-5">
-			<div class="col-xl-10 mx-auto text-center">
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+	
+<!-- =======================
+Main Banner START -->
+<section class="pt-0">
+	<div class="container position-relative">
+		<!-- Bg image -->
+		<div class="rounded-3 p-4 p-sm-5" style="background-image: url(/images/bg/02.jpg); background-position: center center; background-repeat: no-repeat; background-size: cover;">
+			<!-- Banner title -->
+			<div class="row justify-content-between pt-0 pb-5"> 
+				<div class="col-md-7 col-lg-8 col-xxl-7 pb-5 mb-0 mb-lg-5"> 
+					<h1 class="text-white">Plan Your Perfect Trip</h1>
+					<p class="text-white mb-0">Create a custom AI generated travel itinierary with a press of a button!</p>
+				</div>
 
-				<p class="lead">The Wayfinder Story</p>
-
-				<!-- Title -->
-				<h1 style="background-image: url(/images/bg/03.jpg);
-				background-repeat: repeat;
-				background-position: 30px 530px;
-				-webkit-background-clip: text;
-				-webkit-text-fill-color: transparent;
-				margin-top: 0px;
-				font-size: 120px;
-				text-align: left;
-				font-weight: bold;
-				text-transform: uppercase;
-				font-family: 'Steelfish Rg', 'helvetica neue',
-							helvetica, arial, sans-serif;
-				font-weight: 800;
-				-webkit-font-smoothing: antialiased;">
-				Travelling made better
-				</h1>
-
-				<!--Intro-->
-				<h4 style="font-weight: normal; text-align: center;">We believe we can use AI to liberate travelers from the hassles of planning by curating personalized itineraries, allowing them to connect with the world, embrace new experiences, and create cherished memories.</h3>
-				
-				<!--Our mission-->
-				<div style="height: 1100px; 
-				background-image: url(/images/bg/04.jpg);
-				background-size: cover;
-				background-repeat: no-repeat;
-				display: flex;
-				flex-direction: column;
-				color: #fff; 
-				font-size: 24px;
-				text-align: center;
-				border-radius: 20px;
-				overflow: hidden;
-				margin-top: 50px;
-				position: relative;
-				">
-					<div>
-						<h3 style="margin-top: 50px;">Our Mission</h3>
-						<div class="row justify-content-center" style="padding-top: 50px">
-							<div class="col-md-5">
-								<i class="bi bi-tree"></i>
-								<h6>Draw people outdoors</h6>
-								<p style="font-size: smaller;">We believe humans are at their best when they're able to be outside.</p>
-							</div>
-							<div class="col-md-5">
-								<i class="bi bi-geo-alt"></i>
-								<h6>Inspire exploration</h6>
-								<p style="font-size: smaller;">We enourage people to explore the world around them.</p>
-							</div>
-						</div>
-						<div class="row justify-content-center" style="padding-top: 100px;">
-							<div class="col-md-5">
-								<i class="bi bi-clock-history"></i>
-								<h6>Save essential time</h6>
-								<p style="font-size: smaller;">We create time for people to focus on what they want to do.</p>
-							</div>
-							<div class="col-md-5">
-								<i class="bi bi-person-heart"></i>
-								<h6>Create everlasting memories</h6>
-								<p style="font-size: smaller;">We want our product to help people create memories for a lifetime.</p>
-							</div>
-						</div>
-					</div>
+			</div>
+		</div>
+		<div class="loader" id="loader" style="display: none">
+			<div class="d-flex-column text-center mt-2">
+				<h4 class="mb-0">Your Next Adventure Awaits!</h4>
+				<h5>We are currently generating your grand adventure, this may take some time</h5>
+			</div>
+			<div class="d-flex justify-content-center mb-2">
+				<div class="row spinner-border text-primary" role="status">
+					<span class="sr-only">Loading...</span>
 				</div>
 			</div>
-		</div> 
-	</div>
+		</div>
+
+		<div class="errorQuery" id="errorQuery" style="display: none">
+			<div class="d-flex-column text-center mt-2">
+				<h4>Sorry there was an error generating your trip</h4>
+				<h4>Please try again later</h4>
+				<form action="/userLanding" method="get">
+					<button class="btn btn-lg btn-primary mb-2" type="submit">Go back to Trip Planning Page<i class="bi bi-arrow-right ps-3"></i></button>
+				</form>
+			</div>
+		</div>
+
+		<div class="row" id="tripForm" style="display: block">
+                <!-- Tab content START -->
+                <div class="col-12">
+                    <div class="tab-content" id="nav-tabContent">
+                        
+                        <!-- Tab content item START -->
+                        <div class="tab-pane fade show active" id="tab-1-1">
+                            <div class="card shadow p-0">
+                                <!-- Card header -->
+                                <div class="card-header p-4">
+                                    <h5 class="mb-0"><i class="fa-solid fa-plane fa-fw me-2"></i>Planning Itinerary</h5>
+                                </div>
+
+							
+                                <!-- Card body -->
+                                <!--<form class="card-body p-4 pt-0">-->
+                                    <div class="row g-4">
+                                        <form action="/tripPrefsSaved" method="post" id="tripPrefs" novalidate>
+                                            <!-- Location -->
+                                            <div class="col-12 p-4 m-0">
+                                                <div class="form-icon-input form-fs-lg">
+                                                    <input type="text" class="form-control form-control-lg" id="location" name="location" placeholder="Enter a city" required>
+                                                    <span class="form-icon"><i class="bi bi-geo-alt fs-5"></i></span>
+                                                </div>
+												<div class="error-msg" id="locationErrorMsg"></div>
+                                            </div>
+											<div class="row p-4">
+
+                                            <!-- Budget -->
+                                            <div class="col-lg-4">
+                                                <div class="form-icon-input form-size-lg form-fs-lg">
+                                                    <select class="form-select js-choice" id="budget" name="budget" title="budget" required>
+                                                        <option selected disabled>Select Budget</option>
+                                                        <option>Low Budget</option>
+                                                        <option>Average Budget</option>
+                                                        <option>High Budget</option>
+                                                    </select>
+                                                    <span class="form-icon"><i class="bi bi-currency-dollar fs-5"></i></span>
+                                                </div>
+												<div class="error-msg" id="budgetErrorMsg"></div>
+                                            </div>
+                
+                                            <!-- Start Date -->
+                                            <div class="col-lg-4">
+                                                <div class="form-icon-input form-fs-lg">
+                                                    <input type="text" class="form-control form-control-lg flatpickr" data-date-format="d/m/y"  id="startDate" name="startDate" placeholder="Select start date" required>
+                                                    <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
+                                                </div>
+												<div class="error-msg" id="startDateErrorMsg"></div>
+												<div class="error-msg" id="dateErrorMsg"></div>
+                                            </div>
+                
+                                            <!-- End Date -->
+                                            <div class="col-lg-4">
+                                                <div class="form-icon-input form-fs-lg">
+                                                    <input type="text" class="form-control form-control-lg flatpickr" data-date-format="d/m/y"  id="endDate" name="endDate" placeholder="Select end date" required>
+                                                    <span class="form-icon"><i class="bi bi-calendar fs-5"></i></span>
+                                                </div>
+												<div class="error-msg" id="endDateErrorMsg"></div>
+                                            </div>
+											<div class="text-center pt-0">
+												<button class="btn btn-lg btn-primary mb-n7" type="submit">Find Your Way! <i class="bi bi-arrow-right ps-3"></i></button>
+											</div>
+											</div>
+                                        </form>
+                                    </div> <!-- Row END -->
+            
+                                    <!-- Button -->
+
+                                <!--</form>-->
+                            </div>
+                        </div>
+                        <!-- Tab content item END -->
+                    </div> 
+                </div>
+            </div>    <!-- Tab content END -->
+        </div>
+	</div>		
 </section>
 
 <footer class="bg-dark pt-5">
