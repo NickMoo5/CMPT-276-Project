@@ -185,8 +185,9 @@ Tabs-content START -->
 									<div class="accordion-item mb-3">
 										<h6 class="accordion-header font-base"
 											th:id="'heading-' + ${i.index + (num.index * 4)}">
-											<button class="accordion-button rounded d-inline-block collapsed" th:id="'button-' + ${i.index + (num.index * 4)}"
-												type="button" data-bs-toggle="collapse" aria-expanded="false"
+											<button class="accordion-button rounded d-inline-block collapsed"
+												th:id="'button-' + ${i.index + (num.index * 4)}" type="button"
+												data-bs-toggle="collapse" aria-expanded="false"
 												th:attr="data-bs-target='#collapse-'+ ${i.index + (num.index * 4)}, aria-controls='collapse-' + ${i.index + (num.index * 4)}">
 												<span class="lead me-1 fw-normal" th:text="${location.key}"><span>
 											</button>
@@ -392,10 +393,7 @@ Footer END -->
 					var location = Object.keys(itineraryObj["Day " + i])[j];
 					locationlist.push(location);
 
-					document.getElementById("map" + mapindex).setAttribute("style", "height:500px");
-
-					// ADD CODE HERE TO LOOP A TARGET TO ADDEVENTLISTENER AND CALL updateCenter(index)
-					// grab said index from uhhh locationlist.indexOf(location)
+					//Adds eventlistener to center the map on click of expansion button
 					var button = document.getElementById("button-" + mapindex);
 					mapObjectIndex = locationlist.indexOf(location);
 					console.log(mapObjectIndex);
@@ -454,7 +452,7 @@ Footer END -->
 		//display results from nearbySearch
 		function callback(results, status) {
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
-				alert("success?" + results.length);
+				//alert("success?" + results.length);
 				for (var i = 0; i < results.length; i++) {
 					//new request to gather place details request
 					const placeDetailsRequest = {
@@ -519,24 +517,31 @@ Footer END -->
 			}
 		}
 
+		//update map display and center the map on to associated coordinates
 		function updateCenter(index) {
-			if (locationcoords[index] == null) {
+			console.log(index);
+			if (!locationcoords[index]) {
 				maplist[index].__gm.ta.style.display = "none";
 			} else {
+				maplist[index].__gm.ta.style.display = "block";
 				maplist[index].setCenter(locationcoords[index]);
+				maplist[index].__gm.ta.style.height = "500px";
+				maplist[index].__gm.ta.style.marginTop = "20px";
 			}
-
 		}
 
+		//function to manually update all maps for testing
 		function updateCenter() {
 			for (var index = 0; index < locationcoords.length; index++) {
 				if (locationcoords[index] == null) {
 					maplist[index].__gm.ta.style.display = "none";
 				} else {
+					maplist[index].__gm.ta.style.display = "block";
 					maplist[index].setCenter(locationcoords[index]);
+					maplist[index].__gm.ta.style.height = "500px";
+					maplist[index].__gm.ta.style.marginTop = "20px";
 				}
 			}
-
 		}
 
 
