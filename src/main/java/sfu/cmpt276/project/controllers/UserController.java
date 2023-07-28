@@ -406,7 +406,7 @@ public class UserController {
                 String locationName = locationEntry.getKey();
                 String locationDetails = locationEntry.getValue();
 
-                bodyBuilder.append("<p><strong>").append(locationName).append("</strong>: ").append(locationDetails).append("</p>");
+                bodyBuilder.append("<p style=\"text-align: left;\"><strong>").append(locationName).append("</strong>: ").append(locationDetails).append("</p>");
             }
         }
 
