@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User implements Comparable<User>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int uid;
@@ -213,6 +213,20 @@ public class User {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
+    }
+
+    @Override
+    public int compareTo(User o) {
+        // TODO Auto-generated method stub
+        if(this.uid > o.uid){
+            return 1;
+        }
+        else if (this.uid < o.uid) {
+            return -1;
+        }
+        else{
+            return 0;
+        }
     }
 
 }

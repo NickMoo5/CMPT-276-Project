@@ -1,4 +1,5 @@
 package sfu.cmpt276.project.controllers;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -63,10 +64,12 @@ public class UserController {
         return "user/addUser";
     }
     @GetMapping("/admin/adminLanding")
-    public String displayUsers(Model model,HttpSession session,HttpServletRequest request){
+    public String displayUsers(Model model, HttpSession session, HttpServletRequest request){
         User user2 = (User) request.getSession().getAttribute("session_user");
         model.addAttribute("user", user2);
         List<User> us = userRepo.findAll();
+        Collections.sort(us);
+        us.remove(0);
         model.addAttribute("userList" , us);
         return "admin/adminLanding";
     }
@@ -75,6 +78,7 @@ public class UserController {
     private String email;
     private String username; 
     private String password;
+
     @PostMapping("/user/addUser")
     public String addUser(@RequestParam Map<String, String> newUser, AddUser addUser, HttpServletResponse response, Model model){
         AddUser tempUser = new AddUser(newUser.get("fname"), newUser.get("lname"), newUser.get("email"), newUser.get("username"));
@@ -229,7 +233,9 @@ public class UserController {
         editedUser.setPreferences(access, diet, lang1, lang2, lang3);
         userRepo.save(editedUser);
         model.addAttribute("user", editedUser);
-        return "user/userLanding";
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("edit", user2);
+        return "user/editPrefs";
     }
     
     @PostMapping("/admin/delete")
@@ -240,6 +246,7 @@ public class UserController {
         List<User> checkValid = userRepo.findByUid(Integer.parseInt(userId));
         if(checkValid.isEmpty()){
             List<User> us = userRepo.findAll();
+            us.remove(0);
             model.addAttribute("userList" , us);
             model.addAttribute("userIdError", "UserId does not exist.");
             return "admin/adminLanding";
@@ -247,6 +254,8 @@ public class UserController {
         User delete = userRepo.getById(Integer.valueOf(userId));
         userRepo.delete(delete);
         List<User> us = userRepo.findAll();
+        Collections.sort(us);
+        us.remove(0);
         model.addAttribute("userList" , us);
         return "admin/adminLanding";
     }
@@ -258,14 +267,14 @@ public class UserController {
         List<User> checkValid = userRepo.findByUid(Integer.parseInt(userId));
         if(checkValid.isEmpty()){
             List<User> us = userRepo.findAll();
+            Collections.sort(us);
+            us.remove(0);
             model.addAttribute("userList" , us);
             model.addAttribute("userIdError", "UserId does not exist.");
-            System.out.println("error!");
             return "/admin/adminLanding";
         }
         User editedUser = userRepo.getById(Integer.valueOf(userId));
         model.addAttribute("edit", editedUser);
-        System.out.println(userId);
         return "/admin/editUser";
     }
     @PostMapping("/admin/saveEditedUser")
@@ -293,14 +302,16 @@ public class UserController {
         editedUser.setEmail(email);
         userRepo.save(editedUser);
         List<User> us = userRepo.findAll();
+        Collections.sort(us);
+        us.remove(0);
         model.addAttribute("userList" , us);
         model.addAttribute("edit", editedUser);
         return "admin/adminLanding";
     }
-    @GetMapping("/user/userLanding") 
+    @GetMapping("/userLanding") 
     public String tripPreferences(@RequestParam Map<String, String> tripUser, HttpServletRequest request, HttpSession session, Model model){
         User tripUser2 = (User) request.getSession().getAttribute("session_user");
-        model.addAttribute("tripEdit", tripUser2);
+        model.addAttribute("user", tripUser2);
         return "user/userLanding";
     }
 
@@ -309,14 +320,24 @@ public class UserController {
     public ResponseEntity<?> saveTripPreferences(@RequestParam("location") String location, @RequestParam("budget") String budget, @RequestParam("startDate") 
                                                  String startDate, @RequestParam("endDate") String endDate, HttpServletRequest request, HttpSession session, Model model){
         User editedTripUser = (User) request.getSession().getAttribute("session_user");
+        int chatReRequestDelay = 19000;
+        int chatRequestCounter = 0;
 
         // Generate and parse trip list of locations/activities
-        String chatTripQuery = GenTripQuery.genTripQuery(location, startDate, endDate, budget);
+        String chatTripQuery = GenTripQuery.genTripQuery(location, startDate, endDate);
         try {
-            String chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey);
+            String chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey, 0);
             if (chatResponse == ChatController.ERROR) return ResponseEntity.badRequest().build();
                 queryTest = chatResponse;                                           
             Trip tripObject = new Trip(chatResponse, startDate, endDate, location, budget, editedTripUser.getUid());
+
+            while (!tripObject.isItineraryArrValid()) {
+                if (chatRequestCounter > 3) return ResponseEntity.badRequest().build();
+                chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey, chatReRequestDelay);
+                if (chatResponse == ChatController.ERROR) return ResponseEntity.badRequest().build();
+                tripObject.setItineraryArr(chatResponse);
+                chatRequestCounter++;
+            }
 
             Trip savedTrip = tripRepo.save(tripObject);
 
@@ -334,21 +355,17 @@ public class UserController {
     public String itineraryDisplay(HttpServletRequest request, HttpSession session, Model model){
         User itineraryUser = (User) session.getAttribute("session_user"); 
         Trip currTrip = tripRepo.getById(itineraryUser.getMostRecentTrip());
-        //List<String> locations = currTrip.get(0).getLocationsList();
-        List<String> locations = currTrip.getLocationsList();
-        // remove null values
+        Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary();       // Itinerary Hashmap
 
         model.addAttribute("user", itineraryUser);
         model.addAttribute("currTrip", currTrip);
-        model.addAttribute("locations", locations);
-        model.addAttribute("query", queryTest);
+        model.addAttribute("itinerary", tripItinerary);
         
-        //model.addAttribute("location", locationTest);
+        model.addAttribute("location", queryTest);          // Used for debugging and testing ChatGPT API
 
         return "user/tripDisplay";
-        //return "test";
+        //return "test";                // Used for debugging and testing ChatGPT API
     }
-     
 
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletRequest request, HttpSession session){
@@ -362,7 +379,7 @@ public class UserController {
                 return displayUsers(model,session,request);
             }
             else{
-            return "user/userLanding";
+                return "user/userLanding";
             }
         }
     }
@@ -381,11 +398,13 @@ public class UserController {
             model.addAttribute("user", user);
             if(user.getAccountType().equals("admin")){
                 List<User> us = userRepo.findAll();
-                model.addAttribute("userList" , us);
+                Collections.sort(us);
+                us.remove(0);
+                model.addAttribute("userList", us);
                 return "admin/adminLanding";
             }
             else{
-            return "user/userLanding";
+                return "user/userLanding";
             }
         }
     }
@@ -476,7 +495,7 @@ public class UserController {
         String response;
         String prompt = "when was calculus invented?";
         try {
-            response = chatController.queryChatGPT(prompt, openaikey);
+            response = chatController.queryChatGPT(prompt, openaikey, 0);
         } catch(InterruptedException e) {
             response = ChatController.ERROR;
         }

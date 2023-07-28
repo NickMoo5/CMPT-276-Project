@@ -1,9 +1,7 @@
 package sfu.cmpt276.project.model.TripModel;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,14 +9,13 @@ import java.util.regex.Pattern;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="trips")
+@Table(name="tripsDb")
 public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int uid;
-    private static final Pattern REG_EXP = Pattern.compile("~(.*?)~");
-    private static String LOCATIONS_SEP = "~";
-    private String[] locations;
+
+    private String[] itinerary;
     private String startDate;
     private String endDate;
     private String location;
@@ -28,7 +25,7 @@ public class Trip {
     public Trip() {}
 
     public Trip(String chatResponse, String startDate, String endDate, String location, String budget, int userUid) {
-        this.locations = parseLocations(chatResponse);
+        this.itinerary = parseChatGpt(chatResponse);
         this.location = location;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -36,26 +33,135 @@ public class Trip {
         this.userUid = userUid;
     }
 
-    private String[] parseLocations(String chatResponse) {
-        String extractedText;
-        String[] locations = new String[25];
-        Matcher matcher = REG_EXP.matcher(chatResponse);
-        int i = 0;
-
-        while (matcher.find()) {
-            extractedText = matcher.group(1);
-            System.out.printf(extractedText);
-            locations[i] = extractedText;
-            i++;
-        }
-        return locations;
+    public Boolean isItineraryArrValid() {
+        if (hasNullBeforeString(this.itinerary)) 
+            return false;
+        return true;
     }
 
-    public List<String> getLocationsList() {
-        List<String> locationsList = new ArrayList<String>(Arrays.asList(locations));
-        while (locationsList.remove(null)) {}
+    public void setItineraryArr(String chatResponse) {
+        this.itinerary = parseChatGpt(chatResponse);
+    }
 
-        return locationsList;
+    /**
+     * Returns the itinerary in the form of a hashmap, the structure is as follows:
+     * {Day Number: {location: description,
+     *               location: description,
+     *               location: description,
+     *               location: description},
+     *  Day Number: {location: description,
+     *               location: description,
+     *               location: description,
+     *               location: description}}
+     * @return A hashmap with the full itinerary mapped with Day Number to another hashmap of location and description
+     */
+    public Map<String, Map<String, String>> getItinerary() {
+        Pattern dayRegEx = Pattern.compile("Day\\s\\d+");
+        Map<String, Map<String, String>> itinerary = new HashMap<>();
+        Map<String, String> dayItinerary = new HashMap<>();
+        String dayKey = null;
+
+        int i=0;
+        while (this.itinerary[i] != null) {
+            Matcher dayMatch = dayRegEx.matcher(this.itinerary[i]);
+            if (dayMatch.matches()) {
+                dayKey = this.itinerary[i];
+                i++;
+                continue;
+            }
+            
+            dayItinerary.put(this.itinerary[i], this.itinerary[i+1]);
+
+            if (this.itinerary[i+2] != null) {
+                dayMatch = dayRegEx.matcher(this.itinerary[i+2]);
+                if (dayMatch.matches()) {
+                    itinerary.put(dayKey, deepCopyHashMap(dayItinerary));
+                    dayItinerary.clear();
+                }
+            } else {
+                itinerary.put(dayKey, deepCopyHashMap(dayItinerary));
+            }
+            i += 2;
+        }
+        return itinerary;
+    }
+
+    private static Map<String, String> deepCopyHashMap(Map<String, String> sourceMap) {
+        HashMap<String, String> copiedMap = new HashMap<>();
+        for (String key : sourceMap.keySet()) {
+            // Perform a deep copy of the keys and values
+            copiedMap.put(new String(key), new String(sourceMap.get(key)));
+        }
+        return copiedMap;
+    }
+
+    private static boolean hasNullBeforeString(String[] array) {
+        boolean foundString = false;
+
+        for (String item : array) {
+            if (item != null) {
+                if (foundString) {
+                    // Found a non-null string value after a null value
+                    return true;
+                }
+            } else {
+                // Encountered a null value
+                foundString = true;
+            }
+        }
+
+        return false;
+    }
+    
+
+    private String[] parseChatGpt(String chatResponse) {
+        Pattern DAY_REG_EXP = Pattern.compile("\\{([^}]+)\\}");
+        Pattern DAY_TAG_REG_EXP = Pattern.compile("\\^(.*?)\\^");
+        Pattern ATTRACTION_REG_EXP = Pattern.compile("\\((.*?)\\)");
+        Pattern LOCATION_REG_EXP = Pattern.compile("~(.*?)~");
+        Pattern DESCRIPTION_REG_EXP = Pattern.compile("@([^@]+)@");
+        String extractedDay = null;
+        String extractedAttraction = null;
+        String dayTag = null;
+        String location = null;
+        String description = null;
+
+        Matcher day = DAY_REG_EXP.matcher(chatResponse);
+
+        String[] itinerary = new String[300];
+        int i = 0;
+
+        while (day.find()) {
+            extractedDay = day.group(1);
+
+            Matcher dayTagMatcher = DAY_TAG_REG_EXP.matcher(extractedDay);
+            if (dayTagMatcher.find())
+                dayTag = dayTagMatcher.group(1);
+
+            itinerary[i] = (String)dayTag;
+            i++;
+
+            Matcher attractionMatcher = ATTRACTION_REG_EXP.matcher(extractedDay);
+            while (attractionMatcher.find()) {
+                extractedAttraction = attractionMatcher.group(1);
+
+                
+                Matcher locationMatcher = LOCATION_REG_EXP.matcher(extractedAttraction);
+                if (locationMatcher.find())
+                    location = locationMatcher.group(1);
+
+                itinerary[i] = (String)location;
+                i++;
+
+                Matcher descriptionMatcher = DESCRIPTION_REG_EXP.matcher(extractedAttraction);
+                if (descriptionMatcher.find())
+                    description = descriptionMatcher.group(1);
+
+                itinerary[i] = (String)description;
+                i++;
+            }
+        }
+        return itinerary;
     }
 
     public String getStartDate() {
