@@ -1,11 +1,11 @@
 package sfu.cmpt276.project.controllers;
 import java.util.Collections;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,12 +46,18 @@ public class UserController {
 
     @GetMapping("/")
     public RedirectView rootView(){
-        return new RedirectView("login");
+        return new RedirectView("user/home");
     }
     @PostMapping("/")
     public RedirectView returnLanding(){
-        return new RedirectView("login");
+        return new RedirectView("user/home");
     }
+
+    @GetMapping("user/home") 
+    public String displayHome(){
+        return "user/home";
+    }
+
     @GetMapping("user/addUser") 
     public String displaySignup(AddUser addUser, Model model){
         AddUser tempUser = new AddUser();
@@ -59,7 +65,7 @@ public class UserController {
         return "user/addUser";
     }
     @GetMapping("/admin/adminLanding")
-    public String displayUsers(Model model,HttpSession session,HttpServletRequest request){
+    public String displayUsers(Model model, HttpSession session, HttpServletRequest request){
         User user2 = (User) request.getSession().getAttribute("session_user");
         model.addAttribute("user", user2);
         List<User> us = userRepo.findAll();
@@ -73,6 +79,7 @@ public class UserController {
     private String email;
     private String username; 
     private String password;
+
     @PostMapping("/user/addUser")
     public String addUser(@RequestParam Map<String, String> newUser, AddUser addUser, HttpServletResponse response, Model model){
         AddUser tempUser = new AddUser(newUser.get("fname"), newUser.get("lname"), newUser.get("email"), newUser.get("username"));
@@ -93,6 +100,14 @@ public class UserController {
         }
         else{
             response.setStatus(201);
+
+             String body = "<div style=\"text-align: center;\">"
+            + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
+            + "<p>Welcome to Wayfinder " + fName + ", <br><br> Your username is: " + username + "<br>We hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
+            + "</div>";
+            emailUtility.sendEmail(email, "Welcome to Wayfinder!", body);
+
+
             return "user/addPrefs";
         }
     }
@@ -308,7 +323,6 @@ public class UserController {
         model.addAttribute("user", tripUser2);
         return "user/userLanding";
     }
-
     //@PostMapping("/tripPrefsSaved")
     @RequestMapping(value = "/tripPrefsSaved", method = RequestMethod.GET)
     public ResponseEntity<?> saveTripPreferences(@RequestParam("location") String location, @RequestParam("budget") String budget, @RequestParam("startDate") 
@@ -361,6 +375,62 @@ public class UserController {
         //return "test";                // Used for debugging and testing ChatGPT API
     }
 
+    @PostMapping("/emailItinerary")
+    public ResponseEntity<String> emailItinerary(HttpServletRequest request, HttpSession session, Model model) {
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        Trip trip = tripRepo.getById(user2.getMostRecentTrip());
+        Map<String, Map<String, String>> tripItin = trip.getItinerary();
+        String location = trip.getLocation();
+        String startDate = trip.getStartDate();
+        String endDate = trip.getEndDate();
+        String budget = trip.getBudget();
+
+        boolean isAn = false;
+
+        if (budget.equals("Average Budget")) {
+            isAn = true;
+        }
+
+        // Construct the email body with the trip itinerary details
+        StringBuilder bodyBuilder = new StringBuilder();
+        bodyBuilder.append("<div style=\"text-align: center;\">");
+        bodyBuilder.append("<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder Trip Itinerary</h1>");
+
+        if (isAn) {
+        bodyBuilder.append("<h3>This trip is for " + location + " from " + startDate + " to " + endDate + " with an " + budget + ".</h3>");
+        } else {
+        bodyBuilder.append("<h3>This trip is for " + location + " from " + startDate + " to " + endDate + " with a " + budget + ".</h3>");    
+        }
+
+        for (Map.Entry<String, Map<String, String>> dayEntry : tripItin.entrySet()) {
+            String day = dayEntry.getKey();
+            Map<String, String> locations = dayEntry.getValue();
+
+            bodyBuilder.append("<h2>").append(day).append("</h2>");
+            for (Map.Entry<String, String> locationEntry : locations.entrySet()) {
+                String locationName = locationEntry.getKey();
+                String locationDetails = locationEntry.getValue();
+
+                bodyBuilder.append("<p style=\"text-align: left;\"><strong>").append(locationName).append("</strong>: ").append(locationDetails).append("</p>");
+            }
+        }
+
+        bodyBuilder.append("</div>");
+
+        String userEmail = user2.getEmail();
+
+        // Get the final email body as a string
+        String body = bodyBuilder.toString();
+
+        // Send the email using the emailUtility class or any other email sending mechanism
+        emailUtility.sendEmail(userEmail, "Wayfinder Trip Itinerary: " + location, body);
+
+        return ResponseEntity.ok().body("{\"status\": \"success\"}");
+       
+    }
+    
+
+
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletRequest request, HttpSession session){
         User user = (User) session.getAttribute("session_user");
@@ -373,7 +443,7 @@ public class UserController {
                 return displayUsers(model,session,request);
             }
             else{
-            return "user/userLanding";
+                return "user/userLanding";
             }
         }
     }
@@ -394,18 +464,18 @@ public class UserController {
                 List<User> us = userRepo.findAll();
                 Collections.sort(us);
                 us.remove(0);
-                model.addAttribute("userList" , us);
+                model.addAttribute("userList", us);
                 return "admin/adminLanding";
             }
             else{
-            return "user/userLanding";
+                return "user/userLanding";
             }
         }
     }
     @GetMapping("user/logout")
     public String removeSession(HttpServletRequest request){
         request.getSession().invalidate();
-        return "user/login";
+        return "user/home";
     }
     @GetMapping("user/inputEmailForPin")
     public String displayPinConfirmation(Model model, HttpServletRequest request, HttpSession session) {
@@ -435,7 +505,11 @@ public class UserController {
             // send email
             String userEmail = user.getEmail();
             String userPin = user.getPin();
-            String body = "Your Wayfinder account pin reset code is " + userPin + ". \nDo not share this with anyone!";
+            String body = "<div style=\"text-align: center;\">"
+            + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
+            + "<p>Your Wayfinder account pin reset code is " + userPin + ".<br>Do not share this with anyone!</p>"
+            + "</div>";
+
             emailUtility.sendEmail(userEmail, "Wayfinder Password Pin", body);
 
             return "user/pinConfirmation";
