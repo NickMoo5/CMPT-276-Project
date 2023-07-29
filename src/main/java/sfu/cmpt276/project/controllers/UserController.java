@@ -88,6 +88,26 @@ public class UserController {
         email = newUser.get("email");
         username = newUser.get("username");
         password = newUser.get("password2");
+        if(fName.length() > 16){
+            //error
+            return "user/addUser";
+        }
+        else if(lName.length() > 16){
+            //error
+            return "user/addUser";
+        }
+        else if(email.length() > 16){
+            //error
+            return "user/addUser";
+        }
+        else if(username.length() > 16){
+            //error
+            return "user/addUser";
+        }
+        else if(password.length() > 16){
+            //error
+            return "user/addUser";
+        }
         if(!userRepo.findByEmail(email).isEmpty()){
             model.addAttribute("emailUsed", "Email has already been used before. Please try again.");
             model.addAttribute("addUser", tempUser);
