@@ -11,8 +11,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage; 
 
 public class emailUtility {
-    private static final String senderEmail = "wayfinderpwreset@gmail.com"; 
-    private static final String senderPassword = "mdlqobgjamdhvdbc"; 
+    private static final String senderEmail = "teamwayfindercontact@gmail.com"; 
+    private static final String senderPassword = "azanludiknyfbnaq"; 
 
     public static void sendEmail(String sendTo, String subject, String body) {
         Properties properties = System.getProperties();
@@ -32,8 +32,10 @@ public class emailUtility {
 
         session.setDebug(true);
 
+        
         try {
             MimeMessage message = new MimeMessage(session);
+
             //set header(from)
             message.setFrom(new InternetAddress(senderEmail));
             //set header(to)
@@ -41,7 +43,7 @@ public class emailUtility {
             //set subject
             message.setSubject(subject);
             //set body
-            message.setText(body);
+            message.setContent(body, "text/html");
             Transport.send(message);
         } catch (MessagingException mex) {
             mex.printStackTrace();

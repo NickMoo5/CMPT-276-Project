@@ -26,6 +26,21 @@
 	<!-- Theme CSS -->
 	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 
+	<style>
+		.email-notification {
+			position: fixed;
+			bottom: -100px;
+			left: 50%;
+			transform: translateX(-50%);
+			background-color: #4caf50;
+			color: white;
+			padding: 12px;
+			border-radius: 4px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			transition: bottom 0.5s ease-in-out;
+		}
+	</style>
+
 </head>
 
 <body>
@@ -185,6 +200,14 @@ Tabs-content START -->
 									</div>
 							</div>		
 							<!-- Card body END -->
+
+							<!--Email button-->
+							<div class="justify-content-center d-flex">
+								<form id="emailForm" method="post">
+									<button type="button" class="btn btn-primary" onclick="sendEmailItinerary()" id="sendEmailButton">Send Trip Itinerary via Email</button>
+									<p style="font-style: italic; font-size: small; text-align: center;">Email will be sent to account email</p>
+								</form>
+							</div>
 						</div>
 					<!-- Content item END -->
 				
@@ -193,6 +216,7 @@ Tabs-content START -->
 
 		</div> <!-- Row END -->
 	
+
 	<!-- THIS IS FOR DEBUGGING PURPOSES ONLY -->
 	<p style="display: none">[[${location}]]</p>
 </section>
@@ -255,6 +279,53 @@ Footer END -->
 
 <!-- ThemeFunctions -->
 <script src="/js/functions.js"></script>
+
+<script>
+    function sendEmailItinerary() {
+        var button = document.getElementById("sendEmailButton");
+        button.disabled = true; // Disable the button on click
+
+        var form = document.getElementById("emailForm");
+        var formData = new FormData(form);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/emailItinerary", true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Email sent successfully
+                    showEmailNotification();
+                } else {
+                    // Error occurred while sending the email
+                    alert("Error sending trip itinerary via email.");
+                }
+
+                button.disabled = false; 
+            }
+        };
+        xhr.send(formData);
+    }
+
+
+    function showEmailNotification() {
+        var notification = document.createElement("div");
+        notification.className = "email-notification";
+        notification.innerHTML = "Trip itinerary sent via email!";
+
+        document.body.appendChild(notification);
+
+        setTimeout(function() {
+            notification.style.bottom = "20px";
+            setTimeout(function() {
+                notification.style.bottom = "-100px";
+                setTimeout(function() {
+                    document.body.removeChild(notification);
+                }, 500); // Adjust the time for the fade-out animation
+            }, 3000); // Adjust the duration the notification stays visible
+        }, 10); // Give a small delay before showing the notification
+    }
+</script>
+
 
 </body>
 </html>
