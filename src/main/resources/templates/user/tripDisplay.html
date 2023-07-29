@@ -293,6 +293,8 @@ Footer END -->
 	<script th:inline="javascript">
 		var itineraryObj = [[${ itinerary }]];
 		var originCity = [[${ currTrip.location }]];
+		var budget = [[${ currTrip.budget }]];
+		var budgetNum;
 		var originCityid;
 		var photos;
 
@@ -301,13 +303,12 @@ Footer END -->
 		var infowindow;
 		var request;
 		//range for nearby restaurants in meters
-		const range = "150";
+		const range = "500";
 
 		var map;
 		var maplist = [];
 		var locationlist = [];
 		var locationcoords = [];
-		var markersets = [];
 		var mapindex;
 
 
@@ -382,7 +383,7 @@ Footer END -->
 
 					//map options to generate new map
 					var mapOptions = {
-						zoom: 15,
+						zoom: 17,
 						center: { lat: 0, lng: 0 },
 					}
 
@@ -406,6 +407,7 @@ Footer END -->
 			geocodeloc();
 		}
 
+
 		function geocodeloc() {
 
 			locationlist.forEach(function (location) {
@@ -423,8 +425,7 @@ Footer END -->
 						locationcoords[index] = latlng;
 
 						//searches nearbyRestaurants
-						var markers = restaurantSearch(latlng, index);
-						markersets[index] = markers;
+						restaurantSearch(latlng, index);
 
 					} else {
 						//alert('Geocoding ' + location + ' was not successful for the following reason: ' + status);
@@ -439,92 +440,107 @@ Footer END -->
 		// calls nearby search to get restaurants in range (in metres)
 		function restaurantSearch(latlng, index) {
 			//sets up request to look for nearby restaurants
+			budgetNum = 0;
+			if (budget[0] == "L"){
+				budgetNum = 2;
+			} else if(budget[0] == "A"){
+				budgetNum = 3;
+			} else {
+				budgetNum = 4;
+			}
 			request = {
 				location: latlng,
 				radius: range,
 				type: ['restaurant'],
+				maxPriceLevel: budgetNum
 			};
 
+			//imaginary map to use other services
+			map = new google.maps.Map(document.getElementById("map"), {
+				center: { lat: 0, lng: 0 },
+				zoom: 15,
+			});
+
 			//actually calling the request
-			var service = new google.maps.places.PlacesService(map0);
-			var markers = service.nearbySearch(request, callback);
+			var service = new google.maps.places.PlacesService(map);
+			service.nearbySearch(request, function (results, status) {
+				if (status == google.maps.places.PlacesServiceStatus.OK) {
 
-			return markers;
-		}
-
-		//display results from nearbySearch
-		function callback(results, status) {
-			if (status == google.maps.places.PlacesServiceStatus.OK) {
-				//array to store resulting markers
-				var results = [];
-
-				//alert("success?" + results.length);
-				for (var i = 0; i < Math.min(results.length, 5); i++) {
-					//new request to gather place details request
-					const placeDetailsRequest = {
-						placeId: results[i].place_id,
-						fields: ["name", "formatted_address", "place_id", "geometry", "rating", "price_level"],
-					}
-
-					//calling request
-					var service = new google.maps.places.PlacesService(map0);
-					service.getDetails(placeDetailsRequest, (place, status) => {
-						if (
-							status === google.maps.places.PlacesServiceStatus.OK &&
-							place &&
-							place.geometry &&
-							place.geometry.location
-						) {
-							//making a display marker to show up map
-							const marker = new google.maps.Marker({
-								position: place.geometry.location,
-							});
-
-							//when marker is clicked, show details
-							infowindow = new google.maps.InfoWindow();
-							google.maps.event.addListener(marker, "click", () => {
-								//container for details element
-								const content = document.createElement("div");
-								const nameElement = document.createElement("h1");
-
-								nameElement.textContent = place.name;
-								content.appendChild(nameElement);
-
-								const placeRatingElement = document.createElement("p");
-
-								placeRatingElement.textContent = "User rating: " + place.rating;
-								content.appendChild(placeRatingElement);
-
-								if (place.price_level) {
-									const placePriceElement = document.createElement("p");
-
-									//TODO: replace price_level with dollar signs to signify price level
-									placePriceElement.textContent = "Price level: " + place.price_level;
-									content.appendChild(placePriceElement);
-								}
-
-								const placeAddressElement = document.createElement("p");
-
-								placeAddressElement.textContent = place.formatted_address;
-								content.appendChild(placeAddressElement);
-
-								infowindow.setContent(content);
-								infowindow.open(map, marker);
-							});
-
-							results.push(marker);
-
-						} else {
-							alert('placeDetails request was not successful for the following reason: ' + status);
+					//alert("success?" + results.length);
+					for (var i = 0; i < Math.min(results.length, 5); i++) {
+						//new request to gather place details request
+						const placeDetailsRequest = {
+							placeId: results[i].place_id,
+							fields: ["name", "formatted_address", "place_id", "geometry", "rating", "price_level"],
 						}
-					});
 
+						//calling request
+						var service = new google.maps.places.PlacesService(map);
+						service.getDetails(placeDetailsRequest, (place, status) => {
+							if (
+								status === google.maps.places.PlacesServiceStatus.OK &&
+								place &&
+								place.geometry &&
+								place.geometry.location
+							) {
+								var map = maplist[index];
+								//making a display marker to show up map
+								const marker = new google.maps.Marker({
+									position: place.geometry.location,
+									map,
+								});
+
+								//when marker is clicked, show details
+								infowindow = new google.maps.InfoWindow();
+								google.maps.event.addListener(marker, "click", () => {
+									//container for details element
+									const content = document.createElement("div");
+									const nameElement = document.createElement("h1");
+									nameElement.style.fontSize = "medium";
+
+									nameElement.textContent = place.name;
+									content.appendChild(nameElement);
+
+									const placeRatingElement = document.createElement("p");
+
+									placeRatingElement.textContent = "User rating: " + place.rating;
+									content.appendChild(placeRatingElement);
+
+									if (place.price_level) {
+										const placePriceElement = document.createElement("p");
+
+										var pricetag = "";
+										for (var i = 0; i < place.price_level; i++){
+											pricetag += "$";
+										}
+										placePriceElement.textContent = "Price level: " + pricetag;
+										content.appendChild(placePriceElement);
+									}
+
+									const placeAddressElement = document.createElement("p");
+
+									placeAddressElement.textContent = place.formatted_address;
+									content.appendChild(placeAddressElement);
+
+									infowindow.setContent(content);
+									infowindow.open(map, marker);
+								});
+
+							} else {
+								// alert('placeDetails request was not successful for the following reason: ' + status);
+								console.log('placeDetails request was not successful for the following reason: ' + status);
+							}
+						});
+
+					}
+				} else {
+					// alert('nearbySearch was not successful for the following reason: ' + status);
+					console.log('nearbySearch was not successful for the following reason: ' + status);
 				}
-			} else {
-				alert('nearbySearch was not successful for the following reason: ' + status);
-			}
-			return results;
+
+			});
 		}
+
 
 		//update map display and center the map on to associated coordinates
 		function updateCenter(index) {
@@ -552,8 +568,6 @@ Footer END -->
 				}
 			}
 		}
-
-
 
 		window.initMap = initMap();
 	</script>
