@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>WayFinder - Itinerary Display</title>
+	<title>WayFinder - Itinerary</title>
 	
 
 	<!-- Meta Tags -->
@@ -25,31 +25,55 @@
 
 	<!-- Theme CSS -->
 	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+	<style>
+        .scroll-shadow {
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+		html, body {
+			height: 100%;
+		}
+
+		body {
+			display: flex;
+			flex-direction: column;
+		}
+
+		main {
+			flex: 1;
+		}
+
+		footer {
+			flex-shrink: 0;
+		}
+    </style>
 
 </head>
 
 <body>
 
-	<!-- Header START -->
-<header class="header-sticky" style="display:block">
+<!-- Header START -->
+<header class="header-sticky" id="header" style="position: sticky; top: 0;">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-light navbar-expand-xl">
 		<div class="container-fluid px-md-5">
 			<!-- Logo START -->
-			<a class="navbar-brand" href="/login">
+			<a class="navbar-brand" href="/user/home">
 				<div class="mt-3">	
 					<img class="light-mode-item navbar-brand-item" src="/images/logo-icon.svg" alt="logo"></a>
 				</div>
-				<a href="/login"><h4>WayFinder</h4></a>
+				<a href="/user/home"><h4>WayFinder</h4></a>
+				
 			<!-- Logo END -->
 
 			<!-- Nav category menu START -->
 			<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
 				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center ms-auto p-2 p-xl-0">
 
-					<li class="nav-item"> <a class="nav-link" href="/home"><i class="fa-solid fa-home me-2"></i>Home</a></li>
-					<li class="nav-item"> <a class="nav-link" href="/user/viewTrips"><i class="fa-solid fa-globe-americas me-2"></i>View Trips</a></li>
 					<li class="nav-item"> <a class="nav-link" href="/login"><i class="fa-solid fa-plane me-2"></i>Travel Planner</a></li>
+					<li class="nav-item"> <a class="nav-link" href="/user/viewTrips"><i class="fa-solid fa-globe-americas me-2"></i>View Trips</a></li>
+					<li class="nav-item"> <a class="nav-link" href="/user/aboutUs"><i class="fa-solid fa-users me-2"></i>About Us</a></li>
+					<li class="nav-item"> <a class="nav-link" href="/user/contact"><i class="fa-solid fa-mobile me-2"></i>Contact</a></li>
+
 				</ul>
 			</div>
 			<!-- Nav category menu END -->
@@ -82,8 +106,8 @@
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
 						    <li><a class="dropdown-item" href="/user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i>Preference Settings</a></li>
-							<li><a class="dropdown-item" href="/user/editAccSettings"><i class="bi bi-person fa-fw me-2"></i>Account Settings</a></li>                       
-							<li><a class="dropdown-item bg-danger-soft-hover" href="/user/logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+							<li><a class="dropdown-item" href="/user/editAccSettings"><i class="bi bi-person fa-fw me-2"></i>Account Settings</a></li>
+                        	<li><a class="dropdown-item bg-danger-soft-hover" href="/user/logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
 						<li> <hr class="dropdown-divider"></li>
 					</ul>
 				</li>
@@ -264,6 +288,15 @@ Footer END -->
 
 <!-- ThemeFunctions -->
 <script src="/js/functions.js"></script>
-
+<script>
+	window.addEventListener("scroll", function() {
+		const header = document.getElementById("header");
+		if (window.scrollY > 0) {
+			header.classList.add("scroll-shadow");
+		} else {
+			header.classList.remove("scroll-shadow");
+		}
+	});
+</script>
 </body>
 </html>
