@@ -36,11 +36,8 @@
             box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
         }
     </style>
-
 </head>
-
 <body>
-
 <!-- Header START -->
 <header class="header-sticky" id="header" style="position: sticky; top: 0;">
 	<!-- Logo Nav START -->
@@ -108,10 +105,8 @@
 	<!-- Logo Nav END -->
 </header>
 <!-- Header END -->
-
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
-	
 <!-- =======================
 Main Banner START -->
 <section class="pt-0">
@@ -122,9 +117,8 @@ Main Banner START -->
 			<div class="row justify-content-between pt-0 pb-5"> 
 				<div class="col-md-7 col-lg-8 col-xxl-7 pb-5 mb-0 mb-lg-5"> 
 					<h1 class="text-white">Plan Your Perfect Trip</h1>
-					<p class="text-white mb-0">Create a custom AI generated travel itinierary with a press of a button!</p>
+					<p class="text-white mb-0">Create a custom AI generated travel itinierary with a press of a button</p>
 				</div>
-
 			</div>
 		</div>
 		<div class="loader" id="loader" style="display: none">
@@ -138,7 +132,6 @@ Main Banner START -->
 				</div>
 			</div>
 		</div>
-
 		<div class="errorQuery" id="errorQuery" style="display: none">
 			<div class="d-flex-column text-center mt-2">
 				<h4>Sorry there was an error generating your trip</h4>
@@ -148,12 +141,10 @@ Main Banner START -->
 				</form>
 			</div>
 		</div>
-
 		<div class="row" id="tripForm" style="display: block">
                 <!-- Tab content START -->
                 <div class="col-12">
                     <div class="tab-content" id="nav-tabContent">
-                        
                         <!-- Tab content item START -->
                         <div class="tab-pane fade show active" id="tab-1-1">
                             <div class="card shadow p-0">
@@ -161,8 +152,6 @@ Main Banner START -->
                                 <div class="card-header p-4">
                                     <h5 class="mb-0"><i class="fa-solid fa-plane fa-fw me-2"></i>Planning Itinerary</h5>
                                 </div>
-
-							
                                 <!-- Card body -->
                                 <!--<form class="card-body p-4 pt-0">-->
                                     <div class="row g-4">
@@ -215,9 +204,6 @@ Main Banner START -->
 											</div>
                                         </form>
                                     </div> <!-- Row END -->
-            
-                                    <!-- Button -->
-
                                 <!--</form>-->
                             </div>
                         </div>
@@ -285,7 +271,6 @@ Footer END -->
 <script src="/js/functions.js"></script>
 <script>
 	let formSubmitted = false;
-
 	$(document).ready(function() {
 		// Submit the form and show the loading screen
 		$('#tripPrefs').submit(function(event) {
@@ -345,7 +330,6 @@ Footer END -->
 			link.click();
 		}
 	});
-	
 	// Real-time validation and error message handling
 	$('#location').on('input', validateForm);
     $('#budget').on('change', validateForm);
@@ -370,40 +354,38 @@ Footer END -->
 		if (formSubmitted && location.value === '' ){
 			displayErrorMsg("location", "Please select a location");
 			return false;
-		} else {
+		} else{
 			clearErrorMsg("location");
 		}
-		if (formSubmitted && budget.value === 'Select Budget') {
+		if (formSubmitted && budget.value === 'Select Budget'){
 			displayErrorMsg("budget", "Please select a budget");
 			return false;
-		} else {
+		} else{
 			clearErrorMsg("budget");
 		}
 		if (formSubmitted && startDate.value === '' ){
 			displayErrorMsg("startDate", "Please select a start date");
 			return false;
-		} else {
+		} else{
 			clearErrorMsg("startDate");
 		}
-		if (formSubmitted && endDate.value === '') {
+		if (formSubmitted && endDate.value === ''){
 			displayErrorMsg("endDate", "Please select an end date");
 			return false;
-		} else {
+		} else{
 			clearErrorMsg("endDate");
 		}
-
 		const startDateMoment = moment(startDate.value, 'D/M/Y', true);
         const endDateMoment = moment(endDate.value, 'D/M/Y', true);
 
-        if (formSubmitted && startDateMoment.isSameOrAfter(endDateMoment)) {
+        if (formSubmitted && startDateMoment.isSameOrAfter(endDateMoment)){
             displayErrorMsg("date", "Start date must be before end date");
 			return false;
-		} else {
+		} else{
 			clearErrorMsg("date");
 		}
 		return true;
 	}
-
 	// Restrict past dates
 	flatpickr("input[id=startDate]", {minDate: "today"});
 	flatpickr("input[id=endDate]", {minDate: "today"});
@@ -412,20 +394,19 @@ Footer END -->
         const startdate = document.getElementById("startDate");
         startdate.addEventListener("blur", () => {
             const startDateMoment = moment(startDate.value, 'D/M/Y', true);
-            if (startDateMoment.isValid()) {
+            if (startDateMoment.isValid()){
                 flatpickr("input[id=endDate]", { minDate: startDate.value });
-            } else {
+            } else{
                 flatpickr("input[id=endDate]", { minDate: "today" });
             }
         });
     });
-
 	//NavBar shadow
     window.addEventListener("scroll", function() {
         const header = document.getElementById("header");
-        if (window.scrollY > 0) {
+        if (window.scrollY > 0){
             header.classList.add("scroll-shadow");
-        } else {
+        } else{
             header.classList.remove("scroll-shadow");
         }
     });

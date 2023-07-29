@@ -64,10 +64,10 @@
 					<img class="light-mode-item navbar-brand-item" src="/images/logo-icon.svg" alt="logo"></a>
 				</div>
 				<a href="/user/home"><h4>WayFinder</h4></a>
-				
-			<!-- Logo END -->
 
+			<!-- Logo END -->
 			<!-- Nav category menu START -->
+
 			<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
 				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center ms-auto p-2 p-xl-0">
 
@@ -78,9 +78,10 @@
 
 				</ul>
 			</div>
-			<!-- Nav category menu END -->
 
+			<!-- Nav category menu END -->
 			<!-- Profile and Notification START -->
+
 			<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
 
 				<!-- Profile dropdown START -->
@@ -89,7 +90,6 @@
 					<a class="avatar avatar-sm p-0" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
 						<i class="bi bi-person-circle fa-fw" style="font-size: 40px;"></i>
 					</a>
-                    
 					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
 						<!-- Profile info -->
 						<li class="px-3 mb-3">
@@ -104,7 +104,6 @@
 								</div>
 							</div>
 						</li>
-
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
 						    <li><a class="dropdown-item" href="/user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i>Preference Settings</a></li>
@@ -139,45 +138,38 @@
 		</div>
 	</div>
 </section>
-
-  <!-- Step content START -->
-
-<div class="row g-4 justify-content-center"> <!-- Remove justify-content-center to prevent centering -->
+<div class="row g-4 justify-content-center">
     <!-- Main content START -->
     <div class="col-sm-6">
-        <form onsubmit="return false">
-            <div class="vstack gap-4">
-                <!-- Title -->
-                <h4 class="mb-0">Destinations for <a th:text="${user.username}"></a>:</h4>
+		<div class="vstack gap-4">
+			<!-- Title -->
+			<h4 class="mb-0">Destinations for <a th:text="${user.username}"></a>:</h4>
 
-                <hr class="my-0"> <!-- Divider -->
+			<hr class="my-0"> <!-- Divider -->
 
-                <!-- New wrapper for centering the card -->
-                <ul th:if="${hasTrips}" class="list-unstyled row"> <!-- Add "row" class to create a flexbox row -->
-                    <li th:each="trip: ${trips}" class="col-md-6"> <!-- Use "col-md-6" to create two columns on medium-sized screens and above -->
-                        <div class="card shadow rounded-2 overflow-hidden mb-4" style="max-width: 800px;">
-                            <!-- Card Body START -->
-                            <div class="col">
-                                <div class="card-body p-5 text-center"> <!-- Centering the text -->
-                                    <!-- Title -->
-									<h5 class="card-title mb-1">
-										<a th:href="@{/user/tripDisplay(uid=${trip.uid})}" th:text="${trip.location}"></a>
-									</h5>
-									<!-- List -->
-									<ul class="nav nav-divider small mb-0 mt-2">
-										<li class="nav-item mb-1 text-center"><i class="far fa-calendar-alt me-2"></i><a th:text="${trip.startDate} + ' - ' + ${trip.endDate}"></a></li>
-										<li class="nav-item mb-1 text-center"><i class="fa-solid fa-sack-dollar me-2"></i><a th:text="${trip.budget}"></a></li>
-									</ul>
-                                </div>
-                            </div>
-                            <!-- Card body END -->
-                        </div>
-                    </li>
-                </ul>
-                <p th:unless="${hasTrips}">No trips generated yet.</p>
-                <!-- Tour list END -->
-            </div>
-        </form>
+			<ul th:if="${hasTrips}" class="row">
+				<li th:each="trip: ${trips}" class="col-md-6">
+					<div class="card shadow rounded-2 overflow-hidden mb-4" style="max-width: 800px;">
+						<!-- Card Body START -->
+						<div class="col">
+							<div class="card-body p-5">
+								<!-- Title -->
+								<h5 class="card-title mb-1 text-center">
+									<a th:href="@{/user/tripDisplay(uid=${trip.uid})}" th:text="${trip.location}"></a>
+								</h5>
+								<!-- List -->
+                                <ul class="list-unstyled text-center mb-0 mt-2">
+									<li class="nav-item mb-1"><i class="far fa-calendar-alt me-2"></i><a th:text="${trip.startDate} + ' - ' + ${trip.endDate}"></a></li>
+									<li class="nav-item mb-1"><i class="fa-solid fa-sack-dollar me-2"></i><a th:text="${trip.budget}"></a></li>
+								</ul>
+							</div>
+						</div>
+						<!-- Card body END -->
+					</div>
+				</li>
+			</ul>
+			<p th:unless="${hasTrips}">No trips generated yet.</p>
+		</div>
     </div>
 </div>
 <!-- Card body END -->

@@ -354,40 +354,30 @@ public class UserController {
         } catch(InterruptedException e) {
             return ResponseEntity.badRequest().build();
         }
-                                            
         return ResponseEntity.ok().build();
-
     }
     @GetMapping("/user/tripDisplay")
-    public String itineraryDisplay(@RequestParam(value = "uid", required = false) Integer tripUid, HttpServletRequest request, HttpSession session, Model model) {
+    public String itineraryDisplay(@RequestParam(value="uid", required=false) Integer tripUid, HttpServletRequest request, HttpSession session, Model model) {
         User itineraryUser = (User) session.getAttribute("session_user");
-
         if (tripUid != null) {
-            // Fetch the trip details based on the provided uid
             Trip currTrip = tripRepo.getById(tripUid);
             Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary(); // Itinerary Hashmap
-
             model.addAttribute("user", itineraryUser);
             model.addAttribute("currTrip", currTrip);
             model.addAttribute("itinerary", tripItinerary);
-  
             return "user/tripDisplay";
-        } else {
+        } else{
             // If uid is null, generate new trip
             tripUid = itineraryUser.getMostRecentTrip();
             Trip currTrip = tripRepo.getById(tripUid);
             Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary(); 
-
             model.addAttribute("user", itineraryUser);
             model.addAttribute("currTrip", currTrip);
             model.addAttribute("itinerary", tripItinerary);
             model.addAttribute("location", queryTest);
-
-            //return "test";
             return "user/tripDisplay";
         }
     }
-
     @PostMapping("/emailItinerary")
     public ResponseEntity<String> emailItinerary(HttpServletRequest request, HttpSession session, Model model) {
         User user2 = (User) request.getSession().getAttribute("session_user");
@@ -441,18 +431,13 @@ public class UserController {
         return ResponseEntity.ok().body("{\"status\": \"success\"}");
        
     }
-    
-
-
     @GetMapping("/user/viewTrips") 
     public String getTrips(HttpServletRequest request, HttpSession session, Model model){
         User user = (User) request.getSession().getAttribute("session_user");
         List <Trip> trips = tripRepo.findByUserUid(user.getUid());
-
         model.addAttribute("user", user);
         model.addAttribute("trips", trips);
         model.addAttribute("hasTrips", !trips.isEmpty());
-        
         return "user/viewTrips";
     }
     @GetMapping("/login")
@@ -511,7 +496,6 @@ public class UserController {
             return "user/inputEmailForPin";
         }
     }
-
     @PostMapping("/inputEmailForPin") 
     public String getEmailForPin(@RequestParam Map<String,String> formData, Model model, HttpServletRequest request, HttpSession session) {
         String email = formData.get("email");
@@ -580,7 +564,6 @@ public class UserController {
         
         return "redirect:/login";
     }
-
     // Test function for testing chatgpt package
     @GetMapping("/test")
     public String chatTest(Model model) {
