@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -99,6 +100,14 @@ public class UserController {
         }
         else{
             response.setStatus(201);
+
+             String body = "<div style=\"text-align: center;\">"
+            + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
+            + "<p>Welcome to Wayfinder " + fName + ", <br><br> Your username is: " + username + "<br>We hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
+            + "</div>";
+            emailUtility.sendEmail(email, "Welcome to Wayfinder!", body);
+
+
             return "user/addPrefs";
         }
     }
@@ -378,6 +387,63 @@ public class UserController {
             return "user/tripDisplay";
         }
     }
+
+    @PostMapping("/emailItinerary")
+    public ResponseEntity<String> emailItinerary(HttpServletRequest request, HttpSession session, Model model) {
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        Trip trip = tripRepo.getById(user2.getMostRecentTrip());
+        Map<String, Map<String, String>> tripItin = trip.getItinerary();
+        String location = trip.getLocation();
+        String startDate = trip.getStartDate();
+        String endDate = trip.getEndDate();
+        String budget = trip.getBudget();
+
+        boolean isAn = false;
+
+        if (budget.equals("Average Budget")) {
+            isAn = true;
+        }
+
+        // Construct the email body with the trip itinerary details
+        StringBuilder bodyBuilder = new StringBuilder();
+        bodyBuilder.append("<div style=\"text-align: center;\">");
+        bodyBuilder.append("<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder Trip Itinerary</h1>");
+
+        if (isAn) {
+        bodyBuilder.append("<h3>This trip is for " + location + " from " + startDate + " to " + endDate + " with an " + budget + ".</h3>");
+        } else {
+        bodyBuilder.append("<h3>This trip is for " + location + " from " + startDate + " to " + endDate + " with a " + budget + ".</h3>");    
+        }
+
+        for (Map.Entry<String, Map<String, String>> dayEntry : tripItin.entrySet()) {
+            String day = dayEntry.getKey();
+            Map<String, String> locations = dayEntry.getValue();
+
+            bodyBuilder.append("<h2>").append(day).append("</h2>");
+            for (Map.Entry<String, String> locationEntry : locations.entrySet()) {
+                String locationName = locationEntry.getKey();
+                String locationDetails = locationEntry.getValue();
+
+                bodyBuilder.append("<p style=\"text-align: left;\"><strong>").append(locationName).append("</strong>: ").append(locationDetails).append("</p>");
+            }
+        }
+
+        bodyBuilder.append("</div>");
+
+        String userEmail = user2.getEmail();
+
+        // Get the final email body as a string
+        String body = bodyBuilder.toString();
+
+        // Send the email using the emailUtility class or any other email sending mechanism
+        emailUtility.sendEmail(userEmail, "Wayfinder Trip Itinerary: " + location, body);
+
+        return ResponseEntity.ok().body("{\"status\": \"success\"}");
+       
+    }
+    
+
+
     @GetMapping("/user/viewTrips") 
     public String getTrips(HttpServletRequest request, HttpSession session, Model model){
         User user = (User) request.getSession().getAttribute("session_user");
@@ -463,7 +529,11 @@ public class UserController {
             // send email
             String userEmail = user.getEmail();
             String userPin = user.getPin();
-            String body = "Your Wayfinder account pin reset code is " + userPin + ". \nDo not share this with anyone!";
+            String body = "<div style=\"text-align: center;\">"
+            + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
+            + "<p>Your Wayfinder account pin reset code is " + userPin + ".<br>Do not share this with anyone!</p>"
+            + "</div>";
+
             emailUtility.sendEmail(userEmail, "Wayfinder Password Pin", body);
 
             return "user/pinConfirmation";
