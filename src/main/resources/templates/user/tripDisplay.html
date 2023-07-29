@@ -32,22 +32,16 @@
 		html, body {
 			height: 100%;
 		}
-
 		body {
 			display: flex;
 			flex-direction: column;
 		}
-
 		main {
 			flex: 1;
 		}
-
 		footer {
 			flex-shrink: 0;
 		}
-    </style>
-
-	<style>
 		.email-notification {
 			position: fixed;
 			bottom: -100px;
@@ -61,22 +55,6 @@
 			transition: bottom 0.5s ease-in-out;
 		}
 	</style>
-
-	<style>
-		.email-notification {
-			position: fixed;
-			bottom: -100px;
-			left: 50%;
-			transform: translateX(-50%);
-			background-color: #4caf50;
-			color: white;
-			padding: 12px;
-			border-radius: 4px;
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-			transition: bottom 0.5s ease-in-out;
-		}
-	</style>
-
 </head>
 
 <body>
@@ -328,16 +306,6 @@ Footer END -->
 <!-- ThemeFunctions -->
 <script src="/js/functions.js"></script>
 <script>
-	window.addEventListener("scroll", function() {
-		const header = document.getElementById("header");
-		if (window.scrollY > 0) {
-			header.classList.add("scroll-shadow");
-		} else {
-			header.classList.remove("scroll-shadow");
-		}
-	});
-</script>
-<script>
     function sendEmailItinerary() {
         var button = document.getElementById("sendEmailButton");
         button.disabled = true; // Disable the button on click
@@ -362,8 +330,6 @@ Footer END -->
         };
         xhr.send(formData);
     }
-
-
     function showEmailNotification() {
         var notification = document.createElement("div");
         notification.className = "email-notification";
@@ -381,6 +347,15 @@ Footer END -->
             }, 3000); // Adjust the duration the notification stays visible
         }, 10); // Give a small delay before showing the notification
     }
+	
+	window.addEventListener("scroll", function() {
+		const header = document.getElementById("header");
+		if (window.scrollY > 0) {
+			header.classList.add("scroll-shadow");
+		} else {
+			header.classList.remove("scroll-shadow");
+		}
+	});
 </script>
 
 
