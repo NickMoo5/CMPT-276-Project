@@ -131,12 +131,7 @@ public class UserController {
         model.addAttribute("edit", user2);
         return "user/editAccSettings";
     }
-    @GetMapping("/user/aboutUs")
-    public String aboutUs(@RequestParam Map<String, String> user, HttpServletRequest request,HttpSession session, Model model){
-        User user2 = (User) request.getSession().getAttribute("session_user");
-        model.addAttribute("edit", user2);
-        return "/user/aboutUs";
-    }
+   
     @GetMapping("/user/changeUsername") 
     public String editUsername(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){
         User user2 = (User) request.getSession().getAttribute("session_user");
@@ -372,6 +367,19 @@ public class UserController {
         return "user/tripDisplay";
         //return "test";                // Used for debugging and testing ChatGPT API
     }
+    @GetMapping("/user/aboutUs")
+    public String aboutUs(@RequestParam Map<String, String> user, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("user", user2);
+        return "user/aboutUs";
+    }
+    @GetMapping("/user/contact")
+    public String contact(@RequestParam Map<String, String> user, HttpServletRequest request,HttpSession session, Model model){
+        User user2 = (User) request.getSession().getAttribute("session_user");
+        model.addAttribute("user", user2);
+        return "user/contact";
+    }
+    
 
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletRequest request, HttpSession session){
@@ -414,6 +422,7 @@ public class UserController {
             }
         }
     }
+    
     @GetMapping("user/logout")
     public String removeSession(HttpServletRequest request){
         request.getSession().invalidate();
