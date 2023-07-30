@@ -435,6 +435,7 @@ public class UserController {
     public String getTrips(HttpServletRequest request, HttpSession session, Model model){
         User user = (User) request.getSession().getAttribute("session_user");
         List <Trip> trips = tripRepo.findByUserUid(user.getUid());
+        Collections.reverse(trips);
         model.addAttribute("user", user);
         model.addAttribute("trips", trips);
         model.addAttribute("hasTrips", !trips.isEmpty());
