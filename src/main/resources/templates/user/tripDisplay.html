@@ -382,6 +382,7 @@ Footer END -->
 		var maplist = [];
 		var locationlist = [];
 		var locationcoords = [];
+		var locationmarker = [];
 		var mapindex;
 
 
@@ -499,6 +500,15 @@ Footer END -->
 
 						//searches nearbyRestaurants
 						restaurantSearch(latlng, index);
+
+						//making a display marker to show up map
+						var icon = "https://maps.google.com/mapfiles/kml/paddle/purple-circle.png";
+						const marker = new google.maps.Marker({
+							position: latlng,
+							icon: {url: icon},
+						});
+						locationmarker[index] = marker;
+
 
 					} else {
 						//alert('Geocoding ' + location + ' was not successful for the following reason: ' + status);
@@ -625,6 +635,7 @@ Footer END -->
 				maplist[index].setCenter(locationcoords[index]);
 				maplist[index].__gm.ta.style.height = "500px";
 				maplist[index].__gm.ta.style.marginTop = "20px";
+				locationmarker[index].setMap(maplist[index]);
 			}
 		}
 
@@ -638,6 +649,8 @@ Footer END -->
 					maplist[index].setCenter(locationcoords[index]);
 					maplist[index].__gm.ta.style.height = "500px";
 					maplist[index].__gm.ta.style.marginTop = "20px";
+					locationmarker[index].setMap(maplist[index]);
+
 				}
 			}
 		}
