@@ -25,6 +25,10 @@
 
 	<!-- Theme CSS -->
 	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+
+	<!-- Google Maps Polygon Style -->
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
 	<style>
         .scroll-shadow {
             box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
@@ -56,45 +60,39 @@
 		}
 		.banner-container {
 			position: relative;
-			}
-
+		}
 		.banner-title {
 			position: absolute;
-			top: 0px; /* Adjust the top positioning as needed */
-			left: 20px; /* Adjust the left positioning as needed */
-			padding: 30px; /* Add padding around the title */
+			top: 0px; 
+			left: 20px; 
+			padding: 30px; 
 			z-index: 1;
 			text-align: left;
-			color: black !important; /* Set the text color to white */
-			width: auto; /* Remove the width property to allow the content to take its natural width */
+			color: black !important; 
+			width: auto; 
 		}
-
 		.banner-title h1 {
-			margin-bottom: 5px; /* Add some space between the h1 and the ul */
+			margin-bottom: 5px;
 		}
-
 		.banner-title ul {
 			list-style: none;
 			padding: 0;
 			margin: 0;
 		}
-
 		.banner-title li {
 			color: black !important;
 			display: inline-block;
-			margin-right: 10px; /* Add some space between the list items */
+			margin-right: 10px; 
 		}
 		.splide-main {
-  			height: 300px; /* Adjust the height as needed */
+  			height: 300px; 
 		}
-
-		/* If you want to maintain the aspect ratio (width:height) of the image, you can remove the heightRatio property */
 		.splide-main {
   			height: auto;
 		}
 	</style>
-</head>
 
+</head>
 <body>
 
 <!-- Header START -->
@@ -170,49 +168,43 @@
 	
 <!-- =======================
 Main Banner START -->
-<section class="pt-4 pt-lg-5">
+<section class="pt-0">
 	<div class="container position-relative">
 
-		<!-- Title and button START -->
-		<div class="row">
-			<div class="col-12">
-
-				<!-- Meta -->
-				<div class="d-md-flex justify-content-md-between">
-					<!-- Title -->
-					<div>
+	<!-- Image gallery START -->
+	<div class="row mt-md-5">
+		<div class="col-12">
+			<!-- Primary image -->
+			<div class="banner-container">
+			<div class="splide splide-main mb-3" data-splide='{"type" : "fade","autoplay": true,"heightRatio":0.5,"pagination":false,"arrows":false,"cover":true,"lazyLoad":"sequential"}'>
+				<div class="splide__track">
+				<ul class="splide__list">
+					<!-- invisible map -->
+					<div id="map" class="d-none"></div>
+					<li id="background" class="splide__slide rounded">
+					<img src="" alt="">
+					<div class="banner-title">
 						<h1 class="fs-2"><span th:text="${currTrip.location}"></span></h1>
 						<ul class="nav nav-divider h6 text-body mb-0">
 							<li class="nav-item"><span th:text="${currTrip.startDate}"></span> to <span th:text="${currTrip.endDate}"></span></li>
-							<li class="nav-item"><span th:text="${currTrip.budget}"></span>
+							<li class="nav-item"><span th:text="${currTrip.budget}"></span></li>
 						</ul>
 					</div>
+					</li>
+				</ul>
 				</div>
 			</div>
 		</div>
-		<!-- Title and button END -->
-
-		<!-- Image gallery START -->
-		<div class="row mt-md-5">
-			<div class="col-12">
-				<!-- Primary image -->
-				<div class="splide splide-main mb-3" data-splide='{"type" : "fade","autoplay": true,"heightRatio":0.5,"pagination":false,"arrows":false,"cover":true,"lazyLoad":"sequential"}'>
-					<div class="splide__track">
-						<ul class="splide__list">
-							<li class="splide__slide rounded"><img src="/images/gallery/04.jpg" alt="">
-						</ul>
-					</div>
-				</div>
-				<!-- Secondary image -->
-				<div class="splide splide-thumb display-none" data-splide='{"arrows":false}'>
-					<div class="splide__track">
-						<ul class="splide__list">
-						</ul>
-					</div>
-				</div>
+		<!-- Secondary image -->
+		<div class="splide splide-thumb display-none" data-splide='{"arrows":false}'>
+			<div class="splide__track">
+				<ul class="splide__list">
+				</ul>
 			</div>
 		</div>
-		<!-- Image gallery END -->
+		</div>
+	</div>
+	<!-- Image gallery END -->
 
 	</div>
 </section>
@@ -221,16 +213,17 @@ Main Banner END -->
 
 <!-- =======================
 Tabs-content START -->
-<section class="pt-1 pt-md-5">
+<section class="pt-0 pt-md-0">
 		<div class="row">
 			<!-- Tabs Content START -->
 			<div class="col-8 mx-auto">
 					<!-- Content item START -->
-						<div class="card bg-transparent p-4">
+						<div class="card bg-transparent p-0">
 							<!-- Card header -->
-							<div class="card-header bg-transparent p-0 pb-3">
-								<h2 class="mb-0">Trip Itinerary</h2>
+							<div class="card-header bg-transparent p-0 pb-0">
+								<h3 class="mb-5">Trip Itinerary:</h3>
 							</div>
+							<hr class="my-0"> <!-- Divider -->
 
 							<!--						TESTING 								-->
 							<!-- Card body START -->
@@ -331,71 +324,353 @@ Footer START -->
 <!-- =======================
 Footer END -->
 
-<!-- Back to top -->
-<div class="back-top"></div>
+	<!-- Back to top -->
+	<div class="back-top"></div>
 
-<!-- Bootstrap JS -->
-<script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Vendors -->
-<script src="/vendor/splide-master/dist/js/splide.min.js"></script>
-<script src="/vendor/glightbox/js/glightbox.js"></script>
+	<!-- Vendors -->
+	<script src="/vendor/splide-master/dist/js/splide.min.js"></script>
+	<script src="/vendor/glightbox/js/glightbox.js"></script>
 
-<!-- ThemeFunctions -->
-<script src="/js/functions.js"></script>
-<script>
-    function sendEmailItinerary() {
-        var button = document.getElementById("sendEmailButton");
-        button.disabled = true; // Disable the button on click
+	<!-- ThemeFunctions -->
+	<script src="/js/functions.js"></script>
+	<script>
+		function sendEmailItinerary() {
+			var button = document.getElementById("sendEmailButton");
+			button.disabled = true; // Disable the button on click
 
-        var form = document.getElementById("emailForm");
-        var formData = new FormData(form);
+			var form = document.getElementById("emailForm");
+			var formData = new FormData(form);
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/emailItinerary", true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    // Email sent successfully
-                    showEmailNotification();
-                } else {
-                    // Error occurred while sending the email
-                    alert("Error sending trip itinerary via email.");
-                }
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/emailItinerary", true);
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === XMLHttpRequest.DONE) {
+					if (xhr.status === 200) {
+						// Email sent successfully
+						showEmailNotification();
+					} else {
+						// Error occurred while sending the email
+						alert("Error sending trip itinerary via email.");
+					}
 
-                button.disabled = false; 
-            }
-        };
-        xhr.send(formData);
-    }
-    function showEmailNotification() {
-        var notification = document.createElement("div");
-        notification.className = "email-notification";
-        notification.innerHTML = "Trip itinerary sent via email!";
-
-        document.body.appendChild(notification);
-
-        setTimeout(function() {
-            notification.style.bottom = "20px";
-            setTimeout(function() {
-                notification.style.bottom = "-100px";
-                setTimeout(function() {
-                    document.body.removeChild(notification);
-                }, 500); // Adjust the time for the fade-out animation
-            }, 3000); // Adjust the duration the notification stays visible
-        }, 10); // Give a small delay before showing the notification
-    }
-	
-	window.addEventListener("scroll", function() {
-		const header = document.getElementById("header");
-		if (window.scrollY > 0) {
-			header.classList.add("scroll-shadow");
-		} else {
-			header.classList.remove("scroll-shadow");
+					button.disabled = false;
+				}
+			};
+			xhr.send(formData);
 		}
-	});
-</script>
 
+
+		function showEmailNotification() {
+			var notification = document.createElement("div");
+			notification.className = "email-notification";
+			notification.innerHTML = "Trip itinerary sent via email!";
+
+			document.body.appendChild(notification);
+
+			setTimeout(function () {
+				notification.style.bottom = "20px";
+				setTimeout(function () {
+					notification.style.bottom = "-100px";
+					setTimeout(function () {
+						document.body.removeChild(notification);
+					}, 500); // Adjust the time for the fade-out animation
+				}, 3000); // Adjust the duration the notification stays visible
+			}, 10); // Give a small delay before showing the notification
+		}
+	</script>
+
+
+	<!-- Load Google Maps API -->
+	<script async defer>(g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
+			({ key: "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg", v: "weekly" });
+	</script>
+
+	<!-- Start Google Maps API for Javascript -->
+	<script th:inline="javascript">
+		var itineraryObj = [[${ itinerary }]];
+		var originCity = [[${ currTrip.location }]];
+		var budget = [[${ currTrip.budget }]];
+		var budgetNum;
+		var originCityid;
+		var photos;
+
+		var geocoder;
+		var service;
+		var infowindow;
+		var request;
+		//range for nearby restaurants in meters
+		const range = "500";
+
+		var map;
+		var maplist = [];
+		var locationlist = [];
+		var locationcoords = [];
+		var mapindex;
+
+
+		//initialize maps
+		async function initMap() {
+
+			//loads necessary libraries
+			const { Map, InfoWindow } = await google.maps.importLibrary("maps");
+			const { Geocoder } = await google.maps.importLibrary("geocoding");
+			const { PlacesService } = await google.maps.importLibrary("places");
+			const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+			const { LatLng } = await google.maps.importLibrary("core");
+
+			//-------------------------------------------code for obtaining image of origin location----------------------------------------------------
+
+			//imaginary map to use other services
+			map = new google.maps.Map(document.getElementById("map"), {
+				center: { lat: 0, lng: 0 },
+				zoom: 15,
+			});
+
+			//geocodes origin city and updates origincity's place id
+			geocoder = new google.maps.Geocoder();
+			geocoder.geocode({ 'address': originCity }, function (results, status) {
+				if (status == google.maps.GeocoderStatus.OK) {
+					originCityid = results[0].place_id;
+					//alert(originCityid);
+
+					//request body to gain image for background use (up to 10 photos)
+					request = {
+						placeId: originCityid,
+						fields: ["photos"],
+					}
+
+					//requests photos of origin city based on placeID
+					service = new google.maps.places.PlacesService(map);
+					service.getDetails(request, (place, status) => {
+						if (status === google.maps.places.PlacesServiceStatus.OK) {
+
+							photos = place.photos;
+							if (!photos) {
+								return;
+							}
+
+							//updates the background image
+							//alert(photos[0].getUrl());
+							document.getElementById("splide02-slide01").style.backgroundImage = 'url(' + photos[0].getUrl() + ')';
+						} else {
+							//alert('Failed to obtain origin city details for the following reason: ' + status);
+							system.log('Failed to obtain origin city details for the following reason: ' + status);
+						}
+					});
+
+
+				} else {
+					//alert('Geocode was not successful for the following reason: ' + status);
+					system.log('Geocode was not successful for the following reason: ' + status);
+				}
+			});
+
+			//END
+
+			//------------------------------------------code for generating maps for each location and more----------------------------------------------
+
+			//first for loop is to iterate between each day of itinerary
+			for (var i = 1; i < Object.keys(itineraryObj).length + 1; i++) {
+				//second for loop is to iterate between each location for each day
+				for (var j = 0; j < Object.keys(itineraryObj["Day " + i]).length; j++) {
+
+					//index to correspond to the div
+					mapindex = (i - 1) * 4 + j;
+
+					//map options to generate new map
+					var mapOptions = {
+						zoom: 17,
+						center: { lat: 0, lng: 0 },
+					}
+
+					//building new map and pushing it to maplist
+					var map = new google.maps.Map(document.getElementById("map" + mapindex), mapOptions);
+					maplist.push(map);
+
+					//obtains location of the container and stores it for later use
+					var location = Object.keys(itineraryObj["Day " + i])[j];
+					locationlist.push(location);
+
+					//Adds eventlistener to center the map on click of expansion button
+					var button = document.getElementById("button-" + mapindex);
+					mapObjectIndex = locationlist.indexOf(location);
+					console.log(mapObjectIndex);
+					button.addEventListener("click", updateCenter.bind(null, mapObjectIndex));
+				}
+
+			}
+			//geocodes the location obtained 
+			geocodeloc();
+		}
+
+
+		function geocodeloc() {
+
+			locationlist.forEach(function (location) {
+				//open a new geocode instance
+				var geocoder = new google.maps.Geocoder();
+
+				//geocode address and stores it to center associated maps
+				geocoder.geocode({ 'address': location }, function (results, status) {
+					if (status == google.maps.GeocoderStatus.OK) {
+						var latlng = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+						//alert(location + ", " + latlng);
+
+						//saves the latlng of the associated location on the same index as said location
+						var index = locationlist.indexOf(location);
+						locationcoords[index] = latlng;
+
+						//searches nearbyRestaurants
+						restaurantSearch(latlng, index);
+
+					} else {
+						//alert('Geocoding ' + location + ' was not successful for the following reason: ' + status);
+						console.log('Geocoding ' + location + ' was not successful for the following reason: ' + status);
+						//saves the latlng of the associated location on the same index as said location
+						var index = locationlist.indexOf("location");
+						locationcoords[index] = "";
+					}
+				});
+			});
+		}
+		// calls nearby search to get restaurants in range (in metres)
+		function restaurantSearch(latlng, index) {
+			//sets up request to look for nearby restaurants
+			budgetNum = 0;
+			if (budget[0] == "L") {
+				budgetNum = 2;
+			} else if (budget[0] == "A") {
+				budgetNum = 3;
+			} else {
+				budgetNum = 4;
+			}
+			request = {
+				location: latlng,
+				radius: range,
+				type: ['restaurant'],
+				maxPriceLevel: budgetNum
+			};
+
+			//imaginary map to use other services
+			map = new google.maps.Map(document.getElementById("map"), {
+				center: { lat: 0, lng: 0 },
+				zoom: 15,
+			});
+
+			//actually calling the request
+			var service = new google.maps.places.PlacesService(map);
+			service.nearbySearch(request, function (results, status) {
+				if (status == google.maps.places.PlacesServiceStatus.OK) {
+
+					//alert("success?" + results.length);
+					for (var i = 0; i < Math.min(results.length, 5); i++) {
+						//new request to gather place details request
+						const placeDetailsRequest = {
+							placeId: results[i].place_id,
+							fields: ["name", "formatted_address", "place_id", "geometry", "rating", "price_level"],
+						}
+
+						//calling request
+						var service = new google.maps.places.PlacesService(map);
+						service.getDetails(placeDetailsRequest, (place, status) => {
+							if (
+								status === google.maps.places.PlacesServiceStatus.OK &&
+								place &&
+								place.geometry &&
+								place.geometry.location
+							) {
+								var map = maplist[index];
+								//making a display marker to show up map
+								const marker = new google.maps.Marker({
+									position: place.geometry.location,
+									map,
+								});
+
+								//when marker is clicked, show details
+								infowindow = new google.maps.InfoWindow();
+								google.maps.event.addListener(marker, "click", () => {
+									//container for details element
+									const content = document.createElement("div");
+									const nameElement = document.createElement("h1");
+									nameElement.style.fontSize = "medium";
+
+									nameElement.textContent = place.name;
+									content.appendChild(nameElement);
+
+									const placeRatingElement = document.createElement("p");
+
+									placeRatingElement.textContent = "User rating: " + place.rating;
+									content.appendChild(placeRatingElement);
+
+									if (place.price_level) {
+										const placePriceElement = document.createElement("p");
+
+										var pricetag = "";
+										for (var i = 0; i < place.price_level; i++) {
+											pricetag += "$";
+										}
+										placePriceElement.textContent = "Price level: " + pricetag;
+										content.appendChild(placePriceElement);
+									}
+
+									const placeAddressElement = document.createElement("p");
+
+									placeAddressElement.textContent = place.formatted_address;
+									content.appendChild(placeAddressElement);
+
+									infowindow.setContent(content);
+									infowindow.open(map, marker);
+								});
+
+							} else {
+								// alert('placeDetails request was not successful for the following reason: ' + status);
+								console.log('placeDetails request was not successful for the following reason: ' + status);
+							}
+						});
+
+					}
+				} else {
+					// alert('nearbySearch was not successful for the following reason: ' + status);
+					console.log('nearbySearch was not successful for the following reason: ' + status);
+				}
+
+			});
+		}
+
+
+		//update map display and center the map on to associated coordinates
+		function updateCenter(index) {
+			console.log(index);
+			if (!locationcoords[index]) {
+				maplist[index].__gm.ta.style.display = "none";
+			} else {
+				maplist[index].__gm.ta.style.display = "block";
+				maplist[index].setCenter(locationcoords[index]);
+				maplist[index].__gm.ta.style.height = "500px";
+				maplist[index].__gm.ta.style.marginTop = "20px";
+			}
+		}
+
+		//function to manually update all maps for testing
+		function updateCenter() {
+			for (var index = 0; index < locationcoords.length; index++) {
+				if (locationcoords[index] == null) {
+					maplist[index].__gm.ta.style.display = "none";
+				} else {
+					maplist[index].__gm.ta.style.display = "block";
+					maplist[index].setCenter(locationcoords[index]);
+					maplist[index].__gm.ta.style.height = "500px";
+					maplist[index].__gm.ta.style.marginTop = "20px";
+				}
+			}
+		}
+
+		window.initMap = initMap();
+	</script>
 
 </body>
+
 </html>
