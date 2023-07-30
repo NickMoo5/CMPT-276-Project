@@ -54,6 +54,44 @@
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 			transition: bottom 0.5s ease-in-out;
 		}
+		.banner-container {
+			position: relative;
+			}
+
+		.banner-title {
+			position: absolute;
+			top: 0px; /* Adjust the top positioning as needed */
+			left: 20px; /* Adjust the left positioning as needed */
+			padding: 30px; /* Add padding around the title */
+			z-index: 1;
+			text-align: left;
+			color: black !important; /* Set the text color to white */
+			width: auto; /* Remove the width property to allow the content to take its natural width */
+		}
+
+		.banner-title h1 {
+			margin-bottom: 5px; /* Add some space between the h1 and the ul */
+		}
+
+		.banner-title ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		.banner-title li {
+			color: black !important;
+			display: inline-block;
+			margin-right: 10px; /* Add some space between the list items */
+		}
+		.splide-main {
+  			height: 300px; /* Adjust the height as needed */
+		}
+
+		/* If you want to maintain the aspect ratio (width:height) of the image, you can remove the heightRatio property */
+		.splide-main {
+  			height: auto;
+		}
 	</style>
 </head>
 
