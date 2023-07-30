@@ -85,7 +85,7 @@
 			<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
 
 				<!-- Profile dropdown START -->
-				<li class="nav-item ms-3 dropdown">
+				<li class="nav-item ms-3 dropdown pb-2">
 					<!-- Avatar -->
 					<a class="avatar avatar-sm p-0" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
 						<i class="bi bi-person-circle fa-fw" style="font-size: 40px;"></i>
@@ -168,7 +168,20 @@
 					</div>
 				</li>
 			</ul>
-			<p th:unless="${hasTrips}">No trips generated yet.</p>
+			<li th:unless="${hasTrips}" class="col-md-6">
+				<div class="card shadow rounded-2 overflow-hidden mb-4" style="max-width: 800px;">
+					<!-- Card Body START -->
+					<div class="col">
+						<div class="card-body p-5">
+							<!-- Title -->
+							<h5 class="card-title mb-1 text-center">
+								<a>You don't have any trips yet, time to start exploring the world!</a>
+							</h5>
+						</div>
+					</div>
+					<!-- Card body END -->
+				</div>
+			</li>
 		</div>
     </div>
 </div>
