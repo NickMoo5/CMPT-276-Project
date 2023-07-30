@@ -221,7 +221,9 @@ Tabs-content START -->
 
 												<!--				MAP WOULD GO HERE  						-->
 												<div th:id="'map'+ ${i.index + (num.index * 4)}"></div>
-
+												<p th:id="'note'+ ${i.index + (num.index * 4)}" class="d-none"
+													style="font-style: italic; font-size: smaller;">Nearby restaurants
+													within budget included as red markers</p>
 											</div>
 										</div>
 									</div>
@@ -474,6 +476,7 @@ Footer END -->
 					mapObjectIndex = locationlist.indexOf(location);
 					console.log(mapObjectIndex);
 					button.addEventListener("click", updateCenter.bind(null, mapObjectIndex));
+					document.getElementById("note" + mapindex).removeClass("d-none");
 				}
 
 			}
@@ -505,7 +508,7 @@ Footer END -->
 						var icon = "https://maps.google.com/mapfiles/kml/paddle/purple-circle.png";
 						const marker = new google.maps.Marker({
 							position: latlng,
-							icon: {url: icon},
+							icon: { url: icon },
 						});
 						locationmarker[index] = marker;
 
