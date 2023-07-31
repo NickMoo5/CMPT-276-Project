@@ -96,15 +96,15 @@ public class UserController {
             //error
             return "user/addUser";  
         }
-        else if(email.length() > 32){
+        else if(email.length() > 64){
             //error
-            return "user/addUser";
+            return "user/addUser";  
         }
         else if(username.length() > 16){
             //error
             return "user/addUser";
         }
-        else if(password.length() > 16){
+        else if(password.length() > 32){
             //error
             return "user/addUser";
         }
@@ -134,13 +134,13 @@ public class UserController {
         createdUser.setPin(pin);
 
         userRepo.save(createdUser);
-            response.setStatus(201);
+        response.setStatus(201);
 
-             String body = "<div style=\"text-align: center;\">"
-            + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
-            + "<p>Welcome to Wayfinder " + fName + ", <br><br> Your username is: " + username + "<br>We hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
-            + "</div>";
-            emailUtility.sendEmail(email, "Welcome to Wayfinder!", body);
+        String body = "<div style=\"text-align: center;\">"
+        + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
+        + "<p>Welcome to Wayfinder " + fName + ", <br><br> Your username is: " + username + "<br>We hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
+        + "</div>";
+        emailUtility.sendEmail(email, "Welcome to Wayfinder!", body);
 
 
         return "user/login";
