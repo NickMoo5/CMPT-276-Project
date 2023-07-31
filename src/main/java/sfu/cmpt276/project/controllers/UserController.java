@@ -94,9 +94,9 @@ public class UserController {
         }
         else if(lName.length() > 16){
             //error
-            return "user/addUser";
+            return "user/addUser";  
         }
-        else if(email.length() > 16){
+        else if(email.length() > 32){
             //error
             return "user/addUser";
         }

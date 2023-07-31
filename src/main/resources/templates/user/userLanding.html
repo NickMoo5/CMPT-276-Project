@@ -387,7 +387,7 @@ Footer END -->
         startdate.addEventListener("blur", () => {
             const startDateMoment = moment(startDate.value, 'D/M/Y', true);
             if (startDateMoment.isValid()) {
-				flatpickr("input[id=endDate]", { minDate: startDate.value, maxDate: new Date().fp_incr(10) });
+				flatpickr("input[id=endDate]", { minDate: startDate.value, maxDate: new Date().fp_incr(7) });
             } else {
                 flatpickr("input[id=endDate]", { minDate: "today" });
             }
