@@ -118,21 +118,10 @@ public class UserController {
             model.addAttribute("addUser", tempUser);
             return "user/addUser";
         }
-        else{
-            response.setStatus(201);
-
-             String body = "<div style=\"text-align: center;\">"
-            + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
-            + "<p>Welcome to Wayfinder " + fName + ", <br><br> Your username is: " + username + "<br>We hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
-            + "</div>";
-            emailUtility.sendEmail(email, "Welcome to Wayfinder!", body);
-
-
-            return "user/addPrefs";
-        }
+        return "user/addPrefs";
     }
     @PostMapping("user/addPrefs")    
-    public String addPreferences(@RequestParam Map<String, String> newUser, HttpServletRequest request,HttpSession session){
+    public String addPreferences(@RequestParam Map<String, String> newUser, HttpServletResponse response,Model model){
         String access = newUser.get("access");
         String diet = newUser.get("diet");
         String lang1 = newUser.get("language1");
@@ -145,6 +134,15 @@ public class UserController {
         createdUser.setPin(pin);
 
         userRepo.save(createdUser);
+            response.setStatus(201);
+
+             String body = "<div style=\"text-align: center;\">"
+            + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
+            + "<p>Welcome to Wayfinder " + fName + ", <br><br> Your username is: " + username + "<br>We hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
+            + "</div>";
+            emailUtility.sendEmail(email, "Welcome to Wayfinder!", body);
+
+
         return "user/login";
     }
 
