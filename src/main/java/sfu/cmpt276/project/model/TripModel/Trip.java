@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="tripsDb")
-public class Trip {
+public class Trip implements Comparable<Trip>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int uid;
@@ -31,6 +31,19 @@ public class Trip {
         this.endDate = endDate;
         this.budget = budget;
         this.userUid = userUid;
+    }
+
+    @Override
+    public int compareTo(Trip o) {
+        if(this.uid > o.uid){
+            return 1;
+        }
+        else if (this.uid < o.uid) {
+            return -1;
+        }
+        else{
+            return 0;
+        }
     }
 
     public Boolean isItineraryArrValid() {

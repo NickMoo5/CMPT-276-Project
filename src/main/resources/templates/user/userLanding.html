@@ -30,80 +30,83 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/loading.js}"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+
+	<style>
+        .scroll-shadow {
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
-
 <body>
-
-	<header class="header-sticky" id="header" style="position: sticky; top: 0;">
-		<!-- Logo Nav START -->
-		<nav class="navbar navbar-light navbar-expand-xl">
-			<div class="container-fluid px-md-5">
-				<!-- Logo START -->
-				<a class="navbar-brand" href="/user/home">
-					<div class="mt-3">	
-						<img class="light-mode-item navbar-brand-item" src="/images/logo-icon.svg" alt="logo"></a>
-					</div>
-					<a href="/user/home"><h4>WayFinder</h4></a>
-					
-				<!-- Logo END -->
-	
-				<!-- Nav category menu START -->
-				<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
-					<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center ms-auto p-2 p-xl-0">
-	
-						<li class="nav-item"> <a class="nav-link" href="/login"><i class="fa-solid fa-plane me-2"></i>Travel Planner</a></li>
-						<li class="nav-item"> <a class="nav-link" href="/user/viewTrips"><i class="fa-solid fa-globe-americas me-2"></i>View Trips</a></li>
-						<li class="nav-item"> <a class="nav-link" href="/user/aboutUs"><i class="fa-solid fa-users me-2"></i>About Us</a></li>
-						<li class="nav-item"> <a class="nav-link" href="/user/contact"><i class="fa-solid fa-mobile me-2"></i>Contact</a></li>
-	
-					</ul>
+<!-- Header START -->
+<header class="header-sticky" id="header" style="position: sticky; top: 0;">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-light navbar-expand-xl">
+		<div class="container-fluid px-md-5">
+			<!-- Logo START -->
+			<a class="navbar-brand" href="/user/home">
+				<div class="mt-3">	
+					<img class="light-mode-item navbar-brand-item" src="/images/logo-icon.svg" alt="logo"></a>
 				</div>
-				<!-- Nav category menu END -->
-	
-				<!-- Profile and Notification START -->
-				<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
-	
-					<!-- Profile dropdown START -->
-					<li class="nav-item ms-3 dropdown">
-						<!-- Avatar -->
-						<a class="avatar avatar-sm p-0" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-							<i class="bi bi-person-circle fa-fw" style="font-size: 40px;"></i>
-						</a>
-						
-						<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
-							<!-- Profile info -->
-							<li class="px-3 mb-3">
-								<div class="d-flex align-items-center">
-									<!-- Avatar -->
-									<div class="avatar me-3">
-										<img class="avatar-img rounded-circle shadow" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
-									</div>
-									<div>
-										<a class="h6 mt-2 mt-sm-0"><span th:text="${user.username}"></span></a>
-										<p class="small m-0"><span th:text="${user.email}"></span></p>
-									</div>
-								</div>
-							</li>
-	
-							<!-- Links -->
-							<li> <hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="/user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i>Preference Settings</a></li>
-								<li><a class="dropdown-item" href="/user/editAccSettings"><i class="bi bi-person fa-fw me-2"></i>Account Settings</a></li>
-								<li><a class="dropdown-item bg-danger-soft-hover" href="/user/logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
-							<li> <hr class="dropdown-divider"></li>
-						</ul>
-					</li>
-					<!-- Profile dropdown END -->
+				<a href="/user/home"><h4>WayFinder</h4></a>
+				
+			<!-- Logo END -->
+
+			<!-- Nav category menu START -->
+			<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
+				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center ms-auto p-2 p-xl-0">
+
+					<li class="nav-item"> <a class="nav-link active" href="/login"><i class="fa-solid fa-plane me-2"></i>Travel Planner</a></li>
+					<li class="nav-item"> <a class="nav-link" href="/user/viewTrips"><i class="fa-solid fa-globe-americas me-2"></i>View Trips</a></li>
+					<li class="nav-item"> <a class="nav-link" href="/user/aboutUs"><i class="fa-solid fa-users me-2"></i>About Us</a></li>
+					<li class="nav-item"> <a class="nav-link" href="/user/contact"><i class="fa-solid fa-mobile me-2"></i>Contact</a></li>
+
 				</ul>
 			</div>
-		</nav>
-		<!-- Logo Nav END -->
-	</header>
-	<!-- Header END -->
+			<!-- Nav category menu END -->
 
+			<!-- Profile and Notification START -->
+			<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+
+				<!-- Profile dropdown START -->
+				<li class="nav-item ms-3 dropdown pb-2">
+					<!-- Avatar -->
+					<a class="avatar avatar-sm p-0" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="bi bi-person-circle fa-fw" style="font-size: 40px;"></i>
+					</a>
+                    
+					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+						<!-- Profile info -->
+						<li class="px-3 mb-3">
+							<div class="d-flex align-items-center">
+								<!-- Avatar -->
+								<div class="avatar me-3">
+									<img class="avatar-img rounded-circle shadow" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
+								</div>
+								<div>
+									<a class="h6 mt-2 mt-sm-0"><span th:text="${user.username}"></span></a>
+									<p class="small m-0"><span th:text="${user.email}"></span></p>
+								</div>
+							</div>
+						</li>
+
+						<!-- Links -->
+						<li> <hr class="dropdown-divider"></li>
+						    <li><a class="dropdown-item" href="/user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i>Preference Settings</a></li>
+							<li><a class="dropdown-item" href="/user/editAccSettings"><i class="bi bi-person fa-fw me-2"></i>Account Settings</a></li>
+                        	<li><a class="dropdown-item bg-danger-soft-hover" href="/user/logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+						<li> <hr class="dropdown-divider"></li>
+					</ul>
+				</li>
+				<!-- Profile dropdown END -->
+			</ul>
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
+<!-- Header END -->
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
-	
 <!-- =======================
 Main Banner START -->
 <section class="pt-0">
@@ -114,9 +117,8 @@ Main Banner START -->
 			<div class="row justify-content-between pt-0 pb-5"> 
 				<div class="col-md-7 col-lg-8 col-xxl-7 pb-5 mb-0 mb-lg-5"> 
 					<h1 class="text-white">Plan Your Perfect Trip</h1>
-					<p class="text-white mb-0">Create a custom AI generated travel itinierary with a press of a button!</p>
+					<p class="text-white mb-0">Create a custom AI generated travel itinierary with a press of a button</p>
 				</div>
-
 			</div>
 		</div>
 		<div class="loader" id="loader" style="display: none">
@@ -130,7 +132,6 @@ Main Banner START -->
 				</div>
 			</div>
 		</div>
-
 		<div class="errorQuery" id="errorQuery" style="display: none">
 			<div class="d-flex-column text-center mt-2">
 				<h4>Sorry there was an error generating your trip</h4>
@@ -140,12 +141,10 @@ Main Banner START -->
 				</form>
 			</div>
 		</div>
-
 		<div class="row" id="tripForm" style="display: block">
                 <!-- Tab content START -->
                 <div class="col-12">
                     <div class="tab-content" id="nav-tabContent">
-                        
                         <!-- Tab content item START -->
                         <div class="tab-pane fade show active" id="tab-1-1">
                             <div class="card shadow p-0">
@@ -153,8 +152,6 @@ Main Banner START -->
                                 <div class="card-header p-4">
                                     <h5 class="mb-0"><i class="fa-solid fa-plane fa-fw me-2"></i>Planning Itinerary</h5>
                                 </div>
-
-							
                                 <!-- Card body -->
                                 <!--<form class="card-body p-4 pt-0">-->
                                     <div class="row g-4">
@@ -201,15 +198,12 @@ Main Banner START -->
                                                 </div>
 												<div class="error-msg" id="endDateErrorMsg"></div>
                                             </div>
-											<div class="text-center pt-0">
+											<div class="text-center pt-4">
 												<button class="btn btn-lg btn-primary mb-n7" type="submit">Find Your Way! <i class="bi bi-arrow-right ps-3"></i></button>
 											</div>
 											</div>
                                         </form>
                                     </div> <!-- Row END -->
-            
-                                    <!-- Button -->
-
                                 <!--</form>-->
                             </div>
                         </div>
@@ -278,7 +272,6 @@ Footer END -->
 <script src="/js/functions.js"></script>
 <script>
 	let formSubmitted = false;
-
 	$(document).ready(function() {
 		// Submit the form and show the loading screen
 		$('#tripPrefs').submit(function(event) {
@@ -338,7 +331,6 @@ Footer END -->
 			link.click();
 		}
 	});
-	
 	// Real-time validation and error message handling
 	$('#location').on('input', validateForm);
     $('#budget').on('change', validateForm);
@@ -363,40 +355,38 @@ Footer END -->
 		if (formSubmitted && location.value === '' ){
 			displayErrorMsg("location", "Please select a location");
 			return false;
-		} else {
+		} else{
 			clearErrorMsg("location");
 		}
-		if (formSubmitted && budget.value === 'Select Budget') {
+		if (formSubmitted && budget.value === 'Select Budget'){
 			displayErrorMsg("budget", "Please select a budget");
 			return false;
-		} else {
+		} else{
 			clearErrorMsg("budget");
 		}
 		if (formSubmitted && startDate.value === '' ){
 			displayErrorMsg("startDate", "Please select a start date");
 			return false;
-		} else {
+		} else{
 			clearErrorMsg("startDate");
 		}
-		if (formSubmitted && endDate.value === '') {
+		if (formSubmitted && endDate.value === ''){
 			displayErrorMsg("endDate", "Please select an end date");
 			return false;
-		} else {
+		} else{
 			clearErrorMsg("endDate");
 		}
-
 		const startDateMoment = moment(startDate.value, 'D/M/Y', true);
         const endDateMoment = moment(endDate.value, 'D/M/Y', true);
 
-        if (formSubmitted && startDateMoment.isSameOrAfter(endDateMoment)) {
+        if (formSubmitted && startDateMoment.isSameOrAfter(endDateMoment)){
             displayErrorMsg("date", "Start date must be before end date");
 			return false;
-		} else {
+		} else{
 			clearErrorMsg("date");
 		}
 		return true;
 	}
-
 	// Restrict past dates
 	flatpickr("input[id=startDate]", {minDate: "today"});
 	flatpickr("input[id=endDate]", {minDate: "today"});
@@ -405,12 +395,21 @@ Footer END -->
         const startdate = document.getElementById("startDate");
         startdate.addEventListener("blur", () => {
             const startDateMoment = moment(startDate.value, 'D/M/Y', true);
-            if (startDateMoment.isValid()) {
+            if (startDateMoment.isValid()){
                 flatpickr("input[id=endDate]", { minDate: startDate.value });
-            } else {
+            } else{
                 flatpickr("input[id=endDate]", { minDate: "today" });
             }
         });
+    });
+	//NavBar shadow
+    window.addEventListener("scroll", function() {
+        const header = document.getElementById("header");
+        if (window.scrollY > 0){
+            header.classList.add("scroll-shadow");
+        } else{
+            header.classList.remove("scroll-shadow");
+        }
     });
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=places"></script>

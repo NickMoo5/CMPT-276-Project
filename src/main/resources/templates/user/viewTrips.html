@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WayFinder - Trip Planner</title>
+	<meta charset="utf-8">
+	<title>WayFinder - Trip View</title>
 
-    <!-- Meta Tags -->
+	<!-- Meta Tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Trip Planner - Plan Itinerary here">
 
@@ -28,41 +27,41 @@
 
 	<!-- Theme CSS -->
 	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script th:src="@{/js/loading.js}"></script>
-	<script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-	<!-- Vendors -->
-	<script src="/vendor/tiny-slider/tiny-slider.js"></script>
-	<script src="/vendor/glightbox/js/glightbox.js"></script>
-	<script src="/vendor/choices/js/choices.min.js"></script>
-	<script src="/vendor/flatpickr/js/flatpickr.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/moment"></script>
-
 	<style>
-		.scroll-shadow {
-			box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
-		}
-		.image-overlay {
-			position: absolute;
+        .scroll-shadow {
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+  		
+		#header {
+			position: fixed;
+			width: 100%;
 			top: 0;
 			left: 0;
-			width: 100%;
+		}
+		html, body {
 			height: 100%;
-			background-color: rgba(0, 0, 0, 0.1); 
-			border-radius: 10px;
 		}
 
-		.position-relative {
-			position: relative;
+		body {
+			display: flex;
+			flex-direction: column;
 		}
 
-	</style>
-	
+		main {
+			flex: 1;
+		}
+
+		footer {
+			flex-shrink: 0;
+		}
+    </style>
+
 </head>
+
 <body>
-    <!-- Header START -->
-<header class="header-sticky" id="header" style="position: sticky; top: 0;">
+
+<!-- Header START -->
+<header id="header">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-light navbar-expand-xl">
 		<div class="container-fluid px-md-5">
@@ -80,9 +79,9 @@
 				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center ms-auto p-2 p-xl-0">
 
 					<li class="nav-item"> <a class="nav-link" href="/login"><i class="fa-solid fa-plane me-2"></i>Travel Planner</a></li>
-					<li class="nav-item"> <a class="nav-link" href="/user/viewTrips"><i class="fa-solid fa-globe-americas me-2"></i>View Trips</a></li>
+					<li class="nav-item"> <a class="nav-link active" href="/user/viewTrips"><i class="fa-solid fa-globe-americas me-2"></i>View Trips</a></li>
 					<li class="nav-item"> <a class="nav-link" href="/user/aboutUs"><i class="fa-solid fa-users me-2"></i>About Us</a></li>
-					<li class="nav-item"> <a class="nav-link active" href="/user/contact"><i class="fa-solid fa-mobile me-2"></i>Contact</a></li>
+					<li class="nav-item"> <a class="nav-link" href="/user/contact"><i class="fa-solid fa-mobile me-2"></i>Contact</a></li>
 
 				</ul>
 			</div>
@@ -129,49 +128,84 @@
 </header>
 <!-- Header END -->
 
+<!-- **************** MAIN CONTENT START **************** -->
+<main style="margin-top: 100px;">
+<section class="pt-0">
+	<div class="container">
+		<!-- Background image -->
+		<div class="p-3 p-sm-5 rounded-3" style="background-image: url(/images/bg/05.jpg); background-position: center center; background-repeat: no-repeat; background-size: cover;">
+			<!-- Banner title -->
+			<div class="row"> 
+				<div class="col-md-8 mx-auto my-5"> 
+					<h1 class="text-center text-white">Trip Viewer</h1>
+					<ul class="nav nav-divider h6 text-white mb-0 justify-content-center">
+						<li class="nav-item">Find all your previous trips here!</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="row g-4 justify-content-center">
+    <!-- Main content START -->
+    <div class="col-sm-6">
+		<div class="vstack gap-4">
+			<!-- Title -->
+			<h4 class="mb-0">Destinations for <a th:text="${user.username}"></a>:</h4>
 
-<div class="content-wrapper">
-    <section class="pt-0">
-        <div class="container">
-            <!-- Background image container with relative positioning -->
-            <div class="position-relative">
-                <!-- Background image -->
-                <div class="p-3 p-sm-5 rounded-3" style="background-image: url(/images/bg/10.jpg); background-position: center center; background-repeat: no-repeat; background-size: cover;">
-                    <!-- Image overlay for making it darker -->
-                    <div class="image-overlay"></div>
+			<hr class="my-0"> <!-- Divider -->
 
-                    <!-- Banner title -->
-                    <div class="row"> 
-                        <div class="col-md-8 mx-auto my-5"> 
-							<div style="z-index: 2; position: relative;">
-                            	<h1 class="text-center" style="color: white;">Contact Us</h1>
+			<ul th:if="${hasTrips}" class="row">
+				<li th:each="trip: ${trips}" class="list-unstyled col-md-6">
+					<div class="card shadow rounded-2 overflow-hidden mb-4" style="max-width: 800px;">
+						<!-- Card Body START -->
+						<div class="col">
+							<div class="card-body p-5">
+								<!-- Title -->
+								<h5 class="card-title mb-1 text-center">
+									<a th:href="@{/user/tripDisplay(uid=${trip.uid})}" th:text="${trip.location}"></a>
+								</h5>
+								<!-- List -->
+                                <ul class="list-unstyled text-center mb-0 mt-2">
+									<li class="nav-item mb-1"><i class="far fa-calendar-alt me-2"></i><a th:text="${trip.startDate} + ' - ' + ${trip.endDate}"></a></li>
+									<li class="nav-item mb-1"><i class="fa-solid fa-sack-dollar me-2"></i><a th:text="${trip.budget}"></a></li>
+									<li class="nav-item mb-1">
+										<form th:action="@{/user/deleteTrip(uid=${trip.uid})}" method="post">
+											<input type="hidden" name="tripUid" th:value="${trip.uid}">
+											<button class="btn btn-danger mt-2" type="submit">Delete Trip</button>
+										</form>
+									</li>
+								</ul>
 							</div>
-                            <ul class="nav nav-divider h6 text-white mb-0 justify-content-center">
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <p class="text-center">You can contact us through email: teamwayfindercontact@gmail.com</p>
-                    <p class="text-center" style="font-style: italic; font-size: smaller;">Responses take 1-2 business days.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+						</div>
+						<!-- Card body END -->
+					</div>
+				</li>
+			</ul>
+			<li th:unless="${hasTrips}" class="list-unstyled col-md-6">
+				<div class="card shadow rounded-2 overflow-hidden mb-4" style="max-width: 800px;">
+					<!-- Card Body START -->
+					<div class="col">
+						<div class="card-body p-5">
+							<!-- Title -->
+							<h5 class="card-title mb-1 text-center">
+								<a>You don't have any trips yet, time to start exploring the world!</a>
+							</h5>
+						</div>
+					</div>
+					<!-- Card body END -->
+				</div>
+			</li>
+		</div>
+    </div>
 </div>
+<!-- Card body END -->
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
 
-
-
-
-
-<footer class="bg-dark pt-5" style="position: fixed; bottom: 0; width: 100%;">
+<!-- =======================
+Footer START -->
+<footer class="bg-dark pt-10">
 	<div class="container">
 		<!-- Row START -->
 		<div class="row g-4">
@@ -197,18 +231,31 @@
 					<!-- HIDE FROM VIEW SINCE NOT DOING ANYTHING -->
 					<div class="nav mt-2 mt-lg-0">
 						<ul class="list-inline text-primary-hover mx-auto mb-0">
+							<!-- <li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Meet the Team</a></li> -->
+							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="/user/home">Home</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
+<!-- =======================
+Footer END -->
 
+<!-- Back to top -->
+<div class="back-top"></div>
 
+<!-- Bootstrap JS -->
+<script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Vendors -->
+<script src="/vendor/splide-master/dist/js/splide.min.js"></script>
+<script src="/vendor/glightbox/js/glightbox.js"></script>
+
+<!-- ThemeFunctions -->
+<script src="/js/functions.js"></script>
 <script>
-	// JavaScript to add/remove the scroll-shadow class on scroll
 	window.addEventListener("scroll", function() {
 		const header = document.getElementById("header");
 		if (window.scrollY > 0) {
@@ -217,7 +264,8 @@
 			header.classList.remove("scroll-shadow");
 		}
 	});
-</script>
 
+		
+</script>
 </body>
 </html>
