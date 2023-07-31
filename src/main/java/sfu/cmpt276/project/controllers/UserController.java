@@ -442,6 +442,15 @@ public class UserController {
         model.addAttribute("hasTrips", !trips.isEmpty());
         return "user/viewTrips";
     }
+    @PostMapping("/user/deleteTrip")
+    public String deleteTrip(@RequestParam(value="uid", required=false) Integer tripUid, HttpServletRequest request, HttpSession session, Model model) {
+        User user = (User) request.getSession().getAttribute("session_user");
+        Trip tripToDelete = tripRepo.getById(tripUid);
+        if (tripToDelete.getUserUid() == user.getUid()) {
+            tripRepo.delete(tripToDelete);
+        }
+        return "redirect:/user/viewTrips";
+    }
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletRequest request, HttpSession session){
         User user = (User) session.getAttribute("session_user");
