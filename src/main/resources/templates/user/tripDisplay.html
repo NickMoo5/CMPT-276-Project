@@ -475,8 +475,7 @@ Footer END -->
 					var button = document.getElementById("button-" + mapindex);
 					mapObjectIndex = locationlist.indexOf(location);
 					console.log(mapObjectIndex);
-					button.addEventListener("click", updateCenter.bind(null, mapObjectIndex));
-					document.getElementById("note" + mapindex).removeClass("d-none");
+					button.addEventListener("click", updateCenter.bind(null, mapObjectIndex, mapindex));
 				}
 
 			}
@@ -629,16 +628,18 @@ Footer END -->
 
 
 		//update map display and center the map on to associated coordinates
-		function updateCenter(index) {
+		function updateCenter(index, mapindex) {
 			console.log(index);
 			if (!locationcoords[index]) {
 				maplist[index].__gm.ta.style.display = "none";
+				document.getElementById("note" + mapindex).setClass("d-none");
 			} else {
 				maplist[index].__gm.ta.style.display = "block";
 				maplist[index].setCenter(locationcoords[index]);
 				maplist[index].__gm.ta.style.height = "500px";
 				maplist[index].__gm.ta.style.marginTop = "20px";
 				locationmarker[index].setMap(maplist[index]);
+				document.getElementById("note" + mapindex).removeClass("d-none");
 			}
 		}
 
