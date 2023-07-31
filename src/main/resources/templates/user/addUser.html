@@ -50,28 +50,33 @@
 
                         <input type="text" id="fname" name="fname" class="form-control form-control-lg"
                             placeholder="First Name" th:value="*{fName}" required>
+                            <div th:if="${flength}" class="error-message text-danger">[[${flength}]]</div>
                     </div>
                     <div class="mb-3">
 
                         <input type="text" id="lname" name="lname" class="form-control form-control-lg"
                             placeholder="Last Name" th:value="*{lName}" required>
+                            <div th:if="${llength}" class="error-message text-danger">[[${llength}]]</div>
                     </div>
                     <div class="mb-3">
                         <input type="email" id="email" name="email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control form-control-lg"
                             placeholder="Email Address" th:value="*{email}" required>
                         <div th:if="${emailUsed}" class="error-message text-danger">[[${emailUsed}]]</div>
+                        <div th:if="${elength}" class="error-message text-danger">[[${elength}]]</div>
                     </div>
                     <div class="mb-3">
 
                         <input type="text" id="username" name="username" class="form-control form-control-lg"
                             placeholder="Username" th:value="*{username}" required>
                         <div th:if="${usernameUsed}" class="error-message text-danger">[[${usernameUsed}]]</div>
+                        <div th:if="${ulength}" class="error-message text-danger">[[${ulength}]]</div>
                     </div>
 
 
                     <div class="mb-3">
                         <input type="password" class="form-control form-control-lg" placeholder="Password"
                             id="password-input" />
+                            <div th:if="${plength}" class="error-message text-danger">[[${plength}]]</div>
                         <div class="valid-feedback">Valid</div>
                         <div class="invalid-feedback">Invalid</div>
                         <!-- <input type="password" class="form-control form-control-lg" placeholder="Password" id="password-input" />

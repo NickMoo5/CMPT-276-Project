@@ -90,22 +90,32 @@ public class UserController {
         password = newUser.get("password2");
         if(fName.length() > 16){
             //error
+            model.addAttribute("flength", "First name entered was too long. Max length is 16.");
+            model.addAttribute("addUser", tempUser);
             return "user/addUser";
         }
         else if(lName.length() > 16){
             //error
+            model.addAttribute("llength", "Last name entered was too long. Max length is 16.");
+            model.addAttribute("addUser", tempUser);
             return "user/addUser";  
         }
         else if(email.length() > 64){
             //error
+            model.addAttribute("elength", "Email entered was too long. Max length is 64.");
+            model.addAttribute("addUser", tempUser);
             return "user/addUser";  
         }
         else if(username.length() > 16){
             //error
+            model.addAttribute("ulength", "Username entered was too long. Max length is 16.");
+            model.addAttribute("addUser", tempUser);
             return "user/addUser";
         }
         else if(password.length() > 32){
             //error
+            model.addAttribute("plength", "Password entered was too long. Max length is 32.");
+            model.addAttribute("addUser", tempUser);
             return "user/addUser";
         }
         if(!userRepo.findByEmail(email).isEmpty()){
