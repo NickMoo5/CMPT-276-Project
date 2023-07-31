@@ -156,7 +156,7 @@
 			<hr class="my-0"> <!-- Divider -->
 
 			<ul th:if="${hasTrips}" class="row">
-				<li th:each="trip: ${trips}" class="col-md-6">
+				<li th:each="trip: ${trips}" class="list-unstyled col-md-6">
 					<div class="card shadow rounded-2 overflow-hidden mb-4" style="max-width: 800px;">
 						<!-- Card Body START -->
 						<div class="col">
@@ -169,6 +169,11 @@
                                 <ul class="list-unstyled text-center mb-0 mt-2">
 									<li class="nav-item mb-1"><i class="far fa-calendar-alt me-2"></i><a th:text="${trip.startDate} + ' - ' + ${trip.endDate}"></a></li>
 									<li class="nav-item mb-1"><i class="fa-solid fa-sack-dollar me-2"></i><a th:text="${trip.budget}"></a></li>
+									<li class="nav-item mb-1">
+										<form th:action="@{/user/deleteTrip(uid=${trip.uid})}", type="POST" >
+											<button class="btn btn-danger" type="submit">Delete Trip</button>
+										</form>
+									</li>
 								</ul>
 							</div>
 						</div>
