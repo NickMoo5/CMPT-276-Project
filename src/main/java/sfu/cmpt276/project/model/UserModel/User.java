@@ -217,7 +217,6 @@ public class User implements Comparable<User>{
 
     @Override
     public int compareTo(User o) {
-        // TODO Auto-generated method stub
         if(this.uid > o.uid){
             return 1;
         }
