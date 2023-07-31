@@ -384,25 +384,29 @@ public class UserController {
         } catch(InterruptedException e) {
             return ResponseEntity.badRequest().build();
         }
-                                            
         return ResponseEntity.ok().build();
-
     }
-
-    @GetMapping("/user/tripDisplay") 
-    public String itineraryDisplay(HttpServletRequest request, HttpSession session, Model model){
-        User itineraryUser = (User) session.getAttribute("session_user"); 
-        Trip currTrip = tripRepo.getById(itineraryUser.getMostRecentTrip());
-        Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary();       // Itinerary Hashmap
-
-        model.addAttribute("user", itineraryUser);
-        model.addAttribute("currTrip", currTrip);
-        model.addAttribute("itinerary", tripItinerary);
-        
-        model.addAttribute("location", queryTest);          // Used for debugging and testing ChatGPT API
-
-        return "user/tripDisplay";
-        //return "test";                // Used for debugging and testing ChatGPT API
+    @GetMapping("/user/tripDisplay")
+    public String itineraryDisplay(@RequestParam(value="uid", required=false) Integer tripUid, HttpServletRequest request, HttpSession session, Model model) {
+        User itineraryUser = (User) session.getAttribute("session_user");
+        if (tripUid != null) {
+            Trip currTrip = tripRepo.getById(tripUid);
+            Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary(); // Itinerary Hashmap
+            model.addAttribute("user", itineraryUser);
+            model.addAttribute("currTrip", currTrip);
+            model.addAttribute("itinerary", tripItinerary);
+            return "user/tripDisplay";
+        } else{
+            // If uid is null, generate new trip
+            tripUid = itineraryUser.getMostRecentTrip();
+            Trip currTrip = tripRepo.getById(tripUid);
+            Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary(); 
+            model.addAttribute("user", itineraryUser);
+            model.addAttribute("currTrip", currTrip);
+            model.addAttribute("itinerary", tripItinerary);
+            model.addAttribute("location", queryTest);
+            return "user/tripDisplay";
+        }
     }
     @GetMapping("/user/aboutUs")
     public String aboutUs(@RequestParam Map<String, String> user, HttpServletRequest request,HttpSession session, Model model){
@@ -471,9 +475,26 @@ public class UserController {
         return ResponseEntity.ok().body("{\"status\": \"success\"}");
        
     }
-    
-
-
+    @GetMapping("/user/viewTrips") 
+    public String getTrips(HttpServletRequest request, HttpSession session, Model model){
+        User user = (User) request.getSession().getAttribute("session_user");
+        List <Trip> trips = tripRepo.findByUserUid(user.getUid());
+        Collections.sort(trips);
+        Collections.reverse(trips);
+        model.addAttribute("user", user);
+        model.addAttribute("trips", trips);
+        model.addAttribute("hasTrips", !trips.isEmpty());
+        return "user/viewTrips";
+    }
+    @PostMapping("/user/deleteTrip")
+    public String deleteTrip(@RequestParam(value="uid", required=false) Integer tripUid, HttpServletRequest request, HttpSession session, Model model) {
+        User user = (User) request.getSession().getAttribute("session_user");
+        Trip tripToDelete = tripRepo.getById(tripUid);
+        if (tripToDelete.getUserUid() == user.getUid()) {
+            tripRepo.delete(tripToDelete);
+        }
+        return "redirect:/user/viewTrips";
+    }
     @GetMapping("/login")
     public String getLogin(Model model, HttpServletRequest request, HttpSession session){
         User user = (User) session.getAttribute("session_user");
@@ -531,7 +552,6 @@ public class UserController {
             return "user/inputEmailForPin";
         }
     }
-
     @PostMapping("/inputEmailForPin") 
     public String getEmailForPin(@RequestParam Map<String,String> formData, Model model, HttpServletRequest request, HttpSession session) {
         String email = formData.get("email");
@@ -600,7 +620,6 @@ public class UserController {
         
         return "redirect:/login";
     }
-
     // Test function for testing chatgpt package
     @GetMapping("/test")
     public String chatTest(Model model) {

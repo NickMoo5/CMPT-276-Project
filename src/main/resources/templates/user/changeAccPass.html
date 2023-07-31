@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>WayFinder</title>
+        <title>WayFinder - Password</title>
     
         <!-- Meta Tags -->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,22 +37,37 @@
     </head>
 <body>
 <!-- Header START -->
-<header class="header-sticky">
+<header class="header-sticky" id="header" style="position: sticky; top: 0;">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-light navbar-expand-xl">
 		<div class="container-fluid px-md-5">
 			<!-- Logo START -->
-			<a class="navbar-brand" href="/login">
+			<a class="navbar-brand" href="/user/home">
 				<div class="mt-3">	
 					<img class="light-mode-item navbar-brand-item" src="/images/logo-icon.svg" alt="logo"></a>
 				</div>
-				<a href="/login"><h4>WayFinder</h4></a>
+				<a href="/user/home"><h4>WayFinder</h4></a>
+				
 			<!-- Logo END -->
+
+			<!-- Nav category menu START -->
+			<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
+				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center ms-auto p-2 p-xl-0">
+
+					<li class="nav-item"> <a class="nav-link" href="/login"><i class="fa-solid fa-plane me-2"></i>Travel Planner</a></li>
+					<li class="nav-item"> <a class="nav-link" href="/user/viewTrips"><i class="fa-solid fa-globe-americas me-2"></i>View Trips</a></li>
+					<li class="nav-item"> <a class="nav-link" href="/user/aboutUs"><i class="fa-solid fa-users me-2"></i>About Us</a></li>
+					<li class="nav-item"> <a class="nav-link" href="/user/contact"><i class="fa-solid fa-mobile me-2"></i>Contact</a></li>
+
+				</ul>
+			</div>
+			<!-- Nav category menu END -->
+
 			<!-- Profile and Notification START -->
 			<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
 
 				<!-- Profile dropdown START -->
-				<li class="nav-item ms-3 dropdown">
+                <li class="nav-item ms-3 dropdown pb-2">
 					<!-- Avatar -->
 					<a class="avatar avatar-sm p-0" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
 						<i class="bi bi-person-circle fa-fw" style="font-size: 40px;"></i>
@@ -67,7 +82,7 @@
 									<img class="avatar-img rounded-circle shadow" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
 								</div>
 								<div>
-									<a class="h6 mt-2 mt-sm-0" ><span th:text="${edit.username}"></span></a>
+									<a class="h6 mt-2 mt-sm-0"><span th:text="${edit.username}"></span></a>
 									<p class="small m-0"><span th:text="${edit.email}"></span></p>
 								</div>
 							</div>
@@ -87,6 +102,7 @@
 	</nav>
 	<!-- Logo Nav END -->
 </header>
+<!-- Header END -->
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-4">
