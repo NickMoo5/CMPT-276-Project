@@ -31,6 +31,13 @@
         .scroll-shadow {
             box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
         }
+  		
+		#header {
+			position: fixed;
+			width: 100%;
+			top: 0;
+			left: 0;
+		}
 		html, body {
 			height: 100%;
 		}
@@ -54,7 +61,7 @@
 <body>
 
 <!-- Header START -->
-<header class="header-sticky" id="header" style="position: sticky; top: 0;">
+<header id="header">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-light navbar-expand-xl">
 		<div class="container-fluid px-md-5">
@@ -64,32 +71,32 @@
 					<img class="light-mode-item navbar-brand-item" src="/images/logo-icon.svg" alt="logo"></a>
 				</div>
 				<a href="/user/home"><h4>WayFinder</h4></a>
-
+				
 			<!-- Logo END -->
-			<!-- Nav category menu START -->
 
+			<!-- Nav category menu START -->
 			<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
 				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center ms-auto p-2 p-xl-0">
 
 					<li class="nav-item"> <a class="nav-link" href="/login"><i class="fa-solid fa-plane me-2"></i>Travel Planner</a></li>
-					<li class="nav-item"> <a class="nav-link active" href="/user/viewTrips"><i class="fa-solid fa-globe-americas me-2"></i>View Trips</a></li>
+					<li class="nav-item"> <a class="nav-link" href="/user/viewTrips"><i class="fa-solid fa-globe-americas me-2"></i>View Trips</a></li>
 					<li class="nav-item"> <a class="nav-link" href="/user/aboutUs"><i class="fa-solid fa-users me-2"></i>About Us</a></li>
 					<li class="nav-item"> <a class="nav-link" href="/user/contact"><i class="fa-solid fa-mobile me-2"></i>Contact</a></li>
 
 				</ul>
 			</div>
-
 			<!-- Nav category menu END -->
-			<!-- Profile and Notification START -->
 
+			<!-- Profile and Notification START -->
 			<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
 
 				<!-- Profile dropdown START -->
-				<li class="nav-item ms-3 dropdown pb-2">
+				<li class="nav-item ms-3 dropdown">
 					<!-- Avatar -->
 					<a class="avatar avatar-sm p-0" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
 						<i class="bi bi-person-circle fa-fw" style="font-size: 40px;"></i>
 					</a>
+					
 					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
 						<!-- Profile info -->
 						<li class="px-3 mb-3">
@@ -104,11 +111,12 @@
 								</div>
 							</div>
 						</li>
+
 						<!-- Links -->
 						<li> <hr class="dropdown-divider"></li>
-						    <li><a class="dropdown-item" href="/user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i>Preference Settings</a></li>
+							<li><a class="dropdown-item" href="/user/editPrefs"><i class="bi bi-gear fa-fw me-2"></i>Preference Settings</a></li>
 							<li><a class="dropdown-item" href="/user/editAccSettings"><i class="bi bi-person fa-fw me-2"></i>Account Settings</a></li>
-                        	<li><a class="dropdown-item bg-danger-soft-hover" href="/user/logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+							<li><a class="dropdown-item bg-danger-soft-hover" href="/user/logout"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
 						<li> <hr class="dropdown-divider"></li>
 					</ul>
 				</li>
@@ -121,7 +129,7 @@
 <!-- Header END -->
 
 <!-- **************** MAIN CONTENT START **************** -->
-<main>
+<main style="margin-top: 100px;">
 <section class="pt-0">
 	<div class="container">
 		<!-- Background image -->
@@ -250,6 +258,8 @@ Footer END -->
 			header.classList.remove("scroll-shadow");
 		}
 	});
+
+		
 </script>
 </body>
 </html>
