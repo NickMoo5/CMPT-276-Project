@@ -221,7 +221,7 @@ Tabs-content START -->
 
 												<!--				MAP WOULD GO HERE  						-->
 												<div th:id="'map'+ ${i.index + (num.index * 4)}"></div>
-												<p th:id="'note'+ ${i.index + (num.index * 4)}" class="d-none"
+												<p th:id="'note'+ ${i.index + (num.index * 4)}" 
 													style="font-style: italic; font-size: smaller;">Nearby restaurants
 													within budget included as red markers</p>
 											</div>
@@ -385,6 +385,7 @@ Footer END -->
 		var locationlist = [];
 		var locationcoords = [];
 		var locationmarker = [];
+		var notelist = [];
 		var mapindex;
 
 
@@ -471,12 +472,14 @@ Footer END -->
 					var location = Object.keys(itineraryObj["Day " + i])[j];
 					locationlist.push(location);
 
+					var note = document.getElementById("note" + mapindex);
+					notelist.push(note);
+
 					//Adds eventlistener to center the map on click of expansion button
 					var button = document.getElementById("button-" + mapindex);
 					mapObjectIndex = locationlist.indexOf(location);
 					console.log(mapObjectIndex);
 					button.addEventListener("click", updateCenter.bind(null, mapObjectIndex));
-					document.getElementById("note" + mapindex).removeClass("d-none");
 				}
 
 			}
@@ -633,30 +636,32 @@ Footer END -->
 			console.log(index);
 			if (!locationcoords[index]) {
 				maplist[index].__gm.ta.style.display = "none";
+				notelist[index].style.display = "none";
 			} else {
 				maplist[index].__gm.ta.style.display = "block";
 				maplist[index].setCenter(locationcoords[index]);
 				maplist[index].__gm.ta.style.height = "500px";
 				maplist[index].__gm.ta.style.marginTop = "20px";
 				locationmarker[index].setMap(maplist[index]);
+				notelist[index].style.display = "block";
 			}
 		}
 
 		//function to manually update all maps for testing
-		function updateCenter() {
-			for (var index = 0; index < locationcoords.length; index++) {
-				if (locationcoords[index] == null) {
-					maplist[index].__gm.ta.style.display = "none";
-				} else {
-					maplist[index].__gm.ta.style.display = "block";
-					maplist[index].setCenter(locationcoords[index]);
-					maplist[index].__gm.ta.style.height = "500px";
-					maplist[index].__gm.ta.style.marginTop = "20px";
-					locationmarker[index].setMap(maplist[index]);
+		// function updateCenter() {
+		// 	for (var index = 0; index < locationcoords.length; index++) {
+		// 		if (locationcoords[index] == null) {
+		// 			maplist[index].__gm.ta.style.display = "none";
+		// 		} else {
+		// 			maplist[index].__gm.ta.style.display = "block";
+		// 			maplist[index].setCenter(locationcoords[index]);
+		// 			maplist[index].__gm.ta.style.height = "500px";
+		// 			maplist[index].__gm.ta.style.marginTop = "20px";
+		// 			locationmarker[index].setMap(maplist[index]);
 
-				}
-			}
-		}
+		// 		}
+		// 	}
+		// }
 
 		window.initMap = initMap();
 	</script>
