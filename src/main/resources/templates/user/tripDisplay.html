@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="utf-8">
 	<title>WayFinder - Itinerary</title>
@@ -10,16 +11,17 @@
 	<meta name="description" content="Trip Display - View itinerary here">
 
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="/images/favicon.ico"/>
+	<link rel="shortcut icon" href="/images/favicon.ico" />
 
 	<!-- Google Font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap">
 
 	<!-- Plugins CSS -->
-	<link rel="stylesheet" type="text/css" href="/vendor/font-awesome/css/all.min.css"/>
-	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap-icons/bootstrap-icons.css"/>
+	<link rel="stylesheet" type="text/css" href="/vendor/font-awesome/css/all.min.css" />
+	<link rel="stylesheet" type="text/css" href="/vendor/bootstrap-icons/bootstrap-icons.css" />
 	<link rel="stylesheet" type="text/css" href="/vendor/splide-master/dist/css/splide.min.css">
 	<link rel="stylesheet" type="text/css" href="/vendor/glightbox/css/glightbox.css">
 
@@ -153,17 +155,20 @@
 				<!-- Profile dropdown START -->
 				<li class="nav-item ms-3 dropdown pb-2">
 					<!-- Avatar -->
-					<a class="avatar avatar-sm p-0" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+					<a class="avatar avatar-sm p-0" id="profileDropdown" role="button" data-bs-auto-close="outside"
+						data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
 						<i class="bi bi-person-circle fa-fw" style="font-size: 40px;"></i>
 					</a>
-                    
-					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+
+					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3"
+						aria-labelledby="profileDropdown">
 						<!-- Profile info -->
 						<li class="px-3 mb-3">
 							<div class="d-flex align-items-center">
 								<!-- Avatar -->
 								<div class="avatar me-3">
-									<img class="avatar-img rounded-circle shadow" src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
+									<img class="avatar-img rounded-circle shadow"
+										src="/images/avatar/profile_avatar.jpg" alt="profile_avatar">
 								</div>
 								<div>
 									<a class="h6 mt-2 mt-sm-0"><span th:text="${user.username}"></span></a>
@@ -182,19 +187,39 @@
 				</li>
 				<!-- Profile dropdown END -->
 			</ul>
-		</div>
-	</nav>
-	<!-- Logo Nav END -->
-</header>
-<!-- Header END -->
+			</div>
+		</nav>
+		<!-- Logo Nav END -->
+	</header>
+	<!-- Header END -->
 
 <!-- **************** MAIN CONTENT START **************** -->
 <main style="margin-top: 100px;">
 	
 <!-- =======================
 Main Banner START -->
-<section class="pt-0">
-	<div class="container position-relative">
+		<section class="pt-0">
+			<div class="container position-relative">
+
+				<!-- Title and button START -->
+				<div class="row">
+					<div class="col-12">
+
+						<!-- Meta -->
+						<div class="d-md-flex justify-content-md-between">
+							<!-- Title -->
+							<div>
+								<h1 class="fs-2"><span th:text="${currTrip.location}"></span></h1>
+								<ul class="nav nav-divider h6 text-body mb-0">
+									<li class="nav-item"><span th:text="${currTrip.startDate}"></span> to <span
+											th:text="${currTrip.endDate}"></span></li>
+									<li class="nav-item"><span th:text="${currTrip.budget}"></span>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Title and button END -->
 
 	<!-- Image gallery START -->
 	<div class="row mt-md-5">
@@ -248,7 +273,7 @@ Main Banner START -->
 <!-- =======================
 Main Banner END -->
 
-<!-- =======================
+		<!-- =======================
 Tabs-content START -->
 <section class="pt-0 pt-md-0">
 		<div class="row">
@@ -262,63 +287,72 @@ Tabs-content START -->
 							</div>
 							<hr class="my-0"> <!-- Divider -->
 
-							<!--						TESTING 								-->
-							<!-- Card body START -->
-							<div class="card-body p-0 pt-3" th:each="day, num:${itinerary}">
-									<span class="h3 p-0 pb-2" th:text="${day.key}"></span>
-									<hr class="my-0 p-2 mt-2"> <!-- Divider -->
-									<div class="accordion accordion-icon accordion-bg-light" th:id="'#accordionExample' + ${num.index}">
-										<!-- Item -->
-										<div th:each="location, i:${day.value}">
-											<div class="accordion-item mb-3">
-												<h6 class="accordion-header font-base" th:id="'heading-' + ${i.index + (num.index * 4)}">
-													<button class="accordion-button rounded d-inline-block collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false"
-													 th:attr="data-bs-target='#collapse-'+ ${i.index + (num.index * 4)}, aria-controls='collapse-' + ${i.index + (num.index * 4)}">
-														<span class="lead me-1 fw-normal" th:text="${location.key}"><span>
-													</button>
-												</h6>
-												<!-- Body -->
-												<div th:id="'collapse-' + ${i.index + (num.index * 4)}" class="accordion-collapse collapse"  
-												 th:attr="aria-labelledby='heading-' + ${i.index + (num.index * 4)}, data-bs-parent='#accordionExample' + ${num.index}">
-													<div class="accordion-body mt-3">
-														
-														<span class="h5 mb-0 me-1" th:text="${location.key}"></span>
-														<p class="h6 mb-0 me-1" th:text="${location.value}"></p>
+						<!--						TESTING 								-->
+						<!-- Card body START -->
+						<div class="card-body p-0 pt-3" th:each="day, num:${itinerary}">
+							<span class="h3 p-0 pb-2" th:text="${day.key}"></span>
+							<hr class="my-0 p-2 mt-2"> <!-- Divider -->
+							<div class="accordion accordion-icon accordion-bg-light"
+								th:id="'#accordionExample' + ${num.index}">
+								<!-- Item -->
+								<div th:each="location, i:${day.value}">
+									<div class="accordion-item mb-3">
+										<h6 class="accordion-header font-base"
+											th:id="'heading-' + ${i.index + (num.index * 4)}">
+											<button class="accordion-button rounded d-inline-block collapsed"
+												th:id="'button-' + ${i.index + (num.index * 4)}" type="button"
+												data-bs-toggle="collapse" aria-expanded="false"
+												th:attr="data-bs-target='#collapse-'+ ${i.index + (num.index * 4)}, aria-controls='collapse-' + ${i.index + (num.index * 4)}">
+												<span class="lead me-1 fw-normal" th:text="${location.key}"><span>
+											</button>
+										</h6>
+										<!-- Body -->
+										<div th:id="'collapse-' + ${i.index + (num.index * 4)}"
+											class="accordion-collapse collapse"
+											th:attr="aria-labelledby='heading-' + ${i.index + (num.index * 4)}, data-bs-parent='#accordionExample' + ${num.index}">
+											<div class="accordion-body mt-3">
 
-														<!--				MAP WOULD GO HERE  						-->
-																
-													</div>
-												</div>
+												<span class="h5 mb-0 me-1" th:text="${location.key}"></span>
+												<p class="h6 mb-0 me-1" th:text="${location.value}"></p>
+
+												<!--				MAP WOULD GO HERE  						-->
+												<div th:id="'map'+ ${i.index + (num.index * 4)}"></div>
+												<p th:id="'note'+ ${i.index + (num.index * 4)}" 
+													style="font-style: italic; font-size: smaller;">Nearby restaurants
+													within budget included as red markers</p>
 											</div>
-										</div>	
+										</div>
 									</div>
-							</div>		
-							<!-- Card body END -->
-
-							<!--Email button-->
-							<div class="justify-content-center d-flex">
-								<form id="emailForm" method="post">
-									<button type="button" class="btn btn-primary" onclick="sendEmailItinerary()" id="sendEmailButton">Send Trip Itinerary via Email</button>
-									<p style="font-style: italic; font-size: small; text-align: center;">Email will be sent to account email</p>
-								</form>
+								</div>
 							</div>
 						</div>
+						<!-- Card body END -->
+
+						<!--Email button-->
+						<div class="justify-content-center d-flex">
+							<form id="emailForm" method="post">
+								<button type="button" class="btn btn-primary" onclick="sendEmailItinerary()"
+									id="sendEmailButton">Send Trip Itinerary via Email</button>
+								<p style="font-style: italic; font-size: small; text-align: center;">Email will be sent
+									to account email</p>
+							</form>
+						</div>
+					</div>
 					<!-- Content item END -->
-				
-			<!-- Tabs Content END -->
-			</div>
 
-		</div> <!-- Row END -->
-	
+					<!-- Tabs Content END -->
+				</div>
 
-	<!-- THIS IS FOR DEBUGGING PURPOSES ONLY -->
-	<p style="display: none">[[${location}]]</p>
-</section>
-<!-- =======================
+			</div> <!-- Row END -->
+
+			<!-- THIS IS FOR DEBUGGING PURPOSES ONLY -->
+			<p style="display: none">[[${location}]]</p>
+		</section>
+		<!-- =======================
 Tabs-content END -->
 
-</main>
-<!-- **************** MAIN CONTENT END **************** -->
+	</main>
+	<!-- **************** MAIN CONTENT END **************** -->
 
     <!-- footer start -->
     <footer class="bg-dark">
@@ -423,6 +457,8 @@ Tabs-content END -->
 		var maplist = [];
 		var locationlist = [];
 		var locationcoords = [];
+		var locationmarker = [];
+		var notelist = [];
 		var mapindex;
 
 
@@ -509,6 +545,9 @@ Tabs-content END -->
 					var location = Object.keys(itineraryObj["Day " + i])[j];
 					locationlist.push(location);
 
+					var note = document.getElementById("note" + mapindex);
+					notelist.push(note);
+
 					//Adds eventlistener to center the map on click of expansion button
 					var button = document.getElementById("button-" + mapindex);
 					mapObjectIndex = locationlist.indexOf(location);
@@ -540,6 +579,15 @@ Tabs-content END -->
 
 						//searches nearbyRestaurants
 						restaurantSearch(latlng, index);
+
+						//making a display marker to show up map
+						var icon = "https://maps.google.com/mapfiles/kml/paddle/purple-circle.png";
+						const marker = new google.maps.Marker({
+							position: latlng,
+							icon: { url: icon },
+						});
+						locationmarker[index] = marker;
+
 
 					} else {
 						//alert('Geocoding ' + location + ' was not successful for the following reason: ' + status);
@@ -661,39 +709,34 @@ Tabs-content END -->
 			console.log(index);
 			if (!locationcoords[index]) {
 				maplist[index].__gm.ta.style.display = "none";
+				notelist[index].style.display = "none";
 			} else {
 				maplist[index].__gm.ta.style.display = "block";
 				maplist[index].setCenter(locationcoords[index]);
 				maplist[index].__gm.ta.style.height = "500px";
 				maplist[index].__gm.ta.style.marginTop = "20px";
+				locationmarker[index].setMap(maplist[index]);
+				notelist[index].style.display = "block";
 			}
 		}
 
 		//function to manually update all maps for testing
-		function updateCenter() {
-			for (var index = 0; index < locationcoords.length; index++) {
-				if (locationcoords[index] == null) {
-					maplist[index].__gm.ta.style.display = "none";
-				} else {
-					maplist[index].__gm.ta.style.display = "block";
-					maplist[index].setCenter(locationcoords[index]);
-					maplist[index].__gm.ta.style.height = "500px";
-					maplist[index].__gm.ta.style.marginTop = "20px";
-				}
-			}
-		}
+		// function updateCenter() {
+		// 	for (var index = 0; index < locationcoords.length; index++) {
+		// 		if (locationcoords[index] == null) {
+		// 			maplist[index].__gm.ta.style.display = "none";
+		// 		} else {
+		// 			maplist[index].__gm.ta.style.display = "block";
+		// 			maplist[index].setCenter(locationcoords[index]);
+		// 			maplist[index].__gm.ta.style.height = "500px";
+		// 			maplist[index].__gm.ta.style.marginTop = "20px";
+		// 			locationmarker[index].setMap(maplist[index]);
+
+		// 		}
+		// 	}
+		// }
 
 		window.initMap = initMap();
-
-		//add shadow while scrolling
-		window.addEventListener("scroll", function() {
-		const header = document.getElementById("header");
-		if (window.scrollY > 0) {
-			header.classList.add("scroll-shadow");
-		} else {
-			header.classList.remove("scroll-shadow");
-		}
-	});
 	</script>
 
 </body>

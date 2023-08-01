@@ -362,7 +362,7 @@ public class UserController {
         int chatRequestCounter = 0;
 
         // Generate and parse trip list of locations/activities
-        String chatTripQuery = GenTripQuery.genTripQuery(location, startDate, endDate);
+        String chatTripQuery = GenTripQuery.genTripQuery(location, startDate, endDate);     
         try {
             String chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey, 0);
             if (chatResponse == ChatController.ERROR) return ResponseEntity.badRequest().build();

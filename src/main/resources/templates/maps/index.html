@@ -1,0 +1,149 @@
+<html>
+
+<head>
+    <title>Simple Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/map.css}" />
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <!-- prettier-ignore -->
+    <script defer>(g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
+            ({ key: "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg", v: "weekly" });
+    </script>
+</body>
+
+
+<script th:inline="javascript">
+    var map;
+    var geocoder;
+    var service;
+    var infowindow;
+    var origincoords; //origin
+    var request;
+    var originCity = [[${ place }]]; //origin city placed by user
+
+    // radius to search for nearby locations (in m)
+    const range = '500';
+
+
+    async function initMap() {
+
+        // async library loading
+        const { Map, InfoWindow } = await google.maps.importLibrary("maps");
+        const { Geocoder } = await google.maps.importLibrary("geocoding");
+        const { PlacesService } = await google.maps.importLibrary("places");
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+        // new variables to start respective processes
+        geocoder = new google.maps.Geocoder();
+        infowindow = new google.maps.InfoWindow();
+
+        //make new map 
+        map = new Map(document.getElementById("map"), {
+            center: { lat: 0, lng: 0 },
+            zoom: 18,
+            mapId: "869d907a4ff86e0",
+        });
+
+        //geocodes place based on string result and if successful, updates map location to said point
+        geocoder.geocode({ 'address': originCity }, function (results, status) {
+            if (status === 'OK') {
+                origincoords = new google.maps.LatLng(results[0].geometry.location);
+                map.setCenter(origincoords);
+
+                searchRestaurants(origincoords);
+
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+
+    function searchRestaurants(origin) {
+        // calls nearby search to get restaurants in range (in metres)
+        //sets up request to look for nearby restaurants
+        request = {
+            location: origincoords,
+            radius: range,
+            type: ['restaurant'],
+        };
+
+        //actually calling the request
+        service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, callback);
+    }
+
+    //display results from nearbySearch
+    function callback(results, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+                //new request to gather place details request
+                const placeDetailsRequest = {
+                    placeId: results[i].place_id,
+                    fields: ["name", "formatted_address", "place_id", "geometry", "rating", "price_level"],
+                }
+
+                //calling request
+                service.getDetails(placeDetailsRequest, (place, status) => {
+                    if (
+                        status === google.maps.places.PlacesServiceStatus.OK &&
+                        place &&
+                        place.geometry &&
+                        place.geometry.location
+                    ) {
+                        //making a display marker to show up map
+                        const marker = new google.maps.Marker({
+                            map,
+                            position: place.geometry.location,
+                        });
+
+                        //when marker is clicked, show details
+                        google.maps.event.addListener(marker, "click", () => {
+                            //container for details element
+                            const content = document.createElement("div");
+                            const nameElement = document.createElement("h2");
+
+                            nameElement.textContent = place.name;
+                            content.appendChild(nameElement);
+
+                            const placeRatingElement = document.createElement("p");
+
+                            placeRatingElement.textContent = "User rating: " + place.rating;
+                            content.appendChild(placeRatingElement);
+
+                            if (place.price_level) {
+                                const placePriceElement = document.createElement("p");
+
+                                //TODO: replace price_level with dollar signs to signify price level
+                                placePriceElement.textContent = "Price level: " + place.price_level;
+                                content.appendChild(placePriceElement);
+                            }
+
+                            const placeAddressElement = document.createElement("p");
+
+                            placeAddressElement.textContent = place.formatted_address;
+                            content.appendChild(placeAddressElement);
+
+                            infowindow.setContent(content);
+                            infowindow.open(map, marker);
+                        });
+
+                    } else {
+                        alert('placeDetails request was not successful for the following reason: ' + status);
+                    }
+                });
+
+            }
+        } else {
+            alert('nearbySearch was not successful for the following reason: ' + status);
+        }
+    }
+
+    window.initMap = initMap()
+</script>
+
+</html>
