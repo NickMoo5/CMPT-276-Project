@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="/images/favicon.ico"/>
 
     <!-- footer bottom css -->
-    <link rel="stylesheet" href="/css/footerBottom.css">
+    <!-- <link rel="stylesheet" href="/css/footerBottom.css"> -->
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -36,8 +36,8 @@
     <script th:src="@{/js/loading.js}"></script>
 </head>
 
-<body>
-    <div class="container-fluid">
+<div id="page-container">
+    <div class="container-fluid" id="content-wrap">
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <h1 class="text-center mt-5 mb-4">Sign in to WayFinder!</h1>
@@ -70,6 +70,25 @@
         </div>
     </div>
 
+        <!-- footer start -->
+        <footer class="bg-dark" id="footer">
+            <div class="container">
+                <!-- Bottom footer -->
+                <div class="row">
+                    <div class="container">
+                        <div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+                            <!-- copyright text -->
+                            <div class="my-3 text-muted">Created by Project Group 12</div>
+                            <div class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </div>
+                            <!-- copyright links-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
+    </footer>
+</div>
+
     <script>
         const togglePassword = document.querySelector('#togglePassword');
         const passwordInput = document.querySelector('#password-input');
@@ -81,25 +100,12 @@
             togglePassword.classList.toggle('bi-eye-slash-fill');
         });
     </script>
+
+
+
     
 </body>
-    <!-- footer start -->
-    <footer class="bg-dark">
-        <div class="container">
-            <!-- Bottom footer -->
-            <div class="row">
-                <div class="container">
-                    <div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
-                        <!-- copyright text -->
-                        <div class="my-3 text-muted">Created by Project Group 12</div>
-                        <div class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </div>
-                        <!-- copyright links-->
-                    </div>
-                </div>
-            </div>
-        </div>
-	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
-</footer>
+
 
         <!-- Bootstrap JS -->
     <script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
