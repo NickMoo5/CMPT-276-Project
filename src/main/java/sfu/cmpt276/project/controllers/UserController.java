@@ -196,7 +196,12 @@ public class UserController {
         List <User> checkUsernameList = userRepo.findByUsername(username);
         model.addAttribute("edit", user2);
         if (pass1.equals(pass2) && pass1.equals(user2.getPassword())){
-            if(checkUsernameList.isEmpty()){
+            if(username.length() > 16){
+                //error
+                model.addAttribute("ulength", "Username entered was too long. Max length is 16.");
+                return "user/changeUsername";
+            }
+            else if(checkUsernameList.isEmpty()){
                 user2.setUsername(username);
                 userRepo.save(user2);
             }
@@ -220,7 +225,12 @@ public class UserController {
         List <User> checkEmailList = userRepo.findByEmail(email);
         model.addAttribute("edit", user2);
         if (pass1.equals(pass2) && pass1.equals(user2.getPassword())){
-            if(checkEmailList.isEmpty()){
+            if(email.length() > 64){
+                //error
+                model.addAttribute("elength", "Email entered was too long. Max length is 64.");
+                return "user/changeEmail";  
+            }
+            else if(checkEmailList.isEmpty()){
                 user2.setEmail(email);
                 userRepo.save(user2);
             }
@@ -244,7 +254,12 @@ public class UserController {
         String currentPass2 = editUser.get("password4");
         model.addAttribute("edit", user2);
         if (currentPass.equals(user2.getPassword())){
-            if(currentPass.equals(currentPass2)){
+            if(newPass.length() > 32){
+                //error
+                model.addAttribute("plength", "Password entered was too long. Max length is 32.");
+                return "user/changeAccPass";
+            }
+            else if(currentPass.equals(currentPass2)){
                 if(newPass.equals(newPass2)){
                     user2.setPassword(newPass);
                     userRepo.save(user2);

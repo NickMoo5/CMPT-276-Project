@@ -164,7 +164,8 @@
                     <!-- Submit button -->
                     <div class="d-grid gap-2">
                         <p th:if="${passwordError}" p style="color:red" class="error-message">[[${passwordError}]]</p>
-                        <input class="btn btn-primary" id="regButton" type="submit" href="/user/editAccSettings" value="Save changes"
+                        <div th:if="${plength}" class="error-message text-danger">[[${plength}]]</div>
+                        <input class="btn btn-primary" id="regButton" type="submit" href="/user/editAccSettings" value="Save Changes"
                             disabled></input>
                     </div>
                 </form>
@@ -195,6 +196,14 @@
         </div>
 	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
+
+<script>
+    const password = document.getElementById("password-input");
+    password.addEventListener("input", () => {
+        if(password.value.length > 32)
+            alert("The password you entered is too long!");
+    });
+</script>
 
 <!-- Bootstrap JS -->
 <script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

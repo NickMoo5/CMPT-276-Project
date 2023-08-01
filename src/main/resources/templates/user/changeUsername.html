@@ -123,8 +123,9 @@
                     </div>
                     <div class="d-grid gap-2">
                         <p th:if="${usernameError}" p style="color:red" class="error-message">[[${usernameError}]]</p>
+                        <div th:if="${ulength}" class="error-message text-danger">[[${ulength}]]</div>
                         <p th:if="${passwordError}" p style="color:red" class="error-message">[[${passwordError}]]</p>
-                        <input class="btn btn-primary" id="regButton" type="submit" href="editAccSettings" value="Save changes"></input>
+                        <input class="btn btn-primary" id="regButton" type="submit" href="editAccSettings" value="Save Changes"></input>
                     </div>
                 </form>
 				<form action="editAccSettings" method="get">
@@ -154,7 +155,13 @@
         </div>
 	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
-
+<script>
+    const user = document.getElementById("username");
+    user.addEventListener("input", () => {
+        if(user.value.length > 16)
+            alert("The username you entered is too long!");
+    });
+</script>
 <!-- Bootstrap JS -->
 <script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 

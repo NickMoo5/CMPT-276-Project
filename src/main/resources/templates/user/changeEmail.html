@@ -125,8 +125,9 @@
                     </div>
                     <div class="d-grid gap-2">
                         <p th:if="${emailError}" p style="color:red" class="error-message">[[${emailError}]]</p>
+                        <div th:if="${elength}" class="error-message text-danger">[[${elength}]]</div>
                         <p th:if="${passwordError}" p style="color:red" class="error-message">[[${passwordError}]]</p>
-                        <input class="btn btn-primary" id="regButton" type="submit" href="editAccSettings" value="Save changes">
+                        <input class="btn btn-primary" id="regButton" type="submit" href="editAccSettings" value="Save Changes">
                         </input>
                     </div>
 				</form>
@@ -157,7 +158,13 @@
         </div>
 	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
-
+<script>
+    const email = document.getElementById("email");
+    email.addEventListener("input", () => {
+        if(email.value.length > 64)
+            alert("The email you entered is too long!");
+    });
+</script>
 <!-- Bootstrap JS -->
 <script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
