@@ -469,7 +469,7 @@ public class UserController {
             String day = dayEntry.getKey();
             Map<String, String> locations = dayEntry.getValue();
 
-            bodyBuilder.append("<h2 style=\"text-align: left; padding-left: 500px;\">").append(day).append("</h2>");
+            bodyBuilder.append("<h2 style=\"text-align: left;\">").append(day).append("</h2>");
             for (Map.Entry<String, String> locationEntry : locations.entrySet()) {
                 String locationName = locationEntry.getKey();
                 String locationDetails = locationEntry.getValue();
