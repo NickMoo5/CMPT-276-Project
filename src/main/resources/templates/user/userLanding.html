@@ -12,7 +12,7 @@
 	<link rel="shortcut icon" href="/images/favicon.ico"/>
 
 	<!-- footer bottom css -->
-	<link rel="stylesheet" href="/css/footerBottom.css">
+	<link rel="stylesheet" href="/css/footerBottomFixed.css">
 
 	<!-- Google Font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -42,6 +42,8 @@
 </head>
 <body>
 <!-- Header START -->
+<div id="page-container">
+<div id="content-wrap">
 <header class="header-sticky" id="header" style="position: sticky; top: 0;">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-light navbar-expand-xl">
@@ -217,6 +219,7 @@ Main Banner START -->
         </div>
 	</div>		
 </section>
+</div>
 
     <!-- footer start -->
     <footer class="bg-dark" id="footer">
@@ -235,6 +238,7 @@ Main Banner START -->
         </div>
 	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
+</div>
 
 <!-- =======================
 Footer END -->
@@ -290,9 +294,9 @@ Footer END -->
 		});
 		function showLoadingScreen() {
 			var loadingContainer = document.getElementById('loader');
-			var footerCotainer = document.getElementById('footer');
+			//var footerCotainer = document.getElementById('footer');
 			loadingContainer.style.display = "block";
-			footerCotainer.style.position = "fixed";
+			//footerCotainer.style.position = "fixed";
 			hideForm();
 		}
 		function hideLoadingScreen() {
