@@ -362,7 +362,7 @@ public class UserController {
         int chatRequestCounter = 0;
 
         // Generate and parse trip list of locations/activities
-        String chatTripQuery = GenTripQuery.genTripQuery(location, startDate, endDate);
+        String chatTripQuery = GenTripQuery.genTripQuery(location, startDate, endDate);     
         try {
             String chatResponse = chatController.queryChatGPT(chatTripQuery, openaikey, 0);
             if (chatResponse == ChatController.ERROR) return ResponseEntity.badRequest().build();
@@ -391,6 +391,7 @@ public class UserController {
         User itineraryUser = (User) session.getAttribute("session_user");
         if (tripUid != null) {
             Trip currTrip = tripRepo.getById(tripUid);
+            itineraryUser.setMostRecentTrip(currTrip.getUid());
             Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary(); // Itinerary Hashmap
             model.addAttribute("user", itineraryUser);
             model.addAttribute("currTrip", currTrip);
@@ -453,12 +454,13 @@ public class UserController {
             String day = dayEntry.getKey();
             Map<String, String> locations = dayEntry.getValue();
 
-            bodyBuilder.append("<h2>").append(day).append("</h2>");
+            bodyBuilder.append("<h2 style=\"text-align: left; padding-left: 500px;\">").append(day).append("</h2>");
             for (Map.Entry<String, String> locationEntry : locations.entrySet()) {
                 String locationName = locationEntry.getKey();
                 String locationDetails = locationEntry.getValue();
 
-                bodyBuilder.append("<p style=\"text-align: left;\"><strong>").append(locationName).append("</strong>: ").append(locationDetails).append("</p>");
+                bodyBuilder.append("<p style=\"text-align: left; padding-left: 500px;\"><strong>").append(locationName).append("</strong>: ").append(locationDetails).append("</p>");
+
             }
         }
 
