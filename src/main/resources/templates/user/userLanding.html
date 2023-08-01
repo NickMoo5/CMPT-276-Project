@@ -357,14 +357,16 @@ Footer END -->
 		} else{
 			clearErrorMsg("endDate");
 		}
-		if (endDate.value > startDate.value + 800000000){
+		const startDateMoment = moment(startDate.value, 'D/M/Y', true);
+        const endDateMoment = moment(endDate.value, 'D/M/Y', true);
+
+		if (endDateMoment.diff(startDateMoment, 'days') > 7){
 			displayErrorMsg("endDate", "We do not support trips longer than a week");
 			return false;
 		} else{
 			clearErrorMsg("endDate");
 		}
-		const startDateMoment = moment(startDate.value, 'D/M/Y', true);
-        const endDateMoment = moment(endDate.value, 'D/M/Y', true);
+
 
         if (formSubmitted && startDateMoment.isSameOrAfter(endDateMoment)){
             displayErrorMsg("date", "Start date must be before end date");
@@ -375,21 +377,18 @@ Footer END -->
 		return true;
 	}
 	// Restrict past dates
-	flatpickr("input[id=startDate]", {minDate: "today" , maxDate: new Date().fp_incr(30)});
-	flatpickr("input[id=endDate]", {minDate: "today" , maxDate: new Date().fp_incr(30)});
+	flatpickr("input[id=startDate]", {minDate: "today"});
+	flatpickr("input[id=endDate]", {minDate: "today"});
 
 	addEventListener("DOMContentLoaded", (event) => {
         const startdate = document.getElementById("startDate");
         startdate.addEventListener("blur", () => {
-            const startDateMoment = moment(startDate.value, 'DD/MM/YYYY');
-			console.log("Test1: "+startDateMoment);
+            const startDateMoment = moment(startDate.value, 'DD/MM/YY');
+			const endDateLim = moment(startDate.value, 'DD/MM/YY').add(6, 'days');
+
             if (startDateMoment.isValid()) {
-				const result = (startDate.value).split('/').reverse().join('/');
-				console.log("Test: "+startDate.value);
-				startDateMoment.format();
-				const newDate = new Date(startDateMoment);
-				console.log("Test: "+newDate);
-				flatpickr("input[id=endDate]", { minDate: startDate.value, maxDate: new Date(startDateMoment,7)});
+
+				flatpickr("input[id=endDate]", { minDate: startDate.value, maxDate: endDateLim.format('DD/MM/YY')});
             } else {
                 flatpickr("input[id=endDate]", { minDate: "today" });
             }
