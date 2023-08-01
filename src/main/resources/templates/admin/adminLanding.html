@@ -36,6 +36,9 @@
           padding: 8px;
           margin-bottom: 50px;
         }
+        .scroll-shadow {
+			box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+		}
     </style>
     <body>
     
@@ -56,9 +59,7 @@
 			<!-- Nav category menu START -->
 			<div class="navbar-collapse collapse" id="navbarCategoryCollapse">
 				<ul class="navbar-nav navbar-nav-scroll nav-pills-primary-soft text-center ms-auto p-2 p-xl-0">
-					<li class="nav-item"> <a class="nav-link" href="/user/aboutUs"><i class="fa-solid fa-users me-2"></i>About Us</a></li>
-					<li class="nav-item"> <a class="nav-link" href="/user/contact"><i class="fa-solid fa-mobile me-2"></i>Contact</a></li>
-
+					
 				</ul>
 			</div>
 			<!-- Nav category menu END -->
@@ -176,5 +177,17 @@
     <script src="/vendor/choices/js/choices.min.js"></script>
     <script src="/vendor/flatpickr/js/flatpickr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+
+    <script>
+        // JavaScript to add/remove the scroll-shadow class on scroll
+        window.addEventListener("scroll", function() {
+            const header = document.getElementById("header");
+            if (window.scrollY > 0) {
+                header.classList.add("scroll-shadow");
+            } else {
+                header.classList.remove("scroll-shadow");
+            }
+        });
+    </script>
 </body>
 </html>
