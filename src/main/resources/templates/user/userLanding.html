@@ -219,7 +219,7 @@ Main Banner START -->
 </section>
 
     <!-- footer start -->
-    <footer class="bg-dark">
+    <footer class="bg-dark" id="footer">
         <div class="container">
             <!-- Bottom footer -->
             <div class="row">
@@ -290,7 +290,9 @@ Footer END -->
 		});
 		function showLoadingScreen() {
 			var loadingContainer = document.getElementById('loader');
+			var footerCotainer = document.getElementById('footer');
 			loadingContainer.style.display = "block";
+			footerCotainer.style.position = "fixed";
 			hideForm();
 		}
 		function hideLoadingScreen() {
