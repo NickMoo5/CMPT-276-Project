@@ -31,6 +31,7 @@
         <link rel="stylesheet" type="text/css" href="/css/style.css"/>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script th:src="@{/js/loading.js}"></script>
+        <script th:src="@{/js/addPrefs.js}"></script>
     </head>
 <body>
     <!--Add prefs container-->
@@ -94,7 +95,7 @@
                 </div>
 
                 <div class="d-grid gap-2" style="padding-top: 10px;">
-                    <input class="btn btn-primary" id="addPrefsNewUser" href= "/userLanding" type = "submit" submit value="Submit"></input>
+                    <input class="btn btn-primary" id="submitButton" href= "/userLanding" type = "submit" submit value="Submit"disabled></input>
                 </div> 
 
 
