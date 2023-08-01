@@ -105,10 +105,8 @@
 <!-- Header END -->
 <body>
     <!--Show users and corresponding attributes-->
-    <div class="container" style="padding-top: 25px">
         <div class="row">
             <div class="">
-                <div class="container">
                     <center>
                         <h2>Users</h2>  
                         <ul>
@@ -122,6 +120,7 @@
                             <input onclick="return confirm('Are you sure you want to delete this user')" form = "delete" class="btn btn-sm btn-primary" type="submit" href="/admin/delete" value = "Delete User"></input>
                             <p th:if="${userIdError}" p style="color:red" class="error-message">[[${userIdError}]]</p> 
                         </center>
+                        <center>
                             <table style = "margin-bottom: 50px;">
                                 <tr align = "center" >
                                     <th>Username</th>
@@ -148,12 +147,10 @@
                                     <td th:text="${user.languageThree}"> </td>         
                                 </tr>
                             </table>
-                        <!-- </center> -->
+                        </center>
                     </ul>
-                </div>
             </div>
         </div>
-    </div>
     <!-- footer start -->
     <footer class="bg-dark">
         <div class="container">
