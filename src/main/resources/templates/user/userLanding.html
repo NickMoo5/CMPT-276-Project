@@ -357,6 +357,12 @@ Footer END -->
 		} else{
 			clearErrorMsg("endDate");
 		}
+		if (endDate.value > startDate.value + 800000000){
+			displayErrorMsg("endDate", "We do not support trips longer than a week");
+			return false;
+		} else{
+			clearErrorMsg("endDate");
+		}
 		const startDateMoment = moment(startDate.value, 'D/M/Y', true);
         const endDateMoment = moment(endDate.value, 'D/M/Y', true);
 
@@ -369,15 +375,21 @@ Footer END -->
 		return true;
 	}
 	// Restrict past dates
-	flatpickr("input[id=startDate]", {minDate: "today"});
-	flatpickr("input[id=endDate]", {minDate: "today"});
+	flatpickr("input[id=startDate]", {minDate: "today" , maxDate: new Date().fp_incr(30)});
+	flatpickr("input[id=endDate]", {minDate: "today" , maxDate: new Date().fp_incr(30)});
 
 	addEventListener("DOMContentLoaded", (event) => {
         const startdate = document.getElementById("startDate");
         startdate.addEventListener("blur", () => {
-            const startDateMoment = moment(startDate.value, 'D/M/Y', true);
+            const startDateMoment = moment(startDate.value, 'DD/MM/YYYY');
+			console.log("Test1: "+startDateMoment);
             if (startDateMoment.isValid()) {
-				flatpickr("input[id=endDate]", { minDate: startDate.value, maxDate: new Date().fp_incr(7) });
+				const result = (startDate.value).split('/').reverse().join('/');
+				console.log("Test: "+startDate.value);
+				startDateMoment.format();
+				const newDate = new Date(startDateMoment);
+				console.log("Test: "+newDate);
+				flatpickr("input[id=endDate]", { minDate: startDate.value, maxDate: new Date(startDateMoment,7)});
             } else {
                 flatpickr("input[id=endDate]", { minDate: "today" });
             }
