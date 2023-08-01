@@ -391,6 +391,7 @@ public class UserController {
         User itineraryUser = (User) session.getAttribute("session_user");
         if (tripUid != null) {
             Trip currTrip = tripRepo.getById(tripUid);
+            itineraryUser.setMostRecentTrip(currTrip.getUid());
             Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary(); // Itinerary Hashmap
             model.addAttribute("user", itineraryUser);
             model.addAttribute("currTrip", currTrip);
