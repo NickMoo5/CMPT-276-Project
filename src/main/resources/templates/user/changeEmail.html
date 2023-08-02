@@ -14,7 +14,7 @@
         <link rel="shortcut icon" href="/images/favicon.ico"/>
 
         <!-- footer bottom css -->
-        <link rel="stylesheet" href="/css/footerBottom.css">
+        <link rel="stylesheet" href="/css/footerBottomFixed.css">
     
         <!-- Google Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -37,6 +37,8 @@
     </head>
 <body>
 <!-- Header START -->
+<div id="page-container">
+    <div id="content-wrap">
 <header class="header-sticky" id="header" style="position: sticky; top: 0;">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-light navbar-expand-xl">
@@ -140,9 +142,9 @@
                 </div>
             </div>
         </div>
-</body>
-    <!-- footer start -->
-    <footer class="bg-dark">
+</div>
+            <!-- footer start -->
+    <footer class="bg-dark" id="footer">
         <div class="container">
             <!-- Bottom footer -->
             <div class="row">
@@ -158,6 +160,9 @@
         </div>
 	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
+</div>
+</body>
+
 <script>
     const email = document.getElementById("email");
     email.addEventListener("input", () => {

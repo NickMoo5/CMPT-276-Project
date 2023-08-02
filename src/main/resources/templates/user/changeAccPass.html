@@ -14,7 +14,7 @@
         <link rel="shortcut icon" href="/images/favicon.ico"/>
 
         <!-- footer bottom css -->
-        <link rel="stylesheet" href="/css/footerBottom.css">
+        <link rel="stylesheet" href="/css/footerBottomFixed.css">
     
         <!-- Google Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -36,6 +36,8 @@
         <script th:src="@{/js/loading.js}"></script>
     </head>
 <body>
+    <div id="page-container">
+		<div id="content-wrap">
 <!-- Header START -->
 <header class="header-sticky" id="header" style="position: sticky; top: 0;">
 	<!-- Logo Nav START -->
@@ -178,9 +180,9 @@
             </div>
         </div>
     </div>
-</body>
-    <!-- footer start -->
-    <footer class="bg-dark">
+    </div>
+       <!-- footer start -->
+       <footer class="bg-dark" id="footer">
         <div class="container">
             <!-- Bottom footer -->
             <div class="row">
@@ -196,6 +198,9 @@
         </div>
 	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
+</div>
+</body>
+ 
 
 <script>
     const password = document.getElementById("password-input");

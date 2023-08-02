@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="Trip Planner - Plan Itinerary here">
     
-        <link rel="stylesheet" th:href="@{/css/addUser.css}">
+        <!-- <link rel="stylesheet" th:href="@{/css/addUser.css}"> -->
         <script th:src="@{/js/addUser.js}"></script>
         <!-- Favicon -->
         <link rel="shortcut icon" href="/images/favicon.ico"/>
@@ -36,6 +36,9 @@
         <script th:src="@{/js/loading.js}"></script>
     </head>
 <!-- Header START -->
+<body>
+<div id="page-container">
+    <div id="content-wrap">
 <header class="header-sticky" id="header" style="position: sticky; top: 0;">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-light navbar-expand-xl">
@@ -132,9 +135,10 @@
             </form>
         </div>
     </div>
-</body>
+    </div>
+</div>
     <!-- footer start -->
-    <footer class="bg-dark">
+    <footer class="bg-dark" id="footer">
         <div class="container">
             <!-- Bottom footer -->
             <div class="row">
@@ -150,6 +154,7 @@
         </div>
 	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
+</div>
 
 <!-- Bootstrap JS -->
 <script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -160,4 +165,5 @@
 <script src="/vendor/choices/js/choices.min.js"></script>
 <script src="/vendor/flatpickr/js/flatpickr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+</body>
 </html>

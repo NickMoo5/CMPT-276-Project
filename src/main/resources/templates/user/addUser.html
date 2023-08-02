@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="/images/favicon.ico"/>
 
     <!-- footer bottom css -->
-    <link rel="stylesheet" href="/css/footerBottom.css">
+    <link rel="stylesheet" href="/css/footerBottomFixed.css">
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -37,7 +37,8 @@
     <script th:src="@{/js/loading.js}"></script>
 </head>
 <body>
-
+    <div id="page-container">
+		<div id="content-wrap">
     <!-- from inclass code (abiet modified to assignment needs) -->
     <!-- Outputs: fname, lname, email, username, password, password2 (for confirmation) -->
     <div class="container-fluid">
@@ -136,24 +137,27 @@
             </div>
         </div>
     </div>
-</body>
-    <!-- footer start -->
-    <footer class="bg-dark">
-        <div class="container">
-            <!-- Bottom footer -->
-            <div class="row">
-                <div class="container">
-                    <div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
-                        <!-- copyright text -->
-                        <div class="my-3 text-muted">Created by Project Group 12</div>
-                        <div class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </div>
-                        <!-- copyright links-->
+        </div>
+        <!-- footer start -->
+        <footer class="bg-dark" id="footer">
+            <div class="container">
+                <!-- Bottom footer -->
+                <div class="row">
+                    <div class="container">
+                        <div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+                            <!-- copyright text -->
+                            <div class="my-3 text-muted">Created by Project Group 12</div>
+                            <div class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </div>
+                            <!-- copyright links-->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
-</footer>
+        <a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
+    </footer>
+    </div>
+</body>
+
 
     <script>
         const user = document.getElementById("username");
