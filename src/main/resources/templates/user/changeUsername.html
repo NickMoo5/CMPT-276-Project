@@ -35,7 +35,10 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script th:src="@{/js/loading.js}"></script>
     </head>
+    <body>
 <!-- Header START -->
+<div id="page-container">
+    <div id="content-wrap">
 <header class="header-sticky" id="header" style="position: sticky; top: 0;">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-light navbar-expand-xl">
@@ -102,7 +105,6 @@
 	<!-- Logo Nav END -->
 </header>
 <!-- Header END -->
-<body>
     <!--Add prefs container-->
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -123,8 +125,9 @@
                     </div>
                     <div class="d-grid gap-2">
                         <p th:if="${usernameError}" p style="color:red" class="error-message">[[${usernameError}]]</p>
+                        <div th:if="${ulength}" class="error-message text-danger">[[${ulength}]]</div>
                         <p th:if="${passwordError}" p style="color:red" class="error-message">[[${passwordError}]]</p>
-                        <input class="btn btn-primary" id="regButton" type="submit" href="editAccSettings" value="Save changes"></input>
+                        <input class="btn btn-primary" id="regButton" type="submit" href="editAccSettings" value="Save Changes"></input>
                     </div>
                 </form>
 				<form action="editAccSettings" method="get">
@@ -136,44 +139,32 @@
             </div>
         </div>
     </div>  
-</body>
-<!-- =======================Footer START -->
-<footer class="bg-dark pt-5">
-	<div class="container">
-		<!-- Row START -->
-		<div class="row g-4">
-
-			<!-- Widget 1 START -->
-			<div class="col-lg-3">
-				<div class="my-3 text-muted">Created by Project Group 12</div>
-			</div>
-			<!-- Widget 1 END -->
-
-		</div><!-- Row END -->
-
-		<!-- Divider -->
-		<hr class="mt-4 mb-0">
-
-		<!-- Bottom footer -->
-		<div class="row">
-			<div class="container">
-				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
-					<!-- copyright text -->
-					<p class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </p>
-					<!-- copyright links-->
-					<!-- HIDE FROM VIEW SINCE NOT DOING ANYTHING -->
-					<div class="nav mt-2 mt-lg-0">
-						<ul class="list-inline text-primary-hover mx-auto mb-0">
-							<!-- <li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Meet the Team</a></li> -->
-							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="/user/home">Home</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+</div>
+    <!-- footer start -->
+    <footer class="bg-dark" id="footer">
+        <div class="container">
+            <!-- Bottom footer -->
+            <div class="row">
+                <div class="container">
+                    <div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+                        <!-- copyright text -->
+                        <div class="my-3 text-muted">Created by Project Group 12</div>
+                        <div class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </div>
+                        <!-- copyright links-->
+                    </div>
+                </div>
+            </div>
+        </div>
 	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
+</div>
+<script>
+    const user = document.getElementById("username");
+    user.addEventListener("input", () => {
+        if(user.value.length > 16)
+            alert("The username you entered is too long!");
+    });
+</script>
 <!-- Bootstrap JS -->
 <script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -183,4 +174,6 @@
 <script src="/vendor/choices/js/choices.min.js"></script>
 <script src="/vendor/flatpickr/js/flatpickr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+</body>
+
 </html>

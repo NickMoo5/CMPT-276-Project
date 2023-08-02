@@ -201,26 +201,6 @@ Main Banner START -->
 		<section class="pt-0">
 			<div class="container position-relative">
 
-				<!-- Title and button START -->
-				<div class="row">
-					<div class="col-12">
-
-						<!-- Meta -->
-						<div class="d-md-flex justify-content-md-between">
-							<!-- Title -->
-							<div>
-								<h1 class="fs-2"><span th:text="${currTrip.location}"></span></h1>
-								<ul class="nav nav-divider h6 text-body mb-0">
-									<li class="nav-item"><span th:text="${currTrip.startDate}"></span> to <span
-											th:text="${currTrip.endDate}"></span></li>
-									<li class="nav-item"><span th:text="${currTrip.budget}"></span>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Title and button END -->
-
 	<!-- Image gallery START -->
 	<div class="row mt-md-5">
 		<div class="col-12">
@@ -247,6 +227,8 @@ Main Banner START -->
 				</div>
 			</div>
 		</div>
+		</div>
+	</section>
 		<!-- Secondary image -->
 		<div class="splide splide-thumb display-none" data-splide='{"arrows":false}'>
 			<div class="splide__track">
@@ -354,47 +336,24 @@ Tabs-content END -->
 	</main>
 	<!-- **************** MAIN CONTENT END **************** -->
 
-	<!-- =======================
-Footer START -->
-	<footer class="bg-dark pt-5" style="display:block">
-		<div class="container">
-			<!-- Row START -->
-			<div class="row g-4">
+    <!-- footer start -->
+    <footer class="bg-dark">
+        <div class="container">
+            <!-- Bottom footer -->
+            <div class="row">
+                <div class="container">
+                    <div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+                        <!-- copyright text -->
+                        <div class="my-3 text-muted">Created by Project Group 12</div>
+                        <div class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </div>
+                        <!-- copyright links-->
+                    </div>
+                </div>
+            </div>
+        </div>
+	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
+</footer>
 
-				<!-- Widget 1 START -->
-				<div class="col-lg-3">
-					<div class="my-3 text-muted">Created by Project Group 12</div>
-				</div>
-				<!-- Widget 1 END -->
-
-			</div><!-- Row END -->
-
-			<!-- Divider -->
-			<hr class="mt-4 mb-0">
-
-			<!-- Bottom footer -->
-			<div class="row">
-				<div class="container">
-					<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
-						<!-- copyright text -->
-						<p class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </p>
-						<!-- copyright links-->
-						<!-- HIDE FROM VIEW SINCE NOT DOING ANYTHING -->
-						<div class="nav mt-2 mt-lg-0">
-							<ul class="list-inline text-primary-hover mx-auto mb-0">
-								<!-- <li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Meet the Team</a></li> -->
-								<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted"
-										href="/user/home">Home</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
-	</div>
-	<!-- =======================
-Footer END -->
 
 	<!-- Back to top -->
 	<div class="back-top"></div>

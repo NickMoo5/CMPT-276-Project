@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="/images/favicon.ico"/>
 
     <!-- footer bottom css -->
-    <link rel="stylesheet" href="/css/footerBottom.css">
+    <link rel="stylesheet" href="/css/footerBottomFixed.css">
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -37,7 +37,8 @@
     <script th:src="@{/js/loading.js}"></script>
 </head>
 <body>
-
+    <div id="page-container">
+		<div id="content-wrap">
     <!-- from inclass code (abiet modified to assignment needs) -->
     <!-- Outputs: fname, lname, email, username, password, password2 (for confirmation) -->
     <div class="container-fluid">
@@ -50,28 +51,33 @@
 
                         <input type="text" id="fname" name="fname" class="form-control form-control-lg"
                             placeholder="First Name" th:value="*{fName}" required>
+                            <div th:if="${flength}" class="error-message text-danger">[[${flength}]]</div>
                     </div>
                     <div class="mb-3">
 
                         <input type="text" id="lname" name="lname" class="form-control form-control-lg"
                             placeholder="Last Name" th:value="*{lName}" required>
+                            <div th:if="${llength}" class="error-message text-danger">[[${llength}]]</div>
                     </div>
                     <div class="mb-3">
                         <input type="email" id="email" name="email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control form-control-lg"
                             placeholder="Email Address" th:value="*{email}" required>
                         <div th:if="${emailUsed}" class="error-message text-danger">[[${emailUsed}]]</div>
+                        <div th:if="${elength}" class="error-message text-danger">[[${elength}]]</div>
                     </div>
                     <div class="mb-3">
 
                         <input type="text" id="username" name="username" class="form-control form-control-lg"
                             placeholder="Username" th:value="*{username}" required>
                         <div th:if="${usernameUsed}" class="error-message text-danger">[[${usernameUsed}]]</div>
+                        <div th:if="${ulength}" class="error-message text-danger">[[${ulength}]]</div>
                     </div>
 
 
                     <div class="mb-3">
                         <input type="password" class="form-control form-control-lg" placeholder="Password"
                             id="password-input" />
+                            <div th:if="${plength}" class="error-message text-danger">[[${plength}]]</div>
                         <div class="valid-feedback">Valid</div>
                         <div class="invalid-feedback">Invalid</div>
                         <!-- <input type="password" class="form-control form-control-lg" placeholder="Password" id="password-input" />
@@ -85,7 +91,7 @@
                         <div class="alert d-none" role="alert" data-mdb-color="warning" id="password-alert">
                             <ul class="list-unstyled mb-0">
                                 <li class="requirements leng">
-                                    <span class="chargood text-primary">Your password has least 8 characters. </span>
+                                    <span class="chargood text-primary">Your password has at least 8 characters. </span>
                                     <span class="charbad text-danger">Your password must have at least 8 characters.
                                     </span>
                                 </li>
@@ -131,43 +137,55 @@
             </div>
         </div>
     </div>
-</body>
-    <!-- footer start -->
-    <footer class="bg-dark pt-5">
-        <div class="container">
-            <!-- Row START -->
-            <div class="row g-4">
-
-                <!-- Widget 1 START -->
-                <div class="col-lg-3">
-                    <div class="my-3 text-muted">Created by Project Group 12</div>
-                </div>
-                <!-- Widget 1 END -->
-
-            </div><!-- Row END -->
-
-            <!-- Divider -->
-            <hr class="mt-4 mb-0">
-
-            <!-- Bottom footer -->
-            <div class="row">
-                <div class="container">
-                    <div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
-                        <!-- copyright text -->
-                        <p class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </p>
-                        <!-- copyright links-->
-                        <!-- HIDE FROM VIEW SINCE NOT DOING ANYTHING -->
-                        <div class="nav mt-2 mt-lg-0">
-                            <ul class="list-inline text-primary-hover mx-auto mb-0">
-                                <!-- <li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Meet the Team</a></li> -->
-                                <li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="/user/home">Home</a></li>
-                            </ul>
+        </div>
+        <!-- footer start -->
+        <footer class="bg-dark" id="footer">
+            <div class="container">
+                <!-- Bottom footer -->
+                <div class="row">
+                    <div class="container">
+                        <div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+                            <!-- copyright text -->
+                            <div class="my-3 text-muted">Created by Project Group 12</div>
+                            <div class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </div>
+                            <!-- copyright links-->
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
     </footer>
+    </div>
+</body>
+
+
+    <script>
+        const user = document.getElementById("username");
+        const first = document.getElementById("fname");
+        const last = document.getElementById("lname");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password-input");
+        email.addEventListener("input", () => {
+            if(email.value.length > 64)
+                alert("The email you entered is too long!");
+        });
+        user.addEventListener("input", () => {
+            if(user.value.length > 16)
+                alert("The username you entered is too long!");
+        });
+        first.addEventListener("input", () => {
+            if(first.value.length > 16)
+                alert("The first name you entered is too long!");
+        });
+        last.addEventListener("input", () => {
+            if(last.value.length > 16)
+                alert("The last name you entered is too long!");
+        });
+        password.addEventListener("input", () => {
+            if(password.value.length > 32)
+                alert("The password you entered is too long!");
+        });
+    </script>
         <!-- Bootstrap JS -->
     <script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 

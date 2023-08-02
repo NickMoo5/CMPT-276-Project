@@ -88,6 +88,36 @@ public class UserController {
         email = newUser.get("email");
         username = newUser.get("username");
         password = newUser.get("password2");
+        if(fName.length() > 16){
+            //error
+            model.addAttribute("flength", "First name entered was too long. Max length is 16.");
+            model.addAttribute("addUser", tempUser);
+            return "user/addUser";
+        }
+        else if(lName.length() > 16){
+            //error
+            model.addAttribute("llength", "Last name entered was too long. Max length is 16.");
+            model.addAttribute("addUser", tempUser);
+            return "user/addUser";  
+        }
+        else if(email.length() > 64){
+            //error
+            model.addAttribute("elength", "Email entered was too long. Max length is 64.");
+            model.addAttribute("addUser", tempUser);
+            return "user/addUser";  
+        }
+        else if(username.length() > 16){
+            //error
+            model.addAttribute("ulength", "Username entered was too long. Max length is 16.");
+            model.addAttribute("addUser", tempUser);
+            return "user/addUser";
+        }
+        else if(password.length() > 32){
+            //error
+            model.addAttribute("plength", "Password entered was too long. Max length is 32.");
+            model.addAttribute("addUser", tempUser);
+            return "user/addUser";
+        }
         if(!userRepo.findByEmail(email).isEmpty()){
             model.addAttribute("emailUsed", "Email has already been used before. Please try again.");
             model.addAttribute("addUser", tempUser);
@@ -98,21 +128,10 @@ public class UserController {
             model.addAttribute("addUser", tempUser);
             return "user/addUser";
         }
-        else{
-            response.setStatus(201);
-
-             String body = "<div style=\"text-align: center;\">"
-            + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
-            + "<p>Welcome to Wayfinder " + fName + ", <br><br> Your username is: " + username + "<br>We hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
-            + "</div>";
-            emailUtility.sendEmail(email, "Welcome to Wayfinder!", body);
-
-
-            return "user/addPrefs";
-        }
+        return "user/addPrefs";
     }
     @PostMapping("user/addPrefs")    
-    public String addPreferences(@RequestParam Map<String, String> newUser, HttpServletRequest request,HttpSession session){
+    public String addPreferences(@RequestParam Map<String, String> newUser, HttpServletResponse response,Model model){
         String access = newUser.get("access");
         String diet = newUser.get("diet");
         String lang1 = newUser.get("language1");
@@ -125,6 +144,15 @@ public class UserController {
         createdUser.setPin(pin);
 
         userRepo.save(createdUser);
+        response.setStatus(201);
+
+        String body = "<div style=\"text-align: center;\">"
+        + "<h1 style=\"font-weight: bold; margin-top: -80px;\">Wayfinder</h1>"
+        + "<p>Welcome to Wayfinder " + fName + ", <br><br> Your username is: " + username + "<br>We hope you enjoy our application, if there are issues, you may contact us through this email.</p>"
+        + "</div>";
+        emailUtility.sendEmail(email, "Welcome to Wayfinder!", body);
+
+
         return "user/login";
     }
 
@@ -168,7 +196,12 @@ public class UserController {
         List <User> checkUsernameList = userRepo.findByUsername(username);
         model.addAttribute("edit", user2);
         if (pass1.equals(pass2) && pass1.equals(user2.getPassword())){
-            if(checkUsernameList.isEmpty()){
+            if(username.length() > 16){
+                //error
+                model.addAttribute("ulength", "Username entered was too long. Max length is 16.");
+                return "user/changeUsername";
+            }
+            else if(checkUsernameList.isEmpty()){
                 user2.setUsername(username);
                 userRepo.save(user2);
             }
@@ -192,7 +225,12 @@ public class UserController {
         List <User> checkEmailList = userRepo.findByEmail(email);
         model.addAttribute("edit", user2);
         if (pass1.equals(pass2) && pass1.equals(user2.getPassword())){
-            if(checkEmailList.isEmpty()){
+            if(email.length() > 64){
+                //error
+                model.addAttribute("elength", "Email entered was too long. Max length is 64.");
+                return "user/changeEmail";  
+            }
+            else if(checkEmailList.isEmpty()){
                 user2.setEmail(email);
                 userRepo.save(user2);
             }
@@ -216,7 +254,12 @@ public class UserController {
         String currentPass2 = editUser.get("password4");
         model.addAttribute("edit", user2);
         if (currentPass.equals(user2.getPassword())){
-            if(currentPass.equals(currentPass2)){
+            if(newPass.length() > 32){
+                //error
+                model.addAttribute("plength", "Password entered was too long. Max length is 32.");
+                return "user/changeAccPass";
+            }
+            else if(currentPass.equals(currentPass2)){
                 if(newPass.equals(newPass2)){
                     user2.setPassword(newPass);
                     userRepo.save(user2);
@@ -363,6 +406,7 @@ public class UserController {
         User itineraryUser = (User) session.getAttribute("session_user");
         if (tripUid != null) {
             Trip currTrip = tripRepo.getById(tripUid);
+            itineraryUser.setMostRecentTrip(currTrip.getUid());
             Map<String, Map<String, String>> tripItinerary = currTrip.getItinerary(); // Itinerary Hashmap
             model.addAttribute("user", itineraryUser);
             model.addAttribute("currTrip", currTrip);
@@ -425,12 +469,13 @@ public class UserController {
             String day = dayEntry.getKey();
             Map<String, String> locations = dayEntry.getValue();
 
-            bodyBuilder.append("<h2>").append(day).append("</h2>");
+            bodyBuilder.append("<h2 style=\"text-align: left;\">").append(day).append("</h2>");
             for (Map.Entry<String, String> locationEntry : locations.entrySet()) {
                 String locationName = locationEntry.getKey();
                 String locationDetails = locationEntry.getValue();
 
-                bodyBuilder.append("<p style=\"text-align: left;\"><strong>").append(locationName).append("</strong>: ").append(locationDetails).append("</p>");
+                bodyBuilder.append("<p style=\"text-align: left; padding-left: 500px;\"><strong>").append(locationName).append("</strong>: ").append(locationDetails).append("</p>");
+
             }
         }
 

@@ -11,6 +11,9 @@
 	<!-- Favicon -->
 	<link rel="shortcut icon" href="/images/favicon.ico"/>
 
+	<!-- footer bottom css -->
+	<link rel="stylesheet" href="/css/footerBottomFixed.css">
+
 	<!-- Google Font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com"/>
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -39,6 +42,8 @@
 </head>
 <body>
 <!-- Header START -->
+<div id="page-container">
+<div id="content-wrap">
 <header class="header-sticky" id="header" style="position: sticky; top: 0;">
 	<!-- Logo Nav START -->
 	<nav class="navbar navbar-light navbar-expand-xl">
@@ -124,7 +129,7 @@ Main Banner START -->
 		<div class="loader" id="loader" style="display: none">
 			<div class="d-flex-column text-center mt-2">
 				<h4 class="mb-0">Your Next Adventure Awaits!</h4>
-				<h5>We are currently generating your grand adventure, this may take some time</h5>
+				<h5 style = "margin-bottom: 50px;">We are currently generating your grand adventure, this may take some time</h5>
 			</div>
 			<div class="d-flex justify-content-center mb-2">
 				<div class="row spinner-border text-primary" role="status">
@@ -214,46 +219,26 @@ Main Banner START -->
         </div>
 	</div>		
 </section>
+</div>
 
-<!-- =======================
-Footer START -->
-<footer class="bg-dark pt-5">
-	<div class="container">
-		<!-- Row START -->
-		<div class="row g-4">
-
-			<!-- Widget 1 START -->
-			<div class="col-lg-3">
-				<div class="my-3 text-muted">Created by Project Group 12</div>
-			</div>
-			<!-- Widget 1 END -->
-
-		</div><!-- Row END -->
-
-		<!-- Divider -->
-		<hr class="mt-4 mb-0">
-
-		<!-- Bottom footer -->
-		<div class="row">
-			<div class="container">
-				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
-					<!-- copyright text -->
-					<p class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </p>
-					<!-- copyright links-->
-					<!-- HIDE FROM VIEW SINCE NOT DOING ANYTHING -->
-					<div class="nav mt-2 mt-lg-0">
-					<div class="nav mt-2 mt-lg-0">
-						<ul class="list-inline text-primary-hover mx-auto mb-0">
-							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="/user/aboutUs">Meet the Team</a></li>
-							<li class="list-inline-item me-0"><a class="nav-link py-1 text-muted" href="#">Home</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <!-- footer start -->
+    <footer class="bg-dark" id="footer">
+        <div class="container">
+            <!-- Bottom footer -->
+            <div class="row">
+                <div class="container">
+                    <div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+                        <!-- copyright text -->
+                        <div class="my-3 text-muted">Created by Project Group 12</div>
+                        <div class="text-muted text-primary-hover"> © 2023 WayFinder. All Rights Reserved. </div>
+                        <!-- copyright links-->
+                    </div>
+                </div>
+            </div>
+        </div>
 	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
+</div>
 
 <!-- =======================
 Footer END -->
@@ -309,7 +294,9 @@ Footer END -->
 		});
 		function showLoadingScreen() {
 			var loadingContainer = document.getElementById('loader');
+			//var footerCotainer = document.getElementById('footer');
 			loadingContainer.style.display = "block";
+			//footerCotainer.style.position = "fixed";
 			hideForm();
 		}
 		function hideLoadingScreen() {
@@ -379,6 +366,14 @@ Footer END -->
 		const startDateMoment = moment(startDate.value, 'D/M/Y', true);
         const endDateMoment = moment(endDate.value, 'D/M/Y', true);
 
+		if (endDateMoment.diff(startDateMoment, 'days') > 7){
+			displayErrorMsg("endDate", "We do not support trips longer than a week");
+			return false;
+		} else{
+			clearErrorMsg("endDate");
+		}
+
+
         if (formSubmitted && startDateMoment.isSameOrAfter(endDateMoment)){
             displayErrorMsg("date", "Start date must be before end date");
 			return false;
@@ -394,10 +389,13 @@ Footer END -->
 	addEventListener("DOMContentLoaded", (event) => {
         const startdate = document.getElementById("startDate");
         startdate.addEventListener("blur", () => {
-            const startDateMoment = moment(startDate.value, 'D/M/Y', true);
-            if (startDateMoment.isValid()){
-                flatpickr("input[id=endDate]", { minDate: startDate.value });
-            } else{
+            const startDateMoment = moment(startDate.value, 'DD/MM/YY');
+			const endDateLim = moment(startDate.value, 'DD/MM/YY').add(6, 'days');
+
+            if (startDateMoment.isValid()) {
+
+				flatpickr("input[id=endDate]", { minDate: startDate.value, maxDate: endDateLim.format('DD/MM/YY')});
+            } else {
                 flatpickr("input[id=endDate]", { minDate: "today" });
             }
         });
