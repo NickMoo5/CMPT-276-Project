@@ -329,7 +329,7 @@ public class UserController {
         }
         User editedUser = userRepo.getById(Integer.valueOf(userId));
         model.addAttribute("edit", editedUser);
-        return "/admin/editUser";
+        return "admin/editUser";
     }
     @PostMapping("/admin/saveEditedUser")
     public String saveEditedUser(@RequestParam Map<String, String> editUser, HttpServletRequest request,HttpSession session, Model model){

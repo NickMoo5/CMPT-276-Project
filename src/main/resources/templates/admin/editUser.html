@@ -10,6 +10,9 @@
     
         <!-- Favicon -->
         <link rel="shortcut icon" href="/images/favicon.ico"/>
+
+        <link rel="stylesheet" href="/css/footerBottomFixed.css">
+
     
         <!-- Google Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -31,6 +34,8 @@
         <script th:src="@{/js/loading.js}"></script>
     </head>
     <body>
+        <div id="page-container">
+            <div id="content-wrap">
     
         <!-- Header START -->
 <header class="header-sticky" id="header" style="position: sticky; top: 0;">
@@ -92,7 +97,6 @@
 	<!-- Logo Nav END -->
 </header>
 <!-- Header END -->
-<body>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-4">
@@ -184,8 +188,9 @@
             </div>
         </div>
     </div>  
+        </div>
     <!-- footer start -->
-    <footer class="bg-dark">
+    <footer class="bg-dark" id="footer">
         <div class="container">
             <!-- Bottom footer -->
             <div class="row">
@@ -201,6 +206,7 @@
         </div>
 	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
+        </div>
     <script>
         (() => {
         'use strict'

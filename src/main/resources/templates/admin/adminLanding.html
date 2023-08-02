@@ -24,6 +24,9 @@
         <link rel="stylesheet" type="text/css" href="/vendor/choices/css/choices.min.css"/>
         <link rel="stylesheet" type="text/css" href="/vendor/splide-master/dist/css/splide.min.css">
         <link rel="stylesheet" type="text/css" href="/vendor/flatpickr/css/flatpickr.min.css"/>
+
+        <link rel="stylesheet" href="/css/footerBottomFixed.css">
+
     
         <!-- Theme CSS -->
         <link rel="stylesheet" type="text/css" href="/css/style.css"/>
@@ -41,7 +44,8 @@
 		}
     </style>
     <body>
-    
+        <div id="page-container">
+            <div id="content-wrap">
     <!-- Header START -->
 <header class="header-sticky" id="header" style="position: sticky; top: 0;">
 	<!-- Logo Nav START -->
@@ -102,7 +106,6 @@
 	<!-- Logo Nav END -->
 </header>
 <!-- Header END -->
-<body>
     <!--Show users and corresponding attributes-->
         <div class="row">
             <div class="">
@@ -150,8 +153,9 @@
                     </ul>
             </div>
         </div>
+        </div>
     <!-- footer start -->
-    <footer class="bg-dark">
+    <footer class="bg-dark" id="footer">
         <div class="container">
             <!-- Bottom footer -->
             <div class="row">
@@ -166,6 +170,7 @@
             </div>
         </div>
     </footer>
+</div>
         <!-- Bootstrap JS -->
     <script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 

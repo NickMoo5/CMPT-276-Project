@@ -13,7 +13,7 @@
 	<link rel="shortcut icon" href="/images/favicon.ico"/>
 
     <!-- footer bottom css -->
-    <link rel="stylesheet" href="/css/footerBottom.css">
+    <link rel="stylesheet" href="/css/footerBottomFixed.css">
     
 	<!-- Google Font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -36,6 +36,8 @@
 </head>
 
 <body>
+    <div id="page-container">
+        <div id="content-wrap">
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-6 text-center">
@@ -45,9 +47,9 @@
             </div>
         </div>
     </div>
-</body>
+        </div>
     <!-- footer start -->
-    <footer class="bg-dark">
+    <footer class="bg-dark" id="footer">
         <div class="container">
             <!-- Bottom footer -->
             <div class="row">
@@ -63,6 +65,7 @@
         </div>
 	<a id="linkToTripDisplay" href="/user/tripDisplay" style="display: none"></a>
 </footer>
+    </div>
     <!-- Bootstrap JS -->
 <script src="/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -72,4 +75,6 @@
 <script src="/vendor/choices/js/choices.min.js"></script>
 <script src="/vendor/flatpickr/js/flatpickr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+</body>
+
 </html>
