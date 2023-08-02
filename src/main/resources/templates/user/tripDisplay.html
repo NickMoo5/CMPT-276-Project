@@ -690,13 +690,13 @@ Tabs-content END -->
 		function updateCenter(index) {
 			console.log(index);
 			if (!locationcoords[index]) {
-				maplist[index].__gm.ta.style.display = "none";
+				maplist[index].__gm.ra.style.display = "none";
 				notelist[index].style.display = "none";
 			} else {
-				maplist[index].__gm.ta.style.display = "block";
+				maplist[index].__gm.ra.style.display = "block";
 				maplist[index].setCenter(locationcoords[index]);
-				maplist[index].__gm.ta.style.height = "500px";
-				maplist[index].__gm.ta.style.marginTop = "20px";
+				maplist[index].__gm.ra.style.height = "500px";
+				maplist[index].__gm.ra.style.marginTop = "20px";
 				locationmarker[index].setMap(maplist[index]);
 				notelist[index].style.display = "block";
 			}
@@ -706,12 +706,12 @@ Tabs-content END -->
 		// function updateCenter() {
 		// 	for (var index = 0; index < locationcoords.length; index++) {
 		// 		if (locationcoords[index] == null) {
-		// 			maplist[index].__gm.ta.style.display = "none";
+		// 			maplist[index].__gm.ra.style.display = "none";
 		// 		} else {
-		// 			maplist[index].__gm.ta.style.display = "block";
+		// 			maplist[index].__gm.ra.style.display = "block";
 		// 			maplist[index].setCenter(locationcoords[index]);
-		// 			maplist[index].__gm.ta.style.height = "500px";
-		// 			maplist[index].__gm.ta.style.marginTop = "20px";
+		// 			maplist[index].__gm.ra.style.height = "500px";
+		// 			maplist[index].__gm.ra.style.marginTop = "20px";
 		// 			locationmarker[index].setMap(maplist[index]);
 
 		// 		}
