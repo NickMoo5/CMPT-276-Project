@@ -325,7 +325,7 @@ public class UserController {
             us.remove(0);
             model.addAttribute("userList" , us);
             model.addAttribute("userIdError", "UserId does not exist.");
-            return "/admin/adminLanding";
+            return "admin/adminLanding";
         }
         User editedUser = userRepo.getById(Integer.valueOf(userId));
         model.addAttribute("edit", editedUser);
@@ -613,7 +613,7 @@ public class UserController {
         String userPinInput = formData.get("pin");
 
         if (userPinInput.equals(userPin)) {
-            return "/user/changePassword"; 
+            return "user/changePassword"; 
         } else {
             model.addAttribute("pinError", "Invalid pin entered. Please try again.");
             return "user/pinConfirmation";
@@ -635,7 +635,7 @@ public class UserController {
         userRepo.save(user);
         session.invalidate();
         
-        return "redirect:/login";
+        return "redirect:/login";               // don't know if works with redirect and backslash
     }
     // Test function for testing chatgpt package
     @GetMapping("/test")
